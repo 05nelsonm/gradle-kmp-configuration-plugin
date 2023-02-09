@@ -19,6 +19,7 @@ package io.matthewnelson.kmp.configuration.extension.container.target
 import io.matthewnelson.kmp.configuration.KmpConfigurationDsl
 import io.matthewnelson.kmp.configuration.extension.container.ContainerHolder
 import org.gradle.api.Action
+import org.gradle.api.GradleException
 import org.jetbrains.kotlin.gradle.dsl.KotlinMultiplatformExtension
 import org.jetbrains.kotlin.gradle.plugin.mpp.KotlinNativeTarget
 import org.jetbrains.kotlin.gradle.plugin.mpp.KotlinNativeTargetWithSimulatorTests
@@ -33,7 +34,9 @@ public sealed class TargetWatchosContainer<T: KotlinNativeTarget> private constr
         public fun watchosAll() {
             watchosArm32()
             watchosArm64()
-            watchosDeviceArm64()
+            if (holder.kotlinPluginVersion.isAtLeast(1, 8)) {
+                watchosDeviceArm64()
+            }
             watchosX64()
             watchosX86()
             watchosSimulatorArm64()
@@ -70,6 +73,10 @@ public sealed class TargetWatchosContainer<T: KotlinNativeTarget> private constr
         }
 
         public fun watchosDeviceArm64(targetName: String, action: Action<DeviceArm64>) {
+            if (!holder.kotlinPluginVersion.isAtLeast(1, 8)) {
+                throw GradleException("watchosDeviceArm64 requires Kotlin 1.8.0 or greater")
+            }
+
             val container = holder.find(targetName) ?: DeviceArm64(targetName)
             action.execute(container)
             holder.add(container)

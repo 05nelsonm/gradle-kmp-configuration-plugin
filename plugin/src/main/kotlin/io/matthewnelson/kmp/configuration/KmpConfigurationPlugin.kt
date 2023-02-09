@@ -19,41 +19,46 @@ package io.matthewnelson.kmp.configuration
 import io.matthewnelson.kmp.configuration.extension.KmpConfigurationExtension
 import io.matthewnelson.kmp.configuration.extension.container.CommonContainer
 import io.matthewnelson.kmp.configuration.extension.container.Container
-import io.matthewnelson.kmp.configuration.extension.container.ContainerHolder
 import io.matthewnelson.kmp.configuration.extension.container.KotlinExtensionActionContainer
 import io.matthewnelson.kmp.configuration.extension.container.target.*
 import io.matthewnelson.kmp.configuration.extension.container.target.KmpTargetProperty.Companion.findKmpTargetsProperties
 import org.gradle.api.Action
+import org.gradle.api.GradleException
 import org.gradle.api.NamedDomainObjectContainer
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.jetbrains.kotlin.gradle.dsl.KotlinMultiplatformExtension
 import org.jetbrains.kotlin.gradle.plugin.KotlinSourceSet
+import org.jetbrains.kotlin.gradle.plugin.getKotlinPluginVersion
 
 public open class KmpConfigurationPlugin : Plugin<Project> {
     override fun apply(target: Project) {
-//        val containers = mutableSetOf<Container>()
-//        val holder = ContainerHolder.instance(
-//            containers,
-//            KmpTargetProperty.isKmpTargetsAllSet,
-//            target.findKmpTargetsProperties()
-//        )
+        val kotlinPluginVersion = target.kotlinPluginVersionOrNull()
+            ?: throw GradleException("Failed to determine Kotlin Plugin Version")
 
         target.extensions.create(
             KmpConfigurationExtension.NAME,
             KmpConfigurationExtension::class.java,
+            kotlinPluginVersion,
             KmpTargetProperty.isKmpTargetsAllSet,
             target.findKmpTargetsProperties(),
             Action<Set<Container>> { containers -> target.configure(containers) }
         )
+    }
 
-//        target.extensions.create(
-//            KmpConfigurationExtension.NAME,
-//            KmpConfigurationExtension::class.java,
-//            holder
-//        )
+    private fun Project.kotlinPluginVersionOrNull(): KotlinVersion? {
+        return getKotlinPluginVersion().let { versionString ->
+            val baseVersion = versionString.split("-", limit = 2)[0]
 
+            val baseVersionSplit = baseVersion.split(".")
+            if (!(baseVersionSplit.size == 2 || baseVersionSplit.size == 3)) return null
 
+            KotlinVersion(
+                major = baseVersionSplit[0].toIntOrNull() ?: return null,
+                minor = baseVersionSplit[1].toIntOrNull() ?: return null,
+                patch = baseVersionSplit.getOrNull(2)?.let { it.toIntOrNull() ?: return null } ?: 0,
+            )
+        }
     }
 
     private fun Project.configure(containers: Set<Container>) {
