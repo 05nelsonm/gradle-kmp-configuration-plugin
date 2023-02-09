@@ -27,6 +27,7 @@ import javax.inject.Inject
 
 @KmpConfigurationDsl
 public abstract class KmpConfigurationExtension @Inject internal constructor(
+    private val kotlinPluginVersion: KotlinVersion,
     private val isKmpTargetsAllSet: Boolean,
     private val kmpTargetsProperty: Set<KmpTargetProperty>?,
     private val configureContainers: Action<Set<Container>>,
@@ -41,7 +42,12 @@ public abstract class KmpConfigurationExtension @Inject internal constructor(
             isConfigured = true
 
             val containers = mutableSetOf<Container>()
-            val holder = ContainerHolder.instance(containers, isKmpTargetsAllSet, kmpTargetsProperty)
+            val holder = ContainerHolder.instance(
+                kotlinPluginVersion,
+                containers,
+                isKmpTargetsAllSet,
+                kmpTargetsProperty
+            )
             action.execute(KmpConfigurationContainerDsl.instance(holder))
             configureContainers.execute(containers.sortedBy { it.sortOrder }.toSet())
         }

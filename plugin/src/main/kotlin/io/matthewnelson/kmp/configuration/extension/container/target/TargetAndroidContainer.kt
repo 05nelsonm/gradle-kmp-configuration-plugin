@@ -29,7 +29,8 @@ import org.jetbrains.kotlin.gradle.plugin.extraProperties
 import org.jetbrains.kotlin.gradle.plugin.mpp.KotlinAndroidTarget
 
 public sealed class TargetAndroidContainer<T: TestedExtension> private constructor(
-    targetName: String
+    targetName: String,
+    private val kotlinPluginVersion: KotlinVersion,
     // BaseExtension
 ): KmpTarget.Jvm<KotlinAndroidTarget>(targetName) {
 
@@ -41,7 +42,7 @@ public sealed class TargetAndroidContainer<T: TestedExtension> private construct
         }
 
         public fun androidApp(targetName: String, action: Action<App>) {
-            val container = holder.find(targetName) ?: App(targetName)
+            val container = holder.find(targetName) ?: App(targetName, holder.kotlinPluginVersion)
             action.execute(container)
             holder.add(container)
         }
@@ -51,7 +52,7 @@ public sealed class TargetAndroidContainer<T: TestedExtension> private construct
         }
 
         public fun androidLibrary(targetName: String, action: Action<Library>) {
-            val container = holder.find(targetName) ?: Library(targetName)
+            val container = holder.find(targetName) ?: Library(targetName, holder.kotlinPluginVersion)
             action.execute(container)
             holder.add(container)
         }
@@ -66,8 +67,9 @@ public sealed class TargetAndroidContainer<T: TestedExtension> private construct
 
     @KmpConfigurationDsl
     public class App internal constructor(
-        targetName: String
-    ): TargetAndroidContainer<BaseAppModuleExtension>(targetName) {
+        targetName: String,
+        kotlinPluginVersion: KotlinVersion,
+    ): TargetAndroidContainer<BaseAppModuleExtension>(targetName, kotlinPluginVersion) {
 
         protected override fun setupAndroid(project: Project) {
             lazyAndroid?.let { action ->
@@ -91,8 +93,9 @@ public sealed class TargetAndroidContainer<T: TestedExtension> private construct
 
     @KmpConfigurationDsl
     public class Library internal constructor(
-        targetName: String
-    ): TargetAndroidContainer<LibraryExtension>(targetName) {
+        targetName: String,
+        kotlinPluginVersion: KotlinVersion,
+    ): TargetAndroidContainer<LibraryExtension>(targetName, kotlinPluginVersion) {
 
         protected override fun setupAndroid(project: Project) {
             lazyAndroid?.let { action ->
@@ -137,10 +140,14 @@ public sealed class TargetAndroidContainer<T: TestedExtension> private construct
                     lazySourceSetMain?.execute(ss)
                 }
 
-                val layoutVersion = target.project.extraProperties
-                    .properties["kotlin.mpp.androidSourceSetLayoutVersion"]
-                    ?.toString()
-                    ?.toIntOrNull()
+                val layoutVersion = if (kotlinPluginVersion.isAtLeast(1, 8)) {
+                    target.project.extraProperties
+                        .properties["kotlin.mpp.androidSourceSetLayoutVersion"]
+                        ?.toString()
+                        ?.toIntOrNull()
+                } else {
+                    null
+                }
 
                 val (test, instrumented) = when (layoutVersion) {
                     2 -> {

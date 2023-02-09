@@ -20,6 +20,7 @@ import io.matthewnelson.kmp.configuration.extension.container.target.*
 import io.matthewnelson.kmp.configuration.extension.container.target.KmpTargetProperty.Companion.property
 
 public class ContainerHolder private constructor(
+    internal val kotlinPluginVersion: KotlinVersion,
     private val containers: MutableSet<Container>,
     private val isKmpTargetsAllSet: Boolean,
     private val kmpTargetsProperty: Set<KmpTargetProperty>?,
@@ -50,11 +51,13 @@ public class ContainerHolder private constructor(
     internal companion object {
         @JvmSynthetic
         internal fun instance(
+            kotlinPluginVersion: KotlinVersion,
             containers: MutableSet<Container>,
             isKmpTargetsAllSet: Boolean,
             kmpTargetsProperty: Set<KmpTargetProperty>?,
         ): ContainerHolder {
             return ContainerHolder(
+                kotlinPluginVersion,
                 containers,
                 isKmpTargetsAllSet,
                 kmpTargetsProperty
