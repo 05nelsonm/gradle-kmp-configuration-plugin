@@ -24,7 +24,7 @@ gradlePlugin {
             id = "io.matthewnelson.kmp.configuration"
             implementationClass = "io.matthewnelson.kmp.configuration.KmpConfigurationPlugin"
             displayName = "Gradle Kotlin Multiplatform Configuration Plugin"
-            description = "Gradle plugin which makes configuring Kotlin Multiplatform more enjoyable and extensible"
+            description = "Gradle plugin for configuring Kotlin Multiplatform projects"
         }
     }
 }

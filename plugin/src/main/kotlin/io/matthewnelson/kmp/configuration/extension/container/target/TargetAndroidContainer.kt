@@ -13,7 +13,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  **/
-
 package io.matthewnelson.kmp.configuration.extension.container.target
 
 import com.android.build.gradle.LibraryExtension
@@ -31,7 +30,6 @@ import org.jetbrains.kotlin.gradle.plugin.mpp.KotlinAndroidTarget
 public sealed class TargetAndroidContainer<T: TestedExtension> private constructor(
     targetName: String,
     private val kotlinPluginVersion: KotlinVersion,
-    // BaseExtension
 ): KmpTarget.Jvm<KotlinAndroidTarget>(targetName) {
 
     public sealed interface Configure {

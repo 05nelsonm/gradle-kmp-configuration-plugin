@@ -13,7 +13,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  **/
-
 package io.matthewnelson.kmp.configuration.extension.container.target
 
 import io.matthewnelson.kmp.configuration.extension.container.Container
@@ -30,19 +29,16 @@ public sealed class KmpTarget<T: KotlinTarget> private constructor(
         private set
     public fun target(action: Action<T>) { lazyTarget = action }
 
-    public sealed class Jvm<T: KotlinTarget>(
-        targetName: String,
-        // Base Extension
-    ): KmpTarget<T>(targetName) {
+    public sealed class Jvm<T: KotlinTarget>(targetName: String): KmpTarget<T>(targetName) {
 
         internal companion object { internal const val JVM_ANDROID = "jvmAndroid" }
 
-        public var kotlinJvmTarget: JavaVersion? = null // BaseExtension.kotlinJvmTarget
-        public var compileSourceCompatibility: JavaVersion? = null // BaseExtension.compileSourceCompatibility
-        public var compileTargetCompatibility: JavaVersion? = null // BaseExtension.compileTargetCompatibility
+        public var kotlinJvmTarget: JavaVersion? = null
+        public var compileSourceCompatibility: JavaVersion? = null
+        public var compileTargetCompatibility: JavaVersion? = null
     }
 
-    public sealed class NonJvm<T: KotlinTarget>(targetName: String,): KmpTarget<T>(targetName) {
+    public sealed class NonJvm<T: KotlinTarget>(targetName: String): KmpTarget<T>(targetName) {
 
         internal companion object { internal const val NON_JVM = "nonJvm" }
 
