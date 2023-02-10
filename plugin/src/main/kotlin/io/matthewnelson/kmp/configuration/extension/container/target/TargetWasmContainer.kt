@@ -32,7 +32,27 @@ public class TargetWasmContainer internal constructor(
         public val holder: ContainerHolder
 
         @ExperimentalWasmDsl
-        public fun wasm() { wasm {} }
+        public fun wasm() {
+            wasm { container ->
+                container.target { dsl ->
+                    dsl.browser {
+                        testTask {
+                            useMocha { timeout = "30s" }
+                        }
+                    }
+                    dsl.nodejs {
+                        testTask {
+                            useMocha { timeout = "30s" }
+                        }
+                    }
+                    dsl.d8 {
+                        testTask {
+                            useMocha { timeout = "30s" }
+                        }
+                    }
+                }
+            }
+        }
 
         @ExperimentalWasmDsl
         public fun wasm(action: Action<TargetWasmContainer>) {
