@@ -18,6 +18,7 @@ package io.matthewnelson.kmp.configuration.extension.container.target
 import io.matthewnelson.kmp.configuration.KmpConfigurationDsl
 import io.matthewnelson.kmp.configuration.extension.container.ContainerHolder
 import org.gradle.api.Action
+import org.gradle.api.GradleException
 import org.jetbrains.kotlin.gradle.dsl.KotlinMultiplatformExtension
 import org.jetbrains.kotlin.gradle.targets.js.dsl.ExperimentalWasmDsl
 import org.jetbrains.kotlin.gradle.targets.js.dsl.KotlinWasmTargetDsl
@@ -31,27 +32,7 @@ public class TargetWasmContainer internal constructor(
         public val holder: ContainerHolder
 
         @ExperimentalWasmDsl
-        public fun wasm() {
-            wasm { container ->
-                container.target { dsl ->
-                    dsl.browser {
-                        testTask {
-                            useMocha { timeout = "30s" }
-                        }
-                    }
-                    dsl.nodejs {
-                        testTask {
-                            useMocha { timeout = "30s" }
-                        }
-                    }
-                    dsl.d8 {
-                        testTask {
-                            useMocha { timeout = "30s" }
-                        }
-                    }
-                }
-            }
-        }
+        public fun wasm() { wasm {} }
 
         @ExperimentalWasmDsl
         public fun wasm(action: Action<TargetWasmContainer>) {
@@ -60,6 +41,10 @@ public class TargetWasmContainer internal constructor(
 
         @ExperimentalWasmDsl
         public fun wasm(targetName: String, action: Action<TargetWasmContainer>) {
+            if (!holder.kotlinPluginVersion.isAtLeast(1, 7, 20)) {
+                throw GradleException("wasm requires Kotlin 1.7.20 or greater")
+            }
+
             val container = holder.find(targetName) ?: TargetWasmContainer(targetName)
             action.execute(container)
             holder.add(container)
