@@ -18,6 +18,7 @@ package io.matthewnelson.kmp.configuration.extension.container.target
 import io.matthewnelson.kmp.configuration.KmpConfigurationDsl
 import io.matthewnelson.kmp.configuration.extension.container.ContainerHolder
 import org.gradle.api.Action
+import org.gradle.api.GradleException
 import org.jetbrains.kotlin.gradle.dsl.KotlinMultiplatformExtension
 import org.jetbrains.kotlin.gradle.targets.js.dsl.ExperimentalWasmDsl
 import org.jetbrains.kotlin.gradle.targets.js.dsl.KotlinWasmTargetDsl
@@ -60,6 +61,10 @@ public class TargetWasmContainer internal constructor(
 
         @ExperimentalWasmDsl
         public fun wasm(targetName: String, action: Action<TargetWasmContainer>) {
+            if (!holder.kotlinPluginVersion.isAtLeast(1, 7, 20)) {
+                throw GradleException("wasm requires Kotlin 1.7.20 or greater")
+            }
+
             val container = holder.find(targetName) ?: TargetWasmContainer(targetName)
             action.execute(container)
             holder.add(container)
