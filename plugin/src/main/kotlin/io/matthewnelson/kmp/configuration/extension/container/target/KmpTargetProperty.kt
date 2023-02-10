@@ -19,7 +19,7 @@ package io.matthewnelson.kmp.configuration.extension.container.target
 import org.gradle.api.GradleException
 import org.gradle.api.Project
 
-public enum class KmpTargetProperty {
+internal enum class KmpTargetProperty {
     ANDROID,
     ANDROID_ARM32,
     ANDROID_ARM64,
