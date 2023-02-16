@@ -5,6 +5,12 @@ A Gradle Plugin for setting up Kotlin Multiplatform projects.
 2. Enables passing of build targets via command line to control what gets 
    configured (great for CI).
 
+## Requirements
+
+Minimum supported versions:
+- Gradle: `6.7`
+- Kotlin Gradle Plugin: `1.6.0`
+- Android Gradle Plugin: `4.1.0`
 
 ## Hierarchical Source Set Structure
 
