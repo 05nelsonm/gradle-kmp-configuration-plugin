@@ -152,36 +152,37 @@ public sealed class TargetWatchosContainer<T: KotlinNativeTarget> private constr
     @JvmSynthetic
     internal override fun setup(kotlin: KotlinMultiplatformExtension) {
         with(kotlin) {
+            @Suppress("RedundantSamConstructor")
             val target = when (this@TargetWatchosContainer) {
                 is Arm32 -> {
-                    watchosArm32(targetName) t@ {
-                        lazyTarget?.execute(this@t)
-                    }
+                    watchosArm32(targetName, Action { t ->
+                        lazyTarget?.execute(t)
+                    })
                 }
                 is Arm64 -> {
-                    watchosArm64(targetName) t@ {
-                        lazyTarget?.execute(this@t)
-                    }
+                    watchosArm64(targetName, Action { t ->
+                        lazyTarget?.execute(t)
+                    })
                 }
                 is DeviceArm64 -> {
-                    watchosDeviceArm64(targetName) t@ {
-                        lazyTarget?.execute(this@t)
-                    }
+                    watchosDeviceArm64(targetName, Action { t ->
+                        lazyTarget?.execute(t)
+                    })
                 }
                 is SimulatorArm64 -> {
-                    watchosSimulatorArm64(targetName) t@ {
-                        lazyTarget?.execute(this@t)
-                    }
+                    watchosSimulatorArm64(targetName, Action { t ->
+                        lazyTarget?.execute(t)
+                    })
                 }
                 is X64 -> {
-                    watchosX64(targetName) t@ {
-                        lazyTarget?.execute(this@t)
-                    }
+                    watchosX64(targetName, Action { t ->
+                        lazyTarget?.execute(t)
+                    })
                 }
                 is X86 -> {
-                    watchosX86(targetName) t@ {
-                        lazyTarget?.execute(this@t)
-                    }
+                    watchosX86(targetName, Action { t ->
+                        lazyTarget?.execute(t)
+                    })
                 }
             }
 

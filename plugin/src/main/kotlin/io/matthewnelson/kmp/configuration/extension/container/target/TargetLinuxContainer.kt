@@ -125,31 +125,32 @@ public sealed class TargetLinuxContainer<T: KotlinNativeTarget> private construc
     @JvmSynthetic
     internal final override fun setup(kotlin: KotlinMultiplatformExtension) {
         with(kotlin) {
+            @Suppress("RedundantSamConstructor")
             val target = when (this@TargetLinuxContainer) {
                 is Arm32Hfp -> {
-                    linuxArm32Hfp(targetName) t@ {
-                        lazyTarget?.execute(this@t)
-                    }
+                    linuxArm32Hfp(targetName, Action { t ->
+                        lazyTarget?.execute(t)
+                    })
                 }
                 is Arm64 -> {
-                    linuxArm64(targetName) t@ {
-                        lazyTarget?.execute(this@t)
-                    }
+                    linuxArm64(targetName, Action { t ->
+                        lazyTarget?.execute(t)
+                    })
                 }
                 is Mips32 -> {
-                    linuxMips32(targetName) t@ {
-                        lazyTarget?.execute(this@t)
-                    }
+                    linuxMips32(targetName, Action { t ->
+                        lazyTarget?.execute(t)
+                    })
                 }
                 is Mipsel32 -> {
-                    linuxMipsel32(targetName) t@ {
-                        lazyTarget?.execute(this@t)
-                    }
+                    linuxMipsel32(targetName, Action { t ->
+                        lazyTarget?.execute(t)
+                    })
                 }
                 is X64 -> {
-                    linuxX64(targetName) t@ {
-                        lazyTarget?.execute(this@t)
-                    }
+                    linuxX64(targetName, Action { t ->
+                        lazyTarget?.execute(t)
+                    })
                 }
             }
 

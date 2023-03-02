@@ -34,17 +34,18 @@ public class TargetJsContainer internal constructor(
 
         public fun js() {
             js { container ->
+                @Suppress("RedundantSamConstructor")
                 container.target { dsl ->
-                    dsl.browser {
-                        testTask {
-                            useMocha { timeout = "30s" }
-                        }
-                    }
-                    dsl.nodejs {
-                        testTask {
-                            useMocha { timeout = "30s" }
-                        }
-                    }
+                    dsl.browser( Action { bDsl ->
+                        bDsl.testTask( Action { tDsl ->
+                            tDsl.useMocha( Action { it.timeout = "30s" } )
+                        })
+                    })
+                    dsl.nodejs( Action { nDsl ->
+                        nDsl.testTask( Action { tDsl ->
+                            tDsl.useMocha( Action { it.timeout = "30s" } )
+                        })
+                    })
                 }
             }
         }
@@ -63,13 +64,14 @@ public class TargetJsContainer internal constructor(
     @JvmSynthetic
     internal override fun setup(kotlin: KotlinMultiplatformExtension) {
         with(kotlin) {
+            @Suppress("RedundantSamConstructor")
             val target = compilerType?.let { type ->
-                js(targetName, type) t@ {
-                    lazyTarget?.execute(this@t)
-                }
-            } ?: js(targetName) t@ {
-                lazyTarget?.execute(this@t)
-            }
+                js(targetName, type, Action { t ->
+                    lazyTarget?.execute(t)
+                })
+            } ?: js(targetName, Action { t ->
+                lazyTarget?.execute(t)
+            })
 
             applyPlugins(target.project)
 

@@ -34,22 +34,23 @@ public class TargetWasmContainer internal constructor(
         @ExperimentalWasmDsl
         public fun wasm() {
             wasm { container ->
+                @Suppress("RedundantSamConstructor")
                 container.target { dsl ->
-                    dsl.browser {
-                        testTask {
-                            useMocha { timeout = "30s" }
-                        }
-                    }
-                    dsl.nodejs {
-                        testTask {
-                            useMocha { timeout = "30s" }
-                        }
-                    }
-                    dsl.d8 {
-                        testTask {
-                            useMocha { timeout = "30s" }
-                        }
-                    }
+                    dsl.browser( Action { bDsl ->
+                        bDsl.testTask( Action { tDsl ->
+                            tDsl.useMocha( Action { it.timeout = "30s" } )
+                        })
+                    })
+                    dsl.nodejs( Action { nDsl ->
+                        nDsl.testTask( Action { tDsl ->
+                            tDsl.useMocha( Action { it.timeout = "30s" } )
+                        })
+                    })
+                    dsl.d8( Action { dDsl ->
+                        dDsl.testTask( Action { tDsl ->
+                            tDsl.useMocha( Action { it.timeout = "30s" } )
+                        })
+                    })
                 }
             }
         }
@@ -75,9 +76,10 @@ public class TargetWasmContainer internal constructor(
     @OptIn(ExperimentalWasmDsl::class)
     internal override fun setup(kotlin: KotlinMultiplatformExtension) {
         with(kotlin) {
-            val target = wasm(targetName) t@ {
-                lazyTarget?.execute(this@t)
-            }
+            @Suppress("RedundantSamConstructor")
+            val target = wasm(targetName, Action { t ->
+                lazyTarget?.execute(t)
+            })
 
             applyPlugins(target.project)
 

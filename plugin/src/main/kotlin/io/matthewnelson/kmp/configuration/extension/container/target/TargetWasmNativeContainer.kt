@@ -55,11 +55,12 @@ public sealed class TargetWasmNativeContainer<T: KotlinNativeTarget> private con
     @JvmSynthetic
     internal final override fun setup(kotlin: KotlinMultiplatformExtension) {
         with(kotlin) {
+            @Suppress("RedundantSamConstructor")
             val target = when (this@TargetWasmNativeContainer) {
                 is _32 -> {
-                    wasm32(targetName) t@ {
-                        lazyTarget?.execute(this@t)
-                    }
+                    wasm32(targetName, Action { t ->
+                        lazyTarget?.execute(t)
+                    })
                 }
             }
 

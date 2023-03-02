@@ -46,23 +46,23 @@ public class TargetJvmContainer internal constructor(
     @JvmSynthetic
     internal override fun setup(kotlin: KotlinMultiplatformExtension) {
         with(kotlin) {
-            val target = jvm(targetName) t@ {
+            val target = jvm(targetName, Action { t ->
                 kotlinJvmTarget?.let { version ->
-                    compilations.all {
+                    t.compilations.all {
                         it.kotlinOptions.jvmTarget = version.toString()
                     }
                 }
 
-                lazyTarget?.execute(this@t)
+                lazyTarget?.execute(t)
 
-                if (!withJavaEnabled) return@t
+                if (!t.withJavaEnabled) return@Action
 
                 val sCompatibility = compileSourceCompatibility
                 val tCompatibility = compileTargetCompatibility
 
-                if (sCompatibility == null && tCompatibility == null) return@t
+                if (sCompatibility == null && tCompatibility == null) return@Action
 
-                project.extensions.configure(JavaPluginExtension::class.java) { extension ->
+                t.project.extensions.configure(JavaPluginExtension::class.java) { extension ->
                     if (sCompatibility != null) {
                         extension.sourceCompatibility = sCompatibility
                     }
@@ -70,7 +70,7 @@ public class TargetJvmContainer internal constructor(
                         extension.targetCompatibility = tCompatibility
                     }
                 }
-            }
+            })
 
             applyPlugins(target.project)
 

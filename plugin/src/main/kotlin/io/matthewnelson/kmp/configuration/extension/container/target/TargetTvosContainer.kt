@@ -91,21 +91,22 @@ public sealed class TargetTvosContainer<T: KotlinNativeTarget> private construct
     @JvmSynthetic
     internal override fun setup(kotlin: KotlinMultiplatformExtension) {
         with(kotlin) {
+            @Suppress("RedundantSamConstructor")
             val target = when (this@TargetTvosContainer) {
                 is Arm64 -> {
-                    tvosArm64(targetName) t@ {
-                        lazyTarget?.execute(this@t)
-                    }
+                    tvosArm64(targetName, Action { t ->
+                        lazyTarget?.execute(t)
+                    })
                 }
                 is SimulatorArm64 -> {
-                    tvosSimulatorArm64(targetName) t@ {
-                        lazyTarget?.execute(this@t)
-                    }
+                    tvosSimulatorArm64(targetName, Action { t ->
+                        lazyTarget?.execute(t)
+                    })
                 }
                 is X64 -> {
-                    tvosX64(targetName) t@ {
-                        lazyTarget?.execute(this@t)
-                    }
+                    tvosX64(targetName, Action { t ->
+                        lazyTarget?.execute(t)
+                    })
                 }
             }
 

@@ -107,26 +107,27 @@ public sealed class TargetAndroidNativeContainer<T: KotlinNativeTarget> private 
     @JvmSynthetic
     internal final override fun setup(kotlin: KotlinMultiplatformExtension) {
         with(kotlin) {
+            @Suppress("RedundantSamConstructor")
             val target = when (this@TargetAndroidNativeContainer) {
                 is Arm32 -> {
-                    androidNativeArm32(targetName) t@ {
-                        lazyTarget?.execute(this@t)
-                    }
+                    androidNativeArm32(targetName, Action { t ->
+                        lazyTarget?.execute(t)
+                    })
                 }
                 is Arm64 -> {
-                    androidNativeArm64(targetName) t@ {
-                        lazyTarget?.execute(this@t)
-                    }
+                    androidNativeArm64(targetName, Action { t ->
+                        lazyTarget?.execute(t)
+                    })
                 }
                 is X64 -> {
-                    androidNativeX64(targetName) t@ {
-                        lazyTarget?.execute(this@t)
-                    }
+                    androidNativeX64(targetName, Action { t ->
+                        lazyTarget?.execute(t)
+                    })
                 }
                 is X86 -> {
-                    androidNativeX86(targetName) t@ {
-                        lazyTarget?.execute(this@t)
-                    }
+                    androidNativeX86(targetName, Action { t ->
+                        lazyTarget?.execute(t)
+                    })
                 }
             }
 
