@@ -64,13 +64,14 @@ public class TargetJsContainer internal constructor(
     @JvmSynthetic
     internal override fun setup(kotlin: KotlinMultiplatformExtension) {
         with(kotlin) {
+            @Suppress("RedundantSamConstructor")
             val target = compilerType?.let { type ->
-                js(targetName, type) t@ {
-                    lazyTarget?.execute(this@t)
-                }
-            } ?: js(targetName) t@ {
-                lazyTarget?.execute(this@t)
-            }
+                js(targetName, type, Action { t ->
+                    lazyTarget?.execute(t)
+                })
+            } ?: js(targetName, Action { t ->
+                lazyTarget?.execute(t)
+            })
 
             applyPlugins(target.project)
 

@@ -52,7 +52,6 @@ public class KmpConfigurationContainerDsl private constructor(
     }
 
     internal companion object {
-        internal const val NAME: String = "kmpConfiguration"
         @JvmSynthetic
         internal fun instance(holder: ContainerHolder) = KmpConfigurationContainerDsl(holder)
     }

@@ -120,15 +120,16 @@ public sealed class TargetAndroidContainer<T: TestedExtension> private construct
     @JvmSynthetic
     internal final override fun setup(kotlin: KotlinMultiplatformExtension) {
         with(kotlin) {
-            val target = android(targetName) t@ {
+            @Suppress("RedundantSamConstructor")
+            val target = android(targetName, Action { t ->
                 kotlinJvmTarget?.let { version ->
-                    compilations.all {
+                    t.compilations.all {
                         it.kotlinOptions.jvmTarget = version.toString()
                     }
                 }
 
-                lazyTarget?.execute(this@t)
-            }
+                lazyTarget?.execute(t)
+            })
 
             applyPlugins(target.project)
 

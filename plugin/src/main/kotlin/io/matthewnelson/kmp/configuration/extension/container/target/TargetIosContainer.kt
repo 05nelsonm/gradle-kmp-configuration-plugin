@@ -108,26 +108,27 @@ public sealed class TargetIosContainer<T: KotlinNativeTarget> private constructo
     @JvmSynthetic
     internal final override fun setup(kotlin: KotlinMultiplatformExtension) {
         with(kotlin) {
+            @Suppress("RedundantSamConstructor")
             val target = when (this@TargetIosContainer) {
                 is Arm32 -> {
-                    iosArm32(targetName) t@ {
-                        lazyTarget?.execute(this@t)
-                    }
+                    iosArm32(targetName, Action { t ->
+                        lazyTarget?.execute(t)
+                    })
                 }
                 is Arm64 -> {
-                    iosArm64(targetName) t@ {
-                        lazyTarget?.execute(this@t)
-                    }
+                    iosArm64(targetName, Action { t ->
+                        lazyTarget?.execute(t)
+                    })
                 }
                 is SimulatorArm64 -> {
-                    iosSimulatorArm64(targetName) t@ {
-                        lazyTarget?.execute(this@t)
-                    }
+                    iosSimulatorArm64(targetName, Action { t ->
+                        lazyTarget?.execute(t)
+                    })
                 }
                 is X64 -> {
-                    iosX64(targetName) t@ {
-                        lazyTarget?.execute(this@t)
-                    }
+                    iosX64(targetName, Action { t ->
+                        lazyTarget?.execute(t)
+                    })
                 }
             }
 

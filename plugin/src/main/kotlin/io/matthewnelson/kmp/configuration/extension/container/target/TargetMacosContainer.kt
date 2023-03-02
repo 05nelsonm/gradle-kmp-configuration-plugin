@@ -72,16 +72,17 @@ public sealed class TargetMacosContainer<T: KotlinNativeTarget> private construc
     @JvmSynthetic
     internal final override fun setup(kotlin: KotlinMultiplatformExtension) {
         with(kotlin) {
+            @Suppress("RedundantSamConstructor")
             val target = when (this@TargetMacosContainer) {
                 is Arm64 -> {
-                    macosArm64(targetName) t@ {
-                        lazyTarget?.execute(this@t)
-                    }
+                    macosArm64(targetName, Action { t ->
+                        lazyTarget?.execute(t)
+                    })
                 }
                 is X64 -> {
-                    macosX64(targetName) t@ {
-                        lazyTarget?.execute(this@t)
-                    }
+                    macosX64(targetName, Action { t ->
+                        lazyTarget?.execute(t)
+                    })
                 }
             }
 

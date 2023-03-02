@@ -72,16 +72,17 @@ public sealed class TargetMingwContainer<T: KotlinNativeTarget> private construc
     @JvmSynthetic
     internal override fun setup(kotlin: KotlinMultiplatformExtension) {
         with(kotlin) {
+            @Suppress("RedundantSamConstructor")
             val target = when (this@TargetMingwContainer) {
                 is X64 -> {
-                    mingwX64(targetName) t@ {
-                        lazyTarget?.execute(this@t)
-                    }
+                    mingwX64(targetName, Action { t ->
+                        lazyTarget?.execute(t)
+                    })
                 }
                 is X86 -> {
-                    mingwX86(targetName) t@ {
-                        lazyTarget?.execute(this@t)
-                    }
+                    mingwX86(targetName, Action { t ->
+                        lazyTarget?.execute(t)
+                    })
                 }
             }
 

@@ -76,9 +76,10 @@ public class TargetWasmContainer internal constructor(
     @OptIn(ExperimentalWasmDsl::class)
     internal override fun setup(kotlin: KotlinMultiplatformExtension) {
         with(kotlin) {
-            val target = wasm(targetName) t@ {
-                lazyTarget?.execute(this@t)
-            }
+            @Suppress("RedundantSamConstructor")
+            val target = wasm(targetName, Action { t ->
+                lazyTarget?.execute(t)
+            })
 
             applyPlugins(target.project)
 
