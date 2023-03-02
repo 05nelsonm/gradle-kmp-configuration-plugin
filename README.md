@@ -11,6 +11,7 @@ Minimum supported versions:
 - Gradle: `6.7`
 - Kotlin Gradle Plugin: `1.6.0`
 - Android Gradle Plugin: `4.1.0`
+- Java: `11`
 
 ## Hierarchical Source Set Structure
 
@@ -316,7 +317,7 @@ plugins {
     id("com.android.library") version("x.x.x") apply(false)
 
     id("org.jetbrains.kotlin.multiplatform") version("x.x.x") apply(false)
-    id("io.matthewnelson.kmp.configuration") version("0.1.0-alpha02")
+    id("io.matthewnelson.kmp.configuration") version("0.1.0-beta01")
 }
 ```
 
@@ -334,7 +335,7 @@ plugins {
     id 'com.android.library' version 'x.x.x' apply false
 
     id 'org.jetbrains.kotlin.multiplatform' version 'x.x.x' apply false
-    id 'io.matthewnelson.kmp.configuration' version '0.1.0-alpha02'
+    id 'io.matthewnelson.kmp.configuration' version '0.1.0-beta01'
 }
 ```
 
@@ -354,7 +355,7 @@ buildscript {
     dependencies {
         // kotlin gradle
         // android gradle (if you have an android target)
-        classpath("io.matthewnelson:gradle-kmp-configuration-plugin:0.1.0-alpha02")
+        classpath("io.matthewnelson:gradle-kmp-configuration-plugin:0.1.0-beta01")
     }
 }
 ```
@@ -384,7 +385,7 @@ buildscript {
         mavenCentral()
     }
     dependencies {
-        classpath 'io.matthewnelson:gradle-kmp-configuration-plugin:0.1.0-alpha02'
+        classpath 'io.matthewnelson:gradle-kmp-configuration-plugin:0.1.0-beta01'
     }
 }
 ```
