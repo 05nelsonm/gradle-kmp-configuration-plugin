@@ -43,6 +43,16 @@ public class ContainerHolder private constructor(
     }
 
     @JvmSynthetic
+    internal fun findCommonContainer(): CommonContainer? {
+        return containers.filterIsInstance<CommonContainer>().firstOrNull()
+    }
+
+    @JvmSynthetic
+    internal fun findKotlinContainer(): KotlinExtensionActionContainer? {
+        return containers.filterIsInstance<KotlinExtensionActionContainer>().firstOrNull()
+    }
+
+    @JvmSynthetic
     internal inline fun <reified T: KmpTarget<*>> find(targetName: String): T? {
         return containers.filterIsInstance<T>().find { targetName == it.targetName }
     }
