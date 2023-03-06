@@ -78,7 +78,7 @@ public class TargetWasmContainer internal constructor(
         with(kotlin) {
             @Suppress("RedundantSamConstructor")
             val target = wasm(targetName, Action { t ->
-                lazyTarget?.execute(t)
+                lazyTarget.forEach { action -> action.execute(t) }
             })
 
             applyPlugins(target.project)
@@ -86,11 +86,11 @@ public class TargetWasmContainer internal constructor(
             with(sourceSets) {
                 getByName("${targetName}Main") { ss ->
                     ss.dependsOn(getByName("${NON_JVM}Main"))
-                    lazySourceSetMain?.execute(ss)
+                    lazySourceSetMain.forEach { action -> action.execute(ss) }
                 }
                 getByName("${targetName}Test") { ss ->
                     ss.dependsOn(getByName("${NON_JVM}Test"))
-                    lazySourceSetTest?.execute(ss)
+                    lazySourceSetTest.forEach { action -> action.execute(ss) }
                 }
             }
         }

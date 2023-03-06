@@ -59,7 +59,7 @@ public sealed class TargetWasmNativeContainer<T: KotlinNativeTarget> private con
             val target = when (this@TargetWasmNativeContainer) {
                 is _32 -> {
                     wasm32(targetName, Action { t ->
-                        lazyTarget?.execute(t)
+                        lazyTarget.forEach { action -> action.execute(t) }
                     })
                 }
             }
@@ -69,11 +69,11 @@ public sealed class TargetWasmNativeContainer<T: KotlinNativeTarget> private con
             with(sourceSets) {
                 getByName("${targetName}Main") { ss ->
                     ss.dependsOn(getByName("${WASM_NATIVE}Main"))
-                    lazySourceSetMain?.execute(ss)
+                    lazySourceSetMain.forEach { action -> action.execute(ss) }
                 }
                 getByName("${targetName}Test") { ss ->
                     ss.dependsOn(getByName("${WASM_NATIVE}Test"))
-                    lazySourceSetTest?.execute(ss)
+                    lazySourceSetTest.forEach { action -> action.execute(ss) }
                 }
             }
         }

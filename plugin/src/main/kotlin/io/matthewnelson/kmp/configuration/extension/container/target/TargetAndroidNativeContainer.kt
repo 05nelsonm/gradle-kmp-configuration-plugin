@@ -111,22 +111,22 @@ public sealed class TargetAndroidNativeContainer<T: KotlinNativeTarget> private 
             val target = when (this@TargetAndroidNativeContainer) {
                 is Arm32 -> {
                     androidNativeArm32(targetName, Action { t ->
-                        lazyTarget?.execute(t)
+                        lazyTarget.forEach { action -> action.execute(t) }
                     })
                 }
                 is Arm64 -> {
                     androidNativeArm64(targetName, Action { t ->
-                        lazyTarget?.execute(t)
+                        lazyTarget.forEach { action -> action.execute(t) }
                     })
                 }
                 is X64 -> {
                     androidNativeX64(targetName, Action { t ->
-                        lazyTarget?.execute(t)
+                        lazyTarget.forEach { action -> action.execute(t) }
                     })
                 }
                 is X86 -> {
                     androidNativeX86(targetName, Action { t ->
-                        lazyTarget?.execute(t)
+                        lazyTarget.forEach { action -> action.execute(t) }
                     })
                 }
             }
@@ -136,11 +136,11 @@ public sealed class TargetAndroidNativeContainer<T: KotlinNativeTarget> private 
             with(sourceSets) {
                 getByName("${targetName}Main") { ss ->
                     ss.dependsOn(getByName("${ANDROID_NATIVE}Main"))
-                    lazySourceSetMain?.execute(ss)
+                    lazySourceSetMain.forEach { action -> action.execute(ss) }
                 }
                 getByName("${targetName}Test") { ss ->
                     ss.dependsOn(getByName("${ANDROID_NATIVE}Test"))
-                    lazySourceSetTest?.execute(ss)
+                    lazySourceSetTest.forEach { action -> action.execute(ss) }
                 }
             }
         }

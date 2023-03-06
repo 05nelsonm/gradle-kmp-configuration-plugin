@@ -76,12 +76,12 @@ public sealed class TargetMacosContainer<T: KotlinNativeTarget> private construc
             val target = when (this@TargetMacosContainer) {
                 is Arm64 -> {
                     macosArm64(targetName, Action { t ->
-                        lazyTarget?.execute(t)
+                        lazyTarget.forEach { action -> action.execute(t) }
                     })
                 }
                 is X64 -> {
                     macosX64(targetName, Action { t ->
-                        lazyTarget?.execute(t)
+                        lazyTarget.forEach { action -> action.execute(t) }
                     })
                 }
             }
@@ -91,11 +91,11 @@ public sealed class TargetMacosContainer<T: KotlinNativeTarget> private construc
             with(sourceSets) {
                 getByName("${targetName}Main") { ss ->
                     ss.dependsOn(getByName("${MACOS}Main"))
-                    lazySourceSetMain?.execute(ss)
+                    lazySourceSetMain.forEach { action -> action.execute(ss) }
                 }
                 getByName("${targetName}Test") { ss ->
                     ss.dependsOn(getByName("${MACOS}Test"))
-                    lazySourceSetTest?.execute(ss)
+                    lazySourceSetTest.forEach { action -> action.execute(ss) }
                 }
             }
         }

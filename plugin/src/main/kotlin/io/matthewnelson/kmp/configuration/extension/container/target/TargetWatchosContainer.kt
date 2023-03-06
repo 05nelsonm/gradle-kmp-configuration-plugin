@@ -156,32 +156,32 @@ public sealed class TargetWatchosContainer<T: KotlinNativeTarget> private constr
             val target = when (this@TargetWatchosContainer) {
                 is Arm32 -> {
                     watchosArm32(targetName, Action { t ->
-                        lazyTarget?.execute(t)
+                        lazyTarget.forEach { action -> action.execute(t) }
                     })
                 }
                 is Arm64 -> {
                     watchosArm64(targetName, Action { t ->
-                        lazyTarget?.execute(t)
+                        lazyTarget.forEach { action -> action.execute(t) }
                     })
                 }
                 is DeviceArm64 -> {
                     watchosDeviceArm64(targetName, Action { t ->
-                        lazyTarget?.execute(t)
+                        lazyTarget.forEach { action -> action.execute(t) }
                     })
                 }
                 is SimulatorArm64 -> {
                     watchosSimulatorArm64(targetName, Action { t ->
-                        lazyTarget?.execute(t)
+                        lazyTarget.forEach { action -> action.execute(t) }
                     })
                 }
                 is X64 -> {
                     watchosX64(targetName, Action { t ->
-                        lazyTarget?.execute(t)
+                        lazyTarget.forEach { action -> action.execute(t) }
                     })
                 }
                 is X86 -> {
                     watchosX86(targetName, Action { t ->
-                        lazyTarget?.execute(t)
+                        lazyTarget.forEach { action -> action.execute(t) }
                     })
                 }
             }
@@ -191,11 +191,11 @@ public sealed class TargetWatchosContainer<T: KotlinNativeTarget> private constr
             with(sourceSets) {
                 getByName("${targetName}Main") { ss ->
                     ss.dependsOn(getByName("${WATCHOS}Main"))
-                    lazySourceSetMain?.execute(ss)
+                    lazySourceSetMain.forEach { action -> action.execute(ss) }
                 }
                 getByName("${targetName}Test") { ss ->
                     ss.dependsOn(getByName("${WATCHOS}Test"))
-                    lazySourceSetTest?.execute(ss)
+                    lazySourceSetTest.forEach { action -> action.execute(ss) }
                 }
             }
         }

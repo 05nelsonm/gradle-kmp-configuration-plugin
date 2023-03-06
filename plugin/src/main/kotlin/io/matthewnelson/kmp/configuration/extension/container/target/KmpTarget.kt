@@ -25,9 +25,8 @@ public sealed class KmpTarget<T: KotlinTarget> private constructor(
     internal val targetName: String
 ): Container.ConfigurableTarget() {
 
-    protected var lazyTarget: Action<T>? = null
-        private set
-    public fun target(action: Action<T>) { lazyTarget = action }
+    protected val lazyTarget: MutableList<Action<T>> = mutableListOf()
+    public fun target(action: Action<T>) { lazyTarget.add(action) }
 
     public sealed class Jvm<T: KotlinTarget>(targetName: String): KmpTarget<T>(targetName) {
 

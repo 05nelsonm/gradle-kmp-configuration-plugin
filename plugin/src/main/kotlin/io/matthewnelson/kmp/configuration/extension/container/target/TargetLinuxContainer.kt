@@ -129,27 +129,27 @@ public sealed class TargetLinuxContainer<T: KotlinNativeTarget> private construc
             val target = when (this@TargetLinuxContainer) {
                 is Arm32Hfp -> {
                     linuxArm32Hfp(targetName, Action { t ->
-                        lazyTarget?.execute(t)
+                        lazyTarget.forEach { action -> action.execute(t) }
                     })
                 }
                 is Arm64 -> {
                     linuxArm64(targetName, Action { t ->
-                        lazyTarget?.execute(t)
+                        lazyTarget.forEach { action -> action.execute(t) }
                     })
                 }
                 is Mips32 -> {
                     linuxMips32(targetName, Action { t ->
-                        lazyTarget?.execute(t)
+                        lazyTarget.forEach { action -> action.execute(t) }
                     })
                 }
                 is Mipsel32 -> {
                     linuxMipsel32(targetName, Action { t ->
-                        lazyTarget?.execute(t)
+                        lazyTarget.forEach { action -> action.execute(t) }
                     })
                 }
                 is X64 -> {
                     linuxX64(targetName, Action { t ->
-                        lazyTarget?.execute(t)
+                        lazyTarget.forEach { action -> action.execute(t) }
                     })
                 }
             }
@@ -159,11 +159,11 @@ public sealed class TargetLinuxContainer<T: KotlinNativeTarget> private construc
             with(sourceSets) {
                 getByName("${targetName}Main") { ss ->
                     ss.dependsOn(getByName("${LINUX}Main"))
-                    lazySourceSetMain?.execute(ss)
+                    lazySourceSetMain.forEach { action -> action.execute(ss) }
                 }
                 getByName("${targetName}Test") { ss ->
                     ss.dependsOn(getByName("${LINUX}Test"))
-                    lazySourceSetTest?.execute(ss)
+                    lazySourceSetTest.forEach { action -> action.execute(ss) }
                 }
             }
         }
