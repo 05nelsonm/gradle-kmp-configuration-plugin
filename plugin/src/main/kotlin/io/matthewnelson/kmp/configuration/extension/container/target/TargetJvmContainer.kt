@@ -53,7 +53,7 @@ public class TargetJvmContainer internal constructor(
                     }
                 }
 
-                lazyTarget?.execute(t)
+                lazyTarget.forEach { action -> action.execute(t) }
 
                 if (!t.withJavaEnabled) return@Action
 
@@ -77,11 +77,11 @@ public class TargetJvmContainer internal constructor(
             with(sourceSets) {
                 getByName("${targetName}Main") { ss ->
                     ss.dependsOn(getByName("${JVM_ANDROID}Main"))
-                    lazySourceSetMain?.execute(ss)
+                    lazySourceSetMain.forEach { action -> action.execute(ss) }
                 }
                 getByName("${targetName}Test") { ss ->
                     ss.dependsOn(getByName("${JVM_ANDROID}Test"))
-                    lazySourceSetTest?.execute(ss)
+                    lazySourceSetTest.forEach { action -> action.execute(ss) }
                 }
             }
         }

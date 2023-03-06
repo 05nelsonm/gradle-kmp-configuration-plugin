@@ -40,13 +40,13 @@ public class KmpConfigurationContainerDsl private constructor(
 {
 
     public fun common(action: Action<CommonContainer>) {
-        val container = CommonContainer()
+        val container = holder.findCommonContainer() ?: CommonContainer()
         action.execute(container)
         holder.add(container)
     }
 
     public fun kotlin(action: Action<KotlinMultiplatformExtension>) {
-        val container = KotlinExtensionActionContainer()
+        val container = holder.findKotlinContainer() ?: KotlinExtensionActionContainer()
         container.kotlin(action)
         holder.add(container)
     }

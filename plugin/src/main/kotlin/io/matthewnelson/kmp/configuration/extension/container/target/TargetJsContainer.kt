@@ -67,10 +67,10 @@ public class TargetJsContainer internal constructor(
             @Suppress("RedundantSamConstructor")
             val target = compilerType?.let { type ->
                 js(targetName, type, Action { t ->
-                    lazyTarget?.execute(t)
+                    lazyTarget.forEach { action -> action.execute(t) }
                 })
             } ?: js(targetName, Action { t ->
-                lazyTarget?.execute(t)
+                lazyTarget.forEach { action -> action.execute(t) }
             })
 
             applyPlugins(target.project)
@@ -78,11 +78,11 @@ public class TargetJsContainer internal constructor(
             with(sourceSets) {
                 getByName("${targetName}Main") { ss ->
                     ss.dependsOn(getByName("${NON_JVM}Main"))
-                    lazySourceSetMain?.execute(ss)
+                    lazySourceSetMain.forEach { action -> action.execute(ss) }
                 }
                 getByName("${targetName}Test") { ss ->
                     ss.dependsOn(getByName("${NON_JVM}Test"))
-                    lazySourceSetTest?.execute(ss)
+                    lazySourceSetTest.forEach { action -> action.execute(ss) }
                 }
             }
         }

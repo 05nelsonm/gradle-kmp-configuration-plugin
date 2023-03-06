@@ -56,12 +56,11 @@ public sealed class TargetAndroidContainer<T: TestedExtension> private construct
         }
     }
 
-    protected var lazyAndroid: Action<T>? = null
-        private set
-    public fun android(action: Action<T>) { lazyAndroid = action }
+    protected val lazyAndroid: MutableList<Action<T>> = mutableListOf()
+    public fun android(action: Action<T>) { lazyAndroid.add(action) }
 
-    private var lazySourceSetTestInstrumented: Action<KotlinSourceSet>? = null
-    public fun sourceSetTestInstrumented(action: Action<KotlinSourceSet>) { lazySourceSetTestInstrumented = action }
+    private val lazySourceSetTestInstrumented: MutableList<Action<KotlinSourceSet>> = mutableListOf()
+    public fun sourceSetTestInstrumented(action: Action<KotlinSourceSet>) { lazySourceSetTestInstrumented.add(action) }
 
     @KmpConfigurationDsl
     public class App internal constructor(
@@ -70,21 +69,19 @@ public sealed class TargetAndroidContainer<T: TestedExtension> private construct
     ): TargetAndroidContainer<BaseAppModuleExtension>(targetName, kotlinPluginVersion) {
 
         protected override fun setupAndroid(project: Project) {
-            lazyAndroid?.let { action ->
-                project.extensions.configure(BaseAppModuleExtension::class.java) { extension ->
-                    // Set before executing action so that they may be
-                    // overridden if desired
-                    extension.compileOptions {
-                        compileSourceCompatibility?.let { compatibility ->
-                            sourceCompatibility = compatibility
-                        }
-                        compileTargetCompatibility?.let { compatibility ->
-                            targetCompatibility = compatibility
-                        }
+            project.extensions.configure(BaseAppModuleExtension::class.java) { extension ->
+                // Set before executing action so that they may be
+                // overridden if desired
+                extension.compileOptions {
+                    compileSourceCompatibility?.let { compatibility ->
+                        sourceCompatibility = compatibility
                     }
-
-                    action.execute(extension)
+                    compileTargetCompatibility?.let { compatibility ->
+                        targetCompatibility = compatibility
+                    }
                 }
+
+                lazyAndroid.forEach { action -> action.execute(extension) }
             }
         }
     }
@@ -96,21 +93,19 @@ public sealed class TargetAndroidContainer<T: TestedExtension> private construct
     ): TargetAndroidContainer<LibraryExtension>(targetName, kotlinPluginVersion) {
 
         protected override fun setupAndroid(project: Project) {
-            lazyAndroid?.let { action ->
-                project.extensions.configure(LibraryExtension::class.java) { extension ->
-                    // Set before executing action so that they may be
-                    // overridden if desired
-                    extension.compileOptions {
-                        compileSourceCompatibility?.let { compatibility ->
-                            sourceCompatibility = compatibility
-                        }
-                        compileTargetCompatibility?.let { compatibility ->
-                            targetCompatibility = compatibility
-                        }
+            project.extensions.configure(LibraryExtension::class.java) { extension ->
+                // Set before executing action so that they may be
+                // overridden if desired
+                extension.compileOptions {
+                    compileSourceCompatibility?.let { compatibility ->
+                        sourceCompatibility = compatibility
                     }
-
-                    action.execute(extension)
+                    compileTargetCompatibility?.let { compatibility ->
+                        targetCompatibility = compatibility
+                    }
                 }
+
+                lazyAndroid.forEach { action -> action.execute(extension) }
             }
         }
     }
@@ -128,7 +123,7 @@ public sealed class TargetAndroidContainer<T: TestedExtension> private construct
                     }
                 }
 
-                lazyTarget?.execute(t)
+                lazyTarget.forEach { action -> action.execute(t) }
             })
 
             applyPlugins(target.project)
@@ -136,7 +131,7 @@ public sealed class TargetAndroidContainer<T: TestedExtension> private construct
             with(sourceSets) {
                 getByName("${targetName}Main") { ss ->
                     ss.dependsOn(getByName("${JVM_ANDROID}Main"))
-                    lazySourceSetMain?.execute(ss)
+                    lazySourceSetMain.forEach { action -> action.execute(ss) }
                 }
 
                 val layoutVersion = if (kotlinPluginVersion.isAtLeast(1, 8)) {
@@ -161,11 +156,11 @@ public sealed class TargetAndroidContainer<T: TestedExtension> private construct
 
                 getByName(test) { ss ->
                     ss.dependsOn(jvmAndroidTest)
-                    lazySourceSetTest?.execute(ss)
+                    lazySourceSetTest.forEach { action -> action.execute(ss) }
                 }
                 getByName(instrumented) { ss ->
                     ss.dependsOn(jvmAndroidTest)
-                    lazySourceSetTestInstrumented?.execute(ss)
+                    lazySourceSetTestInstrumented.forEach { action -> action.execute(ss) }
                 }
             }
 

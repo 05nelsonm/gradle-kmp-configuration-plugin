@@ -25,8 +25,11 @@ public class CommonContainer internal constructor(): Container.ConfigurableTarge
     @JvmSynthetic
     internal override fun setup(kotlin: KotlinMultiplatformExtension) {
         with(kotlin.sourceSets) {
-            lazySourceSetMain?.execute(getByName(KotlinSourceSet.COMMON_MAIN_SOURCE_SET_NAME))
-            lazySourceSetTest?.execute(getByName(KotlinSourceSet.COMMON_TEST_SOURCE_SET_NAME))
+            val commonMain = getByName(KotlinSourceSet.COMMON_MAIN_SOURCE_SET_NAME)
+            lazySourceSetMain.forEach { action -> action.execute(commonMain) }
+
+            val commonTest = getByName(KotlinSourceSet.COMMON_TEST_SOURCE_SET_NAME)
+            lazySourceSetTest.forEach { action -> action.execute(commonTest) }
         }
 
         // setup is only ever called if there is at least 1 target enabled,

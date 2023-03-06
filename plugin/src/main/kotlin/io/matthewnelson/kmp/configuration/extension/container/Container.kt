@@ -33,13 +33,11 @@ public sealed class Container {
         private val pluginIds: MutableSet<String> = mutableSetOf()
         public fun pluginIds(vararg ids: String) { pluginIds += ids.toSet() }
 
-        protected var lazySourceSetMain: Action<KotlinSourceSet>? = null
-            private set
-        public fun sourceSetMain(action: Action<KotlinSourceSet>) { lazySourceSetMain = action }
+        protected val lazySourceSetMain: MutableList<Action<KotlinSourceSet>> = mutableListOf()
+        public fun sourceSetMain(action: Action<KotlinSourceSet>) { lazySourceSetMain.add(action) }
 
-        protected var lazySourceSetTest: Action<KotlinSourceSet>? = null
-            private set
-        public fun sourceSetTest(action: Action<KotlinSourceSet>) { lazySourceSetTest = action }
+        protected val lazySourceSetTest: MutableList<Action<KotlinSourceSet>> = mutableListOf()
+        public fun sourceSetTest(action: Action<KotlinSourceSet>) { lazySourceSetTest.add(action) }
 
         protected fun applyPlugins(project: Project) {
             for (id in pluginIds) {
