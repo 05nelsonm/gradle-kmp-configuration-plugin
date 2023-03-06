@@ -124,6 +124,8 @@ at least 1 target being enabled).
 
 ## Extension Usage
 
+For composite builds, you can reference [PR #19][pr-19] which has an example.
+
 ```kotlin
 kmpConfiguration {
     configure {
@@ -317,7 +319,7 @@ plugins {
     id("com.android.library") version("x.x.x") apply(false)
 
     id("org.jetbrains.kotlin.multiplatform") version("x.x.x") apply(false)
-    id("io.matthewnelson.kmp.configuration") version("0.1.0-beta01")
+    id("io.matthewnelson.kmp.configuration") version("0.1.0-beta02")
 }
 ```
 
@@ -335,7 +337,7 @@ plugins {
     id 'com.android.library' version 'x.x.x' apply false
 
     id 'org.jetbrains.kotlin.multiplatform' version 'x.x.x' apply false
-    id 'io.matthewnelson.kmp.configuration' version '0.1.0-beta01'
+    id 'io.matthewnelson.kmp.configuration' version '0.1.0-beta02'
 }
 ```
 
@@ -355,7 +357,7 @@ buildscript {
     dependencies {
         // kotlin gradle
         // android gradle (if you have an android target)
-        classpath("io.matthewnelson:gradle-kmp-configuration-plugin:0.1.0-beta01")
+        classpath("io.matthewnelson:gradle-kmp-configuration-plugin:0.1.0-beta02")
     }
 }
 ```
@@ -385,7 +387,7 @@ buildscript {
         mavenCentral()
     }
     dependencies {
-        classpath 'io.matthewnelson:gradle-kmp-configuration-plugin:0.1.0-beta01'
+        classpath 'io.matthewnelson:gradle-kmp-configuration-plugin:0.1.0-beta02'
     }
 }
 ```
@@ -404,3 +406,5 @@ kmpConfiguration {
 ```
 
 </details>
+
+[pr-19]: https://github.com/05nelsonm/gradle-kmp-configuration-plugin/pull/19
