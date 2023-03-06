@@ -20,14 +20,16 @@ import org.jetbrains.kotlin.gradle.dsl.KotlinMultiplatformExtension
 
 internal class KotlinExtensionActionContainer internal constructor(): Container() {
 
-    private var lazyKotlin: Action<KotlinMultiplatformExtension>? = null
+    private val lazyKotlin = mutableListOf<Action<KotlinMultiplatformExtension>>()
 
     @JvmSynthetic
-    internal fun kotlin(action: Action<KotlinMultiplatformExtension>) { lazyKotlin = action }
+    internal fun kotlin(action: Action<KotlinMultiplatformExtension>) { lazyKotlin.add(action) }
 
     @JvmSynthetic
     internal override fun setup(kotlin: KotlinMultiplatformExtension) {
-        lazyKotlin?.execute(kotlin)
+        lazyKotlin.forEach { action ->
+            action.execute(kotlin)
+        }
     }
 
     @JvmSynthetic
