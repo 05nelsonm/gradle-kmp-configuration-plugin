@@ -38,6 +38,8 @@ dependencies {
     compileOnly(libs.gradle.android)
 }
 
-signing {
-    useGpgCmd()
+if (!findProperty("VERSION_NAME")!!.toString().endsWith("SNAPSHOT")) {
+    signing {
+        useGpgCmd()
+    }
 }
