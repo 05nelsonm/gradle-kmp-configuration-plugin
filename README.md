@@ -124,7 +124,9 @@ at least 1 target being enabled).
 
 ## Extension Usage
 
-For composite builds, you can reference [PR #19][pr-19] which has an example.
+For composite builds, you can reference the following examples:
+ - [PR #19][pr-19]
+ - The [encoding][url-encoding] project
 
 ```kotlin
 kmpConfiguration {
@@ -408,3 +410,4 @@ kmpConfiguration {
 </details>
 
 [pr-19]: https://github.com/05nelsonm/gradle-kmp-configuration-plugin/pull/19
+[url-encoding]: https://github.com/05nelsonm/encoding
