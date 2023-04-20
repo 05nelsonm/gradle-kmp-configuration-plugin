@@ -13,6 +13,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  **/
+@file:Suppress("DeprecatedCallableAddReplaceWith", "DEPRECATION")
+
 package io.matthewnelson.kmp.configuration.extension.container.target
 
 import io.matthewnelson.kmp.configuration.KmpConfigurationDsl
@@ -36,12 +38,15 @@ public sealed class TargetIosContainer<T: KotlinNativeTarget> private constructo
             iosSimulatorArm64()
         }
 
+        @Deprecated(message = "Target is deprecated and will be removed soon: see https://kotl.in/native-targets-tiers")
         public fun iosArm32() { iosArm32 {} }
 
+        @Deprecated(message = "Target is deprecated and will be removed soon: see https://kotl.in/native-targets-tiers")
         public fun iosArm32(action: Action<Arm32>) {
             iosArm32("iosArm32", action)
         }
 
+        @Deprecated(message = "Target is deprecated and will be removed soon: see https://kotl.in/native-targets-tiers")
         public fun iosArm32(targetName: String, action: Action<Arm32>) {
             val container = holder.find(targetName) ?: Arm32(targetName)
             action.execute(container)
@@ -86,6 +91,7 @@ public sealed class TargetIosContainer<T: KotlinNativeTarget> private constructo
     }
 
     @KmpConfigurationDsl
+    @Deprecated(message = "Target is deprecated and will be removed soon: see https://kotl.in/native-targets-tiers")
     public class Arm32 internal constructor(
         targetName: String
     ): TargetIosContainer<KotlinNativeTarget>(targetName)

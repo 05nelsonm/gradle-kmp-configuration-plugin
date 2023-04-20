@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  **/
-@file:Suppress("ClassName")
+@file:Suppress("ClassName", "DeprecatedCallableAddReplaceWith", "DEPRECATION")
 
 package io.matthewnelson.kmp.configuration.extension.container.target
 
@@ -34,12 +34,15 @@ public sealed class TargetWasmNativeContainer<T: KotlinNativeTarget> private con
             wasm32()
         }
 
+        @Deprecated(message = "Target is deprecated and will be removed soon: see https://kotl.in/native-targets-tiers")
         public fun wasm32() { wasm32 {} }
 
+        @Deprecated(message = "Target is deprecated and will be removed soon: see https://kotl.in/native-targets-tiers")
         public fun wasm32(action: Action<_32>) {
             wasm32("wasm32", action)
         }
 
+        @Deprecated(message = "Target is deprecated and will be removed soon: see https://kotl.in/native-targets-tiers")
         public fun wasm32(targetName: String, action: Action<_32>) {
             val container = holder.find(targetName) ?: _32(targetName)
             action.execute(container)
@@ -48,6 +51,7 @@ public sealed class TargetWasmNativeContainer<T: KotlinNativeTarget> private con
     }
 
     @KmpConfigurationDsl
+    @Deprecated(message = "Target is deprecated and will be removed soon: see https://kotl.in/native-targets-tiers")
     public class _32 internal constructor(
         targetName: String,
     ): TargetWasmNativeContainer<KotlinNativeTarget>(targetName)
