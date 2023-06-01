@@ -72,6 +72,7 @@ internal enum class KmpTargetProperty {
         }
 
         @JvmSynthetic
+        @Suppress("DEPRECATION")
         internal fun KmpTarget<*>.property(): KmpTargetProperty {
             return when (this) {
                 is TargetAndroidContainer<*> -> ANDROID
