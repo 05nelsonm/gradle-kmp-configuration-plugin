@@ -1,7 +1,7 @@
 [versions]
 android = "8.0.2"
 gradleVersions = "0.46.0"
-kotlin = "1.8.20"
+kotlin = "1.8.21"
 publish = "0.24.0"
 
 [libraries]
