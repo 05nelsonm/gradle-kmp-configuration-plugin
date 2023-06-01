@@ -26,11 +26,11 @@ tasks.withType<DependencyUpdatesTask> {
     // Example 3: using the full syntax
     resolutionStrategy {
         componentSelection {
-            all {
+            all(Action {
                 if (isNonStable(candidate.version) && !isNonStable(currentVersion)) {
                     reject("Release candidate")
                 }
-            }
+            })
         }
     }
 }
