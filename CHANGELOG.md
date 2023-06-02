@@ -1,5 +1,8 @@
 # CHANGELOG
 
+## Version 0.1.1 (2023-06-02)
+ - Fixes stuck publication for `0.1.0`
+
 ## Version 0.1.0 (2023-06-01)
  - Removes default `wasm()` setup
  - Updates dependencies:
