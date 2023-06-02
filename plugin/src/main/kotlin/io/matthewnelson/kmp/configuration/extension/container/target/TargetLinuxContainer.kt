@@ -13,6 +13,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  **/
+@file:Suppress("DeprecatedCallableAddReplaceWith", "DEPRECATION")
+
 package io.matthewnelson.kmp.configuration.extension.container.target
 
 import io.matthewnelson.kmp.configuration.KmpConfigurationDsl
@@ -36,12 +38,15 @@ public sealed class TargetLinuxContainer<T: KotlinNativeTarget> private construc
             linuxX64()
         }
 
+        @Deprecated(message = "Target is deprecated and will be removed soon: see https://kotl.in/native-targets-tiers")
         public fun linuxArm32Hfp() { linuxArm32Hfp {} }
 
+        @Deprecated(message = "Target is deprecated and will be removed soon: see https://kotl.in/native-targets-tiers")
         public fun linuxArm32Hfp(action: Action<Arm32Hfp>) {
             linuxArm32Hfp("linuxArm32Hfp", action)
         }
 
+        @Deprecated(message = "Target is deprecated and will be removed soon: see https://kotl.in/native-targets-tiers")
         public fun linuxArm32Hfp(targetName: String, action: Action<Arm32Hfp>) {
             val container = holder.find(targetName) ?: Arm32Hfp(targetName)
             action.execute(container)
@@ -60,24 +65,30 @@ public sealed class TargetLinuxContainer<T: KotlinNativeTarget> private construc
             holder.add(container)
         }
 
+        @Deprecated(message = "Target is deprecated and will be removed soon: see https://kotl.in/native-targets-tiers")
         public fun linuxMips32() { linuxMips32 {} }
 
+        @Deprecated(message = "Target is deprecated and will be removed soon: see https://kotl.in/native-targets-tiers")
         public fun linuxMips32(action: Action<Mips32>) {
             linuxMips32("linuxMips32", action)
         }
 
+        @Deprecated(message = "Target is deprecated and will be removed soon: see https://kotl.in/native-targets-tiers")
         public fun linuxMips32(targetName: String, action: Action<Mips32>) {
             val container = holder.find(targetName) ?: Mips32(targetName)
             action.execute(container)
             holder.add(container)
         }
 
+        @Deprecated(message = "Target is deprecated and will be removed soon: see https://kotl.in/native-targets-tiers")
         public fun linuxMipsel32() { linuxMipsel32 {} }
 
+        @Deprecated(message = "Target is deprecated and will be removed soon: see https://kotl.in/native-targets-tiers")
         public fun linuxMipsel32(action: Action<Mipsel32>) {
             linuxMipsel32("linuxMipsel32", action)
         }
 
+        @Deprecated(message = "Target is deprecated and will be removed soon: see https://kotl.in/native-targets-tiers")
         public fun linuxMipsel32(targetName: String, action: Action<Mipsel32>) {
             val container = holder.find(targetName) ?: Mipsel32(targetName)
             action.execute(container)
@@ -98,6 +109,7 @@ public sealed class TargetLinuxContainer<T: KotlinNativeTarget> private construc
     }
 
     @KmpConfigurationDsl
+    @Deprecated(message = "Target is deprecated and will be removed soon: see https://kotl.in/native-targets-tiers")
     public class Arm32Hfp internal constructor(
         targetName: String
     ): TargetLinuxContainer<KotlinNativeTarget>(targetName)
@@ -108,11 +120,13 @@ public sealed class TargetLinuxContainer<T: KotlinNativeTarget> private construc
     ): TargetLinuxContainer<KotlinNativeTarget>(targetName)
 
     @KmpConfigurationDsl
+    @Deprecated(message = "Target is deprecated and will be removed soon: see https://kotl.in/native-targets-tiers")
     public class Mips32 internal constructor(
         targetName: String
     ): TargetLinuxContainer<KotlinNativeTarget>(targetName)
 
     @KmpConfigurationDsl
+    @Deprecated(message = "Target is deprecated and will be removed soon: see https://kotl.in/native-targets-tiers")
     public class Mipsel32 internal constructor(
         targetName: String
     ): TargetLinuxContainer<KotlinNativeTarget>(targetName)

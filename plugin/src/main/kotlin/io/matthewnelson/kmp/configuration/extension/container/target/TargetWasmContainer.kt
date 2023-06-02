@@ -31,29 +31,29 @@ public class TargetWasmContainer internal constructor(
     public sealed interface Configure {
         public val holder: ContainerHolder
 
-        @ExperimentalWasmDsl
-        public fun wasm() {
-            wasm { container ->
-                @Suppress("RedundantSamConstructor")
-                container.target { dsl ->
-                    dsl.browser( Action { bDsl ->
-                        bDsl.testTask( Action { tDsl ->
-                            tDsl.useMocha( Action { it.timeout = "30s" } )
-                        })
-                    })
-                    dsl.nodejs( Action { nDsl ->
-                        nDsl.testTask( Action { tDsl ->
-                            tDsl.useMocha( Action { it.timeout = "30s" } )
-                        })
-                    })
-                    dsl.d8( Action { dDsl ->
-                        dDsl.testTask( Action { tDsl ->
-                            tDsl.useMocha( Action { it.timeout = "30s" } )
-                        })
-                    })
-                }
-            }
-        }
+//        @ExperimentalWasmDsl
+//        public fun wasm() {
+//            wasm { container ->
+//                @Suppress("RedundantSamConstructor")
+//                container.target { dsl ->
+//                    dsl.browser( Action { bDsl ->
+//                        bDsl.testTask( Action { tDsl ->
+//                            tDsl.useMocha( Action { it.timeout = "30s" } )
+//                        })
+//                    })
+//                    dsl.nodejs( Action { nDsl ->
+//                        nDsl.testTask( Action { tDsl ->
+//                            tDsl.useMocha( Action { it.timeout = "30s" } )
+//                        })
+//                    })
+//                    dsl.d8( Action { dDsl ->
+//                        dDsl.testTask( Action { tDsl ->
+//                            tDsl.useMocha( Action { it.timeout = "30s" } )
+//                        })
+//                    })
+//                }
+//            }
+//        }
 
         @ExperimentalWasmDsl
         public fun wasm(action: Action<TargetWasmContainer>) {

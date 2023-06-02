@@ -262,19 +262,19 @@ kmpConfiguration {
                 // set and does not include ANDROID or JVM, which means
                 // the `jvmAndroid` intermediate source set will not be
                 // created.
-                val jvmAndroidMain: KotlinSourceSet? = findbyName("jvmAndroidMain")?.apply {
+                val jvmAndroidMain: KotlinSourceSet? = findByName("jvmAndroidMain")?.apply {
 
                 }
 
                 // More intermediate source sets, as depicted above in
                 // section `Hierarchical Source Set Structure`
-                val nativeMain: KotlinSourceSet? = findbyName("nativeMain")?.apply {
+                val nativeMain: KotlinSourceSet? = findByName("nativeMain")?.apply {
 
                 }
-                val darwinMain: KotlinSourceSet? = findbyName("darwinMain")?.apply {
+                val darwinMain: KotlinSourceSet? = findByName("darwinMain")?.apply {
 
                 }
-                val iosMain: KotlinSourceSet? = findbyName("iosMain")?.apply {
+                val iosMain: KotlinSourceSet? = findByName("iosMain")?.apply {
 
                 }
 

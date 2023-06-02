@@ -1,7 +1,9 @@
 [versions]
-android = "7.4.1"
-kotlin = "1.8.10"
-publish = "0.24.0"
+android = "8.0.2"
+binaryCompat = "0.13.1"
+gradleVersions = "0.46.0"
+kotlin = "1.8.21"
+publish = "0.25.2"
 
 [libraries]
 gradle-android = { module = "com.android.tools.build:gradle", version.ref = "android" }
@@ -12,3 +14,7 @@ kotlin-stdlib-jdk8 = { module = "org.jetbrains.kotlin:kotlin-stdlib-jdk8", versi
 kotlin-reflect = { module = "org.jetbrains.kotlin:kotlin-reflect", version.ref = "kotlin" }
 
 gradle-maven-publish = { module = "com.vanniktech:gradle-maven-publish-plugin", version.ref = "publish" }
+
+[plugins]
+gradleVersions = { id = "com.github.ben-manes.versions", version.ref = "gradleVersions" }
+binaryCompat = { id = "org.jetbrains.kotlinx.binary-compatibility-validator", version.ref = "binaryCompat" }
