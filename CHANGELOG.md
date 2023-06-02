@@ -1,5 +1,13 @@
 # CHANGELOG
 
+## Version 0.1.0 (2023-06-01)
+ - Removes default `wasm()` setup
+ - Updates dependencies:
+     - AGP -> `8.0.2`
+     - KGP -> `1.8.21`
+         - Adds deprecation notices in line with KGP release
+     - Gradle Wrapper -> `8.1.1`
+
 ## Version 0.1.0-beta02 (2023-03-06)
  - Adds support for composite builds [19][pr-19]
 
