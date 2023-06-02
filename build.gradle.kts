@@ -2,6 +2,7 @@ import com.github.benmanes.gradle.versions.updates.DependencyUpdatesTask
 
 @Suppress("DSL_SCOPE_VIOLATION")
 plugins {
+    alias(libs.plugins.binaryCompat)
     alias(libs.plugins.gradleVersions)
 }
 
