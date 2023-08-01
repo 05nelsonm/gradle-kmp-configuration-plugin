@@ -1,8 +1,8 @@
 [versions]
 android = "8.0.2"
-binaryCompat = "0.13.1"
-gradleVersions = "0.46.0"
-kotlin = "1.8.21"
+binaryCompat = "0.13.2"
+gradleVersions = "0.47.0"
+kotlin = "1.9.0"
 publish = "0.25.2"
 
 [libraries]

@@ -24,7 +24,6 @@ import org.gradle.api.Action
 import org.gradle.api.Project
 import org.jetbrains.kotlin.gradle.dsl.KotlinMultiplatformExtension
 import org.jetbrains.kotlin.gradle.plugin.KotlinSourceSet
-import org.jetbrains.kotlin.gradle.plugin.extraProperties
 import org.jetbrains.kotlin.gradle.plugin.mpp.KotlinAndroidTarget
 
 public sealed class TargetAndroidContainer<T: TestedExtension> private constructor(
@@ -115,8 +114,7 @@ public sealed class TargetAndroidContainer<T: TestedExtension> private construct
     @JvmSynthetic
     internal final override fun setup(kotlin: KotlinMultiplatformExtension) {
         with(kotlin) {
-            @Suppress("RedundantSamConstructor")
-            val target = android(targetName, Action { t ->
+            val target = Action<KotlinAndroidTarget> { t ->
                 kotlinJvmTarget?.let { version ->
                     t.compilations.all {
                         it.kotlinOptions.jvmTarget = version.toString()
@@ -124,7 +122,14 @@ public sealed class TargetAndroidContainer<T: TestedExtension> private construct
                 }
 
                 lazyTarget.forEach { action -> action.execute(t) }
-            })
+            }.let { action ->
+                if (kotlinPluginVersion.isAtLeast(1, 9)) {
+                    androidTarget(targetName, action)
+                } else {
+                    @Suppress("DEPRECATION")
+                    android(targetName, action)
+                }
+            }
 
             applyPlugins(target.project)
 
@@ -134,31 +139,14 @@ public sealed class TargetAndroidContainer<T: TestedExtension> private construct
                     lazySourceSetMain.forEach { action -> action.execute(ss) }
                 }
 
-                val layoutVersion = if (kotlinPluginVersion.isAtLeast(1, 8)) {
-                    target.project.extraProperties
-                        .properties["kotlin.mpp.androidSourceSetLayoutVersion"]
-                        ?.toString()
-                        ?.toIntOrNull()
-                } else {
-                    null
-                }
-
-                val (test, instrumented) = when (layoutVersion) {
-                    2 -> {
-                        Pair("androidUnitTest", "androidInstrumentedTest")
-                    }
-                    else -> {
-                        Pair("androidTest", "androidAndroidTest")
-                    }
-                }
-
                 val jvmAndroidTest = getByName("${JVM_ANDROID}Test")
 
-                getByName(test) { ss ->
+                // Checks for either v1 or v2 source set layout
+                (findByName("androidTest") ?: findByName("androidUnitTest"))?.let { ss ->
                     ss.dependsOn(jvmAndroidTest)
                     lazySourceSetTest.forEach { action -> action.execute(ss) }
                 }
-                getByName(instrumented) { ss ->
+                (findByName("androidAndroidTest") ?: findByName("androidInstrumentedTest"))?.let { ss ->
                     ss.dependsOn(jvmAndroidTest)
                     lazySourceSetTestInstrumented.forEach { action -> action.execute(ss) }
                 }

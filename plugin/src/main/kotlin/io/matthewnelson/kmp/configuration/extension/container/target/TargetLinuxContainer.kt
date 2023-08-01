@@ -31,10 +31,12 @@ public sealed class TargetLinuxContainer<T: KotlinNativeTarget> private construc
         public val holder: ContainerHolder
 
         public fun linuxAll() {
-            linuxArm32Hfp()
+            if (!holder.kotlinPluginVersion.isAtLeast(1, 9, 20)) {
+                linuxArm32Hfp()
+                linuxMips32()
+                linuxMipsel32()
+            }
             linuxArm64()
-            linuxMips32()
-            linuxMipsel32()
             linuxX64()
         }
 
