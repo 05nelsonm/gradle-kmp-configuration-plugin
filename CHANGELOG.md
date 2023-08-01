@@ -3,7 +3,7 @@
 ## Version 0.1.2 (2023-08-01)
  - Updates dependencies:
      - KGP -> `1.9.0`
-   - Gradle Wrapper -> `8.2.1`
+     - Gradle Wrapper -> `8.2.1`
 
 ## Version 0.1.1 (2023-06-02)
  - Fixes stuck publication for `0.1.0`
