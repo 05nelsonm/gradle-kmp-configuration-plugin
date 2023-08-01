@@ -32,7 +32,9 @@ public sealed class TargetIosContainer<T: KotlinNativeTarget> private constructo
         public val holder: ContainerHolder
 
         public fun iosAll() {
-            iosArm32()
+            if (!holder.kotlinPluginVersion.isAtLeast(1, 9, 20)) {
+                iosArm32()
+            }
             iosArm64()
             iosX64()
             iosSimulatorArm64()

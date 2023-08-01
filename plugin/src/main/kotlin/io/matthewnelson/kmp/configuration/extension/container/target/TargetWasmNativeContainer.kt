@@ -23,6 +23,7 @@ import org.gradle.api.Action
 import org.jetbrains.kotlin.gradle.dsl.KotlinMultiplatformExtension
 import org.jetbrains.kotlin.gradle.plugin.mpp.KotlinNativeTarget
 
+@Deprecated(message = "Target is deprecated and will be removed soon: see https://kotl.in/native-targets-tiers")
 public sealed class TargetWasmNativeContainer<T: KotlinNativeTarget> private constructor(
     targetName: String,
 ): KmpTarget.NonJvm.Native.Wasm<T>(targetName) {
@@ -30,6 +31,7 @@ public sealed class TargetWasmNativeContainer<T: KotlinNativeTarget> private con
     public sealed interface Configure {
         public val holder: ContainerHolder
 
+        @Deprecated(message = "Target is deprecated and will be removed soon: see https://kotl.in/native-targets-tiers")
         public fun wasmNativeAll() {
             wasm32()
         }

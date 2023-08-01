@@ -39,7 +39,9 @@ public sealed class TargetWatchosContainer<T: KotlinNativeTarget> private constr
                 watchosDeviceArm64()
             }
             watchosX64()
-            watchosX86()
+            if (!holder.kotlinPluginVersion.isAtLeast(1, 9, 20)) {
+                watchosX86()
+            }
             watchosSimulatorArm64()
         }
 

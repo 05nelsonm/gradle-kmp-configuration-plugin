@@ -66,6 +66,7 @@ public sealed class KmpTarget<T: KotlinTarget> private constructor(
 
             public sealed class Mingw<T: KotlinNativeTarget>(targetName: String): Native<T>(targetName)
 
+            @Deprecated(message = "Target is deprecated and will be removed soon: see https://kotl.in/native-targets-tiers")
             public sealed class Wasm<T: KotlinNativeTarget>(targetName: String): Native<T>(targetName)
         }
     }

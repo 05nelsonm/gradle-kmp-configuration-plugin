@@ -185,7 +185,9 @@ public open class KmpConfigurationPlugin : Plugin<Project> {
                     maybeCreate("${TargetMingwContainer.MINGW}Test").dependsOn(nativeTest)
                 }
 
+                @Suppress("DEPRECATION")
                 val wasmNativeTargets = nativeTargets.filterIsInstance<KmpTarget.NonJvm.Native.Wasm<*>>()
+                @Suppress("DEPRECATION")
                 if (wasmNativeTargets.isNotEmpty()) {
                     maybeCreate("${TargetWasmNativeContainer.WASM_NATIVE}Main").dependsOn(nativeMain)
                     maybeCreate("${TargetWasmNativeContainer.WASM_NATIVE}Test").dependsOn(nativeTest)

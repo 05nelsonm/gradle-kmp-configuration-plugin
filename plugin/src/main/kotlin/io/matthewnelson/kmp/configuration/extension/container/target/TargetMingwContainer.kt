@@ -32,7 +32,9 @@ public sealed class TargetMingwContainer<T: KotlinNativeTarget> private construc
 
         public fun mingwAll() {
             mingwX64()
-            mingwX86()
+            if (!holder.kotlinPluginVersion.isAtLeast(1, 9, 20)) {
+                mingwX86()
+            }
         }
 
         public fun mingwX64() { mingwX64 {} }
