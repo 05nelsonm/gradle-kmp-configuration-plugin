@@ -1,5 +1,11 @@
 # CHANGELOG
 
+## Version 0.1.3 (2023-08-06)
+ - Updates dependencies:
+     - AGP -> `8.1.0`
+ - `common` block now applies `pluginIds` before configuring 
+   `kotlin.sourceSets` [[#24]][pr-24]
+
 ## Version 0.1.2 (2023-08-01)
  - Updates dependencies:
      - KGP -> `1.9.0`
@@ -17,7 +23,7 @@
      - Gradle Wrapper -> `8.1.1`
 
 ## Version 0.1.0-beta02 (2023-03-06)
- - Adds support for composite builds [19][pr-19]
+ - Adds support for composite builds [[#19]][pr-19]
 
 ## Version 0.1.0-beta01 (2023-03-02)
  - Fixes internal API compatibility issues with Kotlin `1.8.20-Beta`
@@ -34,3 +40,4 @@
  - Initial Release
 
 [pr-19]: https://github.com/05nelsonm/gradle-kmp-configuration-plugin/pull/19
+[pr-24]: https://github.com/05nelsonm/gradle-kmp-configuration-plugin/pull/24
