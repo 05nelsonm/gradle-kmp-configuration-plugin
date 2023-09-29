@@ -1,5 +1,10 @@
 # CHANGELOG
 
+## Version 0.1.4 (2023-09-29)
+ - Update dependencies:
+    - KGP -> `1.9.10`
+    - Gradle Wrapper -> `8.3`
+
 ## Version 0.1.3 (2023-08-06)
  - Updates dependencies:
      - AGP -> `8.1.0`

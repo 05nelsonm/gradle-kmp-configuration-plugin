@@ -321,7 +321,7 @@ plugins {
     id("com.android.library") version("x.x.x") apply(false)
 
     id("org.jetbrains.kotlin.multiplatform") version("x.x.x") apply(false)
-    id("io.matthewnelson.kmp.configuration") version("0.1.3")
+    id("io.matthewnelson.kmp.configuration") version("0.1.4")
 }
 ```
 
@@ -339,7 +339,7 @@ plugins {
     id 'com.android.library' version 'x.x.x' apply false
 
     id 'org.jetbrains.kotlin.multiplatform' version 'x.x.x' apply false
-    id 'io.matthewnelson.kmp.configuration' version '0.1.3'
+    id 'io.matthewnelson.kmp.configuration' version '0.1.4'
 }
 ```
 
@@ -359,7 +359,7 @@ buildscript {
     dependencies {
         // kotlin gradle
         // android gradle (if you have an android target)
-        classpath("io.matthewnelson:gradle-kmp-configuration-plugin:0.1.3")
+        classpath("io.matthewnelson:gradle-kmp-configuration-plugin:0.1.4")
     }
 }
 ```
@@ -389,7 +389,7 @@ buildscript {
         mavenCentral()
     }
     dependencies {
-        classpath 'io.matthewnelson:gradle-kmp-configuration-plugin:0.1.3'
+        classpath 'io.matthewnelson:gradle-kmp-configuration-plugin:0.1.4'
     }
 }
 ```
