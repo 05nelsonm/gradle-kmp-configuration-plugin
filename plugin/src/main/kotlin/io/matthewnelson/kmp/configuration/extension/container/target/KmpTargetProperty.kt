@@ -60,6 +60,7 @@ internal enum class KmpTargetProperty {
         internal fun Project.findKmpTargetsProperties(): Set<KmpTargetProperty>? {
             return findProperty("KMP_TARGETS")
                 ?.toString()
+                ?.let { if (it.equals("null", ignoreCase = true)) return null else it }
                 ?.split(',')
                 ?.map { target ->
                     try {
