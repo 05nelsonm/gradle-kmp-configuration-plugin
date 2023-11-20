@@ -27,9 +27,7 @@ internal class KotlinExtensionActionContainer internal constructor(): Container(
 
     @JvmSynthetic
     internal override fun setup(kotlin: KotlinMultiplatformExtension) {
-        lazyKotlin.forEach { action ->
-            action.execute(kotlin)
-        }
+        lazyKotlin.forEach { action -> action.execute(kotlin) }
     }
 
     @JvmSynthetic

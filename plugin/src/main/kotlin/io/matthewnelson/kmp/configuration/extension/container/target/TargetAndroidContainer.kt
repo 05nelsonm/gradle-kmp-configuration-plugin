@@ -56,9 +56,11 @@ public sealed class TargetAndroidContainer<T: TestedExtension> private construct
     }
 
     protected val lazyAndroid: MutableList<Action<T>> = mutableListOf()
+    @KmpConfigurationDsl
     public fun android(action: Action<T>) { lazyAndroid.add(action) }
 
     private val lazySourceSetTestInstrumented: MutableList<Action<KotlinSourceSet>> = mutableListOf()
+    @KmpConfigurationDsl
     public fun sourceSetTestInstrumented(action: Action<KotlinSourceSet>) { lazySourceSetTestInstrumented.add(action) }
 
     @KmpConfigurationDsl

@@ -15,6 +15,7 @@
  **/
 package io.matthewnelson.kmp.configuration.extension.container.target
 
+import io.matthewnelson.kmp.configuration.KmpConfigurationDsl
 import io.matthewnelson.kmp.configuration.extension.container.Container
 import org.gradle.api.Action
 import org.gradle.api.JavaVersion
@@ -26,6 +27,7 @@ public sealed class KmpTarget<T: KotlinTarget> private constructor(
 ): Container.ConfigurableTarget() {
 
     protected val lazyTarget: MutableList<Action<T>> = mutableListOf()
+    @KmpConfigurationDsl
     public fun target(action: Action<T>) { lazyTarget.add(action) }
 
     public sealed class Jvm<T: KotlinTarget>(targetName: String): KmpTarget<T>(targetName) {

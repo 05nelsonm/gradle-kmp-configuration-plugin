@@ -15,6 +15,11 @@
  **/
 package io.matthewnelson.kmp.configuration
 
+/**
+ * DSL Marker indicating that everything within the
+ * lambda expression is executed lazily after all
+ * containers have been configured.
+ * */
 @DslMarker
-@Target(AnnotationTarget.CLASS, AnnotationTarget.TYPE)
+@Target(AnnotationTarget.CLASS, AnnotationTarget.TYPEALIAS, AnnotationTarget.TYPE, AnnotationTarget.FUNCTION)
 internal annotation class KmpConfigurationDsl
