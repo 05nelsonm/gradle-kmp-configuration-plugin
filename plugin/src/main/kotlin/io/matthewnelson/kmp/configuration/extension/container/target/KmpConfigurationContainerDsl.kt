@@ -36,7 +36,7 @@ public class KmpConfigurationContainerDsl private constructor(
     TargetTvosContainer.Configure,
     TargetWatchosContainer.Configure,
     TargetWasmContainer.Configure,
-    @Suppress("DEPRECATION")
+    @Suppress("DEPRECATION_ERROR")
     TargetWasmNativeContainer.Configure
 {
 

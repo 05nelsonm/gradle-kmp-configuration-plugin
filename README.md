@@ -25,6 +25,8 @@ Will automatically configure project with a hierarchical source set structure
    '-- nonJvm
          |-- js
          |-- wasm
+         |-- wasmJs
+         |-- wasmWasi
          '-- native
                |-- androidNative
                |     |-- androidNativeArm32
@@ -94,18 +96,25 @@ List of all `KMP_TARGETS`
 ANDROID,ANDROID_ARM32,ANDROID_ARM64,ANDROID_X64,ANDROID_X86
 JVM
 JS
-LINUX_ARM32HFP,LINUX_ARM64,LINUX_MIPS32,LINUX_MIPSEL32,LINUX_X64
-MINGW_X64,MINGW_X86
-IOS_ARM32,IOS_ARM64,IOS_SIMULATOR_ARM64,IOS_X64
+LINUX_ARM64,LINUX_X64
+MINGW_X64
+IOS_ARM64,IOS_SIMULATOR_ARM64,IOS_X64
 MACOS_ARM64,MACOS_X64
 TVOS_ARM64,TVOS_SIMULATOR_ARM64,TVOS_X64
-WATCHOS_ARM32,WATCHOS_ARM64,WATCHOS_DEVICE_ARM64,WATCHOS_SIMULATOR_ARM64,WATCHOS_X64,WATCHOS_X86
-WASM,WASM_32
+WATCHOS_ARM32,WATCHOS_ARM64,WATCHOS_DEVICE_ARM64,WATCHOS_SIMULATOR_ARM64,WATCHOS_X64
+WASM_JS,WASM_WASI,WASM
+
+// DEPRECATED as of 0.1.5 (based on Kotlin 1.9.20)
+LINUX_ARM32HFP,LINUX_MIPS32,LINUX_MIPSEL32
+MINGW_X86
+IOS_ARM32
+WATCHOS_X86
+WASM_32
 ```
 
 Example usage (comma separated list)
 ```bash
-./gradlew build -PKMP_TARGETS="JVM,JS,ANDROID,MACOS_ARM64,MACOS_X64,WASM,WASM_32"
+./gradlew build -PKMP_TARGETS="JVM,JS,ANDROID,MACOS_ARM64,MACOS_X64,WASM_JS,WASM_WASI"
 ```
 
 This is useful in projects that contain multiple modules which support different targets.
@@ -231,8 +240,12 @@ kmpConfiguration {
         }
 
         js()
-        wasm()
-        wasmNativeAll() // Currently only wasm32
+        wasmJs {
+            // ...
+        }
+        wasmWasi {
+            // ..
+        }
         
         // The `common` block is for configuring common source sets.
         // This will only be invoked if there is at least 1 target

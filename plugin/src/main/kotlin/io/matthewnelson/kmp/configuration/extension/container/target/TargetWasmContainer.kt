@@ -13,6 +13,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  **/
+@file:Suppress("DeprecatedCallableAddReplaceWith", "DEPRECATION")
+
 package io.matthewnelson.kmp.configuration.extension.container.target
 
 import io.matthewnelson.kmp.configuration.KmpConfigurationDsl
@@ -21,65 +23,108 @@ import org.gradle.api.Action
 import org.gradle.api.GradleException
 import org.jetbrains.kotlin.gradle.dsl.KotlinMultiplatformExtension
 import org.jetbrains.kotlin.gradle.targets.js.dsl.ExperimentalWasmDsl
+import org.jetbrains.kotlin.gradle.targets.js.dsl.KotlinWasmJsTargetDsl
 import org.jetbrains.kotlin.gradle.targets.js.dsl.KotlinWasmTargetDsl
+import org.jetbrains.kotlin.gradle.targets.js.dsl.KotlinWasmWasiTargetDsl
 
 @KmpConfigurationDsl
-public class TargetWasmContainer internal constructor(
+public sealed class TargetWasmContainer<T: KotlinWasmTargetDsl> private constructor(
     targetName: String,
-): KmpTarget.NonJvm<KotlinWasmTargetDsl>(targetName) {
+): KmpTarget.NonJvm<T>(targetName) {
 
     public sealed interface Configure {
         public val holder: ContainerHolder
 
-//        @ExperimentalWasmDsl
-//        public fun wasm() {
-//            wasm { container ->
-//                @Suppress("RedundantSamConstructor")
-//                container.target { dsl ->
-//                    dsl.browser( Action { bDsl ->
-//                        bDsl.testTask( Action { tDsl ->
-//                            tDsl.useMocha( Action { it.timeout = "30s" } )
-//                        })
-//                    })
-//                    dsl.nodejs( Action { nDsl ->
-//                        nDsl.testTask( Action { tDsl ->
-//                            tDsl.useMocha( Action { it.timeout = "30s" } )
-//                        })
-//                    })
-//                    dsl.d8( Action { dDsl ->
-//                        dDsl.testTask( Action { tDsl ->
-//                            tDsl.useMocha( Action { it.timeout = "30s" } )
-//                        })
-//                    })
-//                }
-//            }
-//        }
+        @ExperimentalWasmDsl
+        public fun wasmJs(action: Action<WasmJs>) {
+            wasmJs("wasmJs", action)
+        }
 
         @ExperimentalWasmDsl
-        public fun wasm(action: Action<TargetWasmContainer>) {
+        public fun wasmJs(targetName: String, action: Action<WasmJs>) {
+            if (!holder.kotlinPluginVersion.isAtLeast(1, 9, 20)) {
+                throw GradleException("wasmJs requires Kotlin 1.9.20 or greater")
+            }
+
+            val container = holder.find(targetName) ?: WasmJs(targetName)
+            action.execute(container)
+            holder.add(container)
+        }
+
+        @ExperimentalWasmDsl
+        public fun wasmWasi(action: Action<WasmWasi>) {
+            wasmWasi("wasmWasi", action)
+        }
+
+        @ExperimentalWasmDsl
+        public fun wasmWasi(targetName: String, action: Action<WasmWasi>) {
+            if (!holder.kotlinPluginVersion.isAtLeast(1, 9, 20)) {
+                throw GradleException("wasmWasi requires Kotlin 1.9.20 or greater")
+            }
+
+            val container = holder.find(targetName) ?: WasmWasi(targetName)
+            action.execute(container)
+            holder.add(container)
+        }
+
+
+        @ExperimentalWasmDsl
+        @Deprecated("use wasmJs instead")
+        public fun wasm(action: Action<Wasm>) {
             wasm("wasm", action)
         }
 
         @ExperimentalWasmDsl
-        public fun wasm(targetName: String, action: Action<TargetWasmContainer>) {
+        @Deprecated("use wasmJs instead")
+        public fun wasm(targetName: String, action: Action<Wasm>) {
             if (!holder.kotlinPluginVersion.isAtLeast(1, 7, 20)) {
                 throw GradleException("wasm requires Kotlin 1.7.20 or greater")
             }
 
-            val container = holder.find(targetName) ?: TargetWasmContainer(targetName)
+            val container = holder.find(targetName) ?: Wasm(targetName)
             action.execute(container)
             holder.add(container)
         }
     }
+
+    @KmpConfigurationDsl
+    @Deprecated("use wasmJs instead")
+    public class Wasm internal constructor(
+        targetName: String
+    ): TargetWasmContainer<KotlinWasmTargetDsl>(targetName)
+
+    @KmpConfigurationDsl
+    public class WasmJs internal constructor(
+        targetName: String
+    ): TargetWasmContainer<KotlinWasmJsTargetDsl>(targetName)
+
+    @KmpConfigurationDsl
+    public class WasmWasi internal constructor(
+        targetName: String
+    ): TargetWasmContainer<KotlinWasmWasiTargetDsl>(targetName)
 
     @JvmSynthetic
     @OptIn(ExperimentalWasmDsl::class)
     internal override fun setup(kotlin: KotlinMultiplatformExtension) {
         with(kotlin) {
             @Suppress("RedundantSamConstructor")
-            val target = wasm(targetName, Action { t ->
-                lazyTarget.forEach { action -> action.execute(t) }
-            })
+            val target = when (this@TargetWasmContainer) {
+                is Wasm -> {
+                    wasm(targetName, Action { t ->
+                        lazyTarget.forEach { action -> action.execute(t) }
+                    })
+                }
+                is WasmJs -> {
+                    wasmJs(targetName, Action { t ->
+                        lazyTarget.forEach { action -> action.execute(t) }
+                    })
+                }
+                is WasmWasi -> {
+                    wasmWasi(targetName, Action { t ->
+                        lazyTarget.forEach { action -> action.execute(t) }
+                    })
+                }
+            }
 
             applyPlugins(target.project)
 
