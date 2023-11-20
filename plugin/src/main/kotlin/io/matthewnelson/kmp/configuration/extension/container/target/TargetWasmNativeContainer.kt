@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  **/
-@file:Suppress("ClassName", "DeprecatedCallableAddReplaceWith", "DEPRECATION")
+@file:Suppress("ClassName", "DeprecatedCallableAddReplaceWith", "DEPRECATION", "DEPRECATION_ERROR")
 
 package io.matthewnelson.kmp.configuration.extension.container.target
 
@@ -22,8 +22,9 @@ import io.matthewnelson.kmp.configuration.extension.container.ContainerHolder
 import org.gradle.api.Action
 import org.jetbrains.kotlin.gradle.dsl.KotlinMultiplatformExtension
 import org.jetbrains.kotlin.gradle.plugin.mpp.KotlinNativeTarget
+import org.jetbrains.kotlin.konan.target.DEPRECATED_TARGET_MESSAGE
 
-@Deprecated(message = "Target is deprecated and will be removed soon: see https://kotl.in/native-targets-tiers")
+@Deprecated(DEPRECATED_TARGET_MESSAGE, level = DeprecationLevel.ERROR)
 public sealed class TargetWasmNativeContainer<T: KotlinNativeTarget> private constructor(
     targetName: String,
 ): KmpTarget.NonJvm.Native.Wasm<T>(targetName) {
@@ -31,20 +32,22 @@ public sealed class TargetWasmNativeContainer<T: KotlinNativeTarget> private con
     public sealed interface Configure {
         public val holder: ContainerHolder
 
-        @Deprecated(message = "Target is deprecated and will be removed soon: see https://kotl.in/native-targets-tiers")
+        @Deprecated(DEPRECATED_TARGET_MESSAGE, level = DeprecationLevel.ERROR)
         public fun wasmNativeAll() {
             wasm32()
         }
 
-        @Deprecated(message = "Target is deprecated and will be removed soon: see https://kotl.in/native-targets-tiers")
-        public fun wasm32() { wasm32 {} }
+        @Deprecated(DEPRECATED_TARGET_MESSAGE, level = DeprecationLevel.ERROR)
+        public fun wasm32() {
+            wasm32 {}
+        }
 
-        @Deprecated(message = "Target is deprecated and will be removed soon: see https://kotl.in/native-targets-tiers")
+        @Deprecated(DEPRECATED_TARGET_MESSAGE, level = DeprecationLevel.ERROR)
         public fun wasm32(action: Action<_32>) {
             wasm32("wasm32", action)
         }
 
-        @Deprecated(message = "Target is deprecated and will be removed soon: see https://kotl.in/native-targets-tiers")
+        @Deprecated(DEPRECATED_TARGET_MESSAGE, level = DeprecationLevel.ERROR)
         public fun wasm32(targetName: String, action: Action<_32>) {
             val container = holder.find(targetName) ?: _32(targetName)
             action.execute(container)
@@ -53,7 +56,7 @@ public sealed class TargetWasmNativeContainer<T: KotlinNativeTarget> private con
     }
 
     @KmpConfigurationDsl
-    @Deprecated(message = "Target is deprecated and will be removed soon: see https://kotl.in/native-targets-tiers")
+    @Deprecated(DEPRECATED_TARGET_MESSAGE, level = DeprecationLevel.ERROR)
     public class _32 internal constructor(
         targetName: String,
     ): TargetWasmNativeContainer<KotlinNativeTarget>(targetName)
