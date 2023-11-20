@@ -1,9 +1,33 @@
 # CHANGELOG
 
+## Version 0.1.5 (2023-11-20)
+ - Update dependencies:
+     - AGP -> `8.1.4`
+     - KGP -> `1.9.20`
+     - Gradle Wrapper -> `8.4`
+ - Adds `wasmJs` and `wasmWasi` containers
+     - **NOTE:** if you are invoking the `wasm` container, 
+       you **must** use Kotlin `1.9.20` or greater. This is because
+       Kotlin's `KotlinWasmJsTargetDsl` interface was changed in `1.9.20`. 
+     - To add support, there was an API breaking change
+       that was needed. The `TargetWasmContainer` was changed
+       to a `sealed class`. There is now:
+         - `TargetWasmContainer.WasmJs`
+         - `TargetWasmContainer.WasmWasi`
+         - `TargetWasmContainer.Wasm` (deprecated)
+ - Add deprecations with `ERROR` for the following targets
+     - `iosArm32`
+     - `watchosX86`
+     - `linuxArm32Hfp`
+     - `linuxMips32`
+     - `linuxMipsel32`
+     - `mingwX86`
+     - `wasm32`
+
 ## Version 0.1.4 (2023-09-29)
  - Update dependencies:
-    - KGP -> `1.9.10`
-    - Gradle Wrapper -> `8.3`
+     - KGP -> `1.9.10`
+     - Gradle Wrapper -> `8.3`
 
 ## Version 0.1.3 (2023-08-06)
  - Updates dependencies:
