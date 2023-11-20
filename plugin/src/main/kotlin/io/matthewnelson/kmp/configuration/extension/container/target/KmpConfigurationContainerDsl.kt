@@ -46,6 +46,7 @@ public class KmpConfigurationContainerDsl private constructor(
         holder.add(container)
     }
 
+    @KmpConfigurationDsl
     public fun kotlin(action: Action<KotlinMultiplatformExtension>) {
         val container = holder.findKotlinContainer() ?: KotlinExtensionActionContainer()
         container.kotlin(action)
