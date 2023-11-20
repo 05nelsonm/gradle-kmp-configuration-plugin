@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  **/
-@file:Suppress("DeprecatedCallableAddReplaceWith", "DEPRECATION")
+@file:Suppress("DeprecatedCallableAddReplaceWith", "DEPRECATION_ERROR")
 
 package io.matthewnelson.kmp.configuration.extension.container.target
 
@@ -22,6 +22,7 @@ import io.matthewnelson.kmp.configuration.extension.container.ContainerHolder
 import org.gradle.api.Action
 import org.jetbrains.kotlin.gradle.dsl.KotlinMultiplatformExtension
 import org.jetbrains.kotlin.gradle.plugin.mpp.KotlinNativeTarget
+import org.jetbrains.kotlin.konan.target.DEPRECATED_TARGET_MESSAGE
 
 public sealed class TargetMingwContainer<T: KotlinNativeTarget> private constructor(
     targetName: String
@@ -49,15 +50,15 @@ public sealed class TargetMingwContainer<T: KotlinNativeTarget> private construc
             holder.add(container)
         }
 
-        @Deprecated(message = "Target is deprecated and will be removed soon: see https://kotl.in/native-targets-tiers")
+        @Deprecated(DEPRECATED_TARGET_MESSAGE, level = DeprecationLevel.ERROR)
         public fun mingwX86() { mingwX86 {} }
 
-        @Deprecated(message = "Target is deprecated and will be removed soon: see https://kotl.in/native-targets-tiers")
+        @Deprecated(DEPRECATED_TARGET_MESSAGE, level = DeprecationLevel.ERROR)
         public fun mingwX86(action: Action<X86>) {
             mingwX86("mingwX86", action)
         }
 
-        @Deprecated(message = "Target is deprecated and will be removed soon: see https://kotl.in/native-targets-tiers")
+        @Deprecated(DEPRECATED_TARGET_MESSAGE, level = DeprecationLevel.ERROR)
         public fun mingwX86(targetName: String, action: Action<X86>) {
             val container = holder.find(targetName) ?: X86(targetName)
             action.execute(container)
@@ -71,7 +72,7 @@ public sealed class TargetMingwContainer<T: KotlinNativeTarget> private construc
     ): TargetMingwContainer<KotlinNativeTarget>(targetName)
 
     @KmpConfigurationDsl
-    @Deprecated(message = "Target is deprecated and will be removed soon: see https://kotl.in/native-targets-tiers")
+    @Deprecated(DEPRECATED_TARGET_MESSAGE, level = DeprecationLevel.ERROR)
     public class X86 internal constructor(
         targetName: String
     ): TargetMingwContainer<KotlinNativeTarget>(targetName)
