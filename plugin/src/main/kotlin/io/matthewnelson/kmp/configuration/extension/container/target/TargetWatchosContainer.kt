@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  **/
-@file:Suppress("DeprecatedCallableAddReplaceWith", "DEPRECATION")
+@file:Suppress("DeprecatedCallableAddReplaceWith", "DEPRECATION_ERROR")
 
 package io.matthewnelson.kmp.configuration.extension.container.target
 
@@ -24,6 +24,7 @@ import org.gradle.api.GradleException
 import org.jetbrains.kotlin.gradle.dsl.KotlinMultiplatformExtension
 import org.jetbrains.kotlin.gradle.plugin.mpp.KotlinNativeTarget
 import org.jetbrains.kotlin.gradle.plugin.mpp.KotlinNativeTargetWithSimulatorTests
+import org.jetbrains.kotlin.konan.target.DEPRECATED_TARGET_MESSAGE
 
 public sealed class TargetWatchosContainer<T: KotlinNativeTarget> private constructor(
     targetName: String
@@ -97,15 +98,15 @@ public sealed class TargetWatchosContainer<T: KotlinNativeTarget> private constr
             holder.add(container)
         }
 
-        @Deprecated(message = "Target is deprecated and will be removed soon: see https://kotl.in/native-targets-tiers")
+        @Deprecated(DEPRECATED_TARGET_MESSAGE, level = DeprecationLevel.ERROR)
         public fun watchosX86() { watchosX86 {} }
 
-        @Deprecated(message = "Target is deprecated and will be removed soon: see https://kotl.in/native-targets-tiers")
+        @Deprecated(DEPRECATED_TARGET_MESSAGE, level = DeprecationLevel.ERROR)
         public fun watchosX86(action: Action<X86>) {
             watchosX86("watchosX86", action)
         }
 
-        @Deprecated(message = "Target is deprecated and will be removed soon: see https://kotl.in/native-targets-tiers")
+        @Deprecated(DEPRECATED_TARGET_MESSAGE, level = DeprecationLevel.ERROR)
         public fun watchosX86(targetName: String, action: Action<X86>) {
             val container = holder.find(targetName) ?: X86(targetName)
             action.execute(container)
@@ -146,7 +147,7 @@ public sealed class TargetWatchosContainer<T: KotlinNativeTarget> private constr
     ): TargetWatchosContainer<KotlinNativeTarget>(targetName)
 
     @KmpConfigurationDsl
-    @Deprecated(message = "Target is deprecated and will be removed soon: see https://kotl.in/native-targets-tiers")
+    @Deprecated(DEPRECATED_TARGET_MESSAGE, level = DeprecationLevel.ERROR)
     public class X86 internal constructor(
         targetName: String
     ): TargetWatchosContainer<KotlinNativeTarget>(targetName)

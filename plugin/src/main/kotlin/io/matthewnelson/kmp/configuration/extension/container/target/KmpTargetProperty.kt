@@ -49,6 +49,8 @@ internal enum class KmpTargetProperty {
     WATCHOS_X64,
     WATCHOS_X86,
     WASM,
+    WASM_JS,
+    WASM_WASI,
     WASM_32;
 
     internal companion object {
@@ -73,7 +75,7 @@ internal enum class KmpTargetProperty {
         }
 
         @JvmSynthetic
-        @Suppress("DEPRECATION")
+        @Suppress("DEPRECATION", "DEPRECATION_ERROR")
         internal fun KmpTarget<*>.property(): KmpTargetProperty {
             return when (this) {
                 is TargetAndroidContainer<*> -> ANDROID
@@ -105,8 +107,10 @@ internal enum class KmpTargetProperty {
                 is TargetWatchosContainer.SimulatorArm64 -> WATCHOS_SIMULATOR_ARM64
                 is TargetWatchosContainer.X64 -> WATCHOS_X64
                 is TargetWatchosContainer.X86 -> WATCHOS_X86
+                is TargetWasmContainer.Wasm -> WASM
+                is TargetWasmContainer.WasmJs -> WASM_JS
+                is TargetWasmContainer.WasmWasi -> WASM_WASI
                 is TargetWasmNativeContainer._32 -> WASM_32
-                is TargetWasmContainer -> WASM
             }
         }
     }

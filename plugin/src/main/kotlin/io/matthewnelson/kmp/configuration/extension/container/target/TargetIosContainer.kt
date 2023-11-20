@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  **/
-@file:Suppress("DeprecatedCallableAddReplaceWith", "DEPRECATION")
+@file:Suppress("DeprecatedCallableAddReplaceWith", "DEPRECATION_ERROR")
 
 package io.matthewnelson.kmp.configuration.extension.container.target
 
@@ -23,6 +23,7 @@ import org.gradle.api.Action
 import org.jetbrains.kotlin.gradle.dsl.KotlinMultiplatformExtension
 import org.jetbrains.kotlin.gradle.plugin.mpp.KotlinNativeTarget
 import org.jetbrains.kotlin.gradle.plugin.mpp.KotlinNativeTargetWithSimulatorTests
+import org.jetbrains.kotlin.konan.target.DEPRECATED_TARGET_MESSAGE
 
 public sealed class TargetIosContainer<T: KotlinNativeTarget> private constructor(
     targetName: String
@@ -40,15 +41,15 @@ public sealed class TargetIosContainer<T: KotlinNativeTarget> private constructo
             iosSimulatorArm64()
         }
 
-        @Deprecated(message = "Target is deprecated and will be removed soon: see https://kotl.in/native-targets-tiers")
+        @Deprecated(DEPRECATED_TARGET_MESSAGE, level = DeprecationLevel.ERROR)
         public fun iosArm32() { iosArm32 {} }
 
-        @Deprecated(message = "Target is deprecated and will be removed soon: see https://kotl.in/native-targets-tiers")
+        @Deprecated(DEPRECATED_TARGET_MESSAGE, level = DeprecationLevel.ERROR)
         public fun iosArm32(action: Action<Arm32>) {
             iosArm32("iosArm32", action)
         }
 
-        @Deprecated(message = "Target is deprecated and will be removed soon: see https://kotl.in/native-targets-tiers")
+        @Deprecated(DEPRECATED_TARGET_MESSAGE, level = DeprecationLevel.ERROR)
         public fun iosArm32(targetName: String, action: Action<Arm32>) {
             val container = holder.find(targetName) ?: Arm32(targetName)
             action.execute(container)
@@ -93,7 +94,7 @@ public sealed class TargetIosContainer<T: KotlinNativeTarget> private constructo
     }
 
     @KmpConfigurationDsl
-    @Deprecated(message = "Target is deprecated and will be removed soon: see https://kotl.in/native-targets-tiers")
+    @Deprecated(DEPRECATED_TARGET_MESSAGE, level = DeprecationLevel.ERROR)
     public class Arm32 internal constructor(
         targetName: String
     ): TargetIosContainer<KotlinNativeTarget>(targetName)
