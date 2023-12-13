@@ -43,18 +43,27 @@ public class ContainerHolder private constructor(
     }
 
     @JvmSynthetic
-    internal fun findOptionsContainer(): OptionsContainer? {
-        return containers.filterIsInstance<OptionsContainer>().firstOrNull()
+    internal fun getOrCreateOptionsContainer(): OptionsContainer {
+        return containers
+            .filterIsInstance<OptionsContainer>()
+            .firstOrNull()
+            ?: OptionsContainer().also { add(it) }
     }
 
     @JvmSynthetic
-    internal fun findCommonContainer(): CommonContainer? {
-        return containers.filterIsInstance<CommonContainer>().firstOrNull()
+    internal fun getOrCreateCommonContainer(): CommonContainer {
+        return containers
+            .filterIsInstance<CommonContainer>()
+            .firstOrNull()
+            ?: CommonContainer().also { add(it) }
     }
 
     @JvmSynthetic
-    internal fun findKotlinContainer(): KotlinExtensionActionContainer? {
-        return containers.filterIsInstance<KotlinExtensionActionContainer>().firstOrNull()
+    internal fun getOrCreateKotlinContainer(): KotlinExtensionActionContainer {
+        return containers
+            .filterIsInstance<KotlinExtensionActionContainer>()
+            .firstOrNull()
+            ?: KotlinExtensionActionContainer().also { add(it) }
     }
 
     @JvmSynthetic
