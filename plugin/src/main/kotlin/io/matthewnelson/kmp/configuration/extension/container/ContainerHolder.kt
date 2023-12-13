@@ -43,6 +43,11 @@ public class ContainerHolder private constructor(
     }
 
     @JvmSynthetic
+    internal fun findOptionsContainer(): OptionsContainer? {
+        return containers.filterIsInstance<OptionsContainer>().firstOrNull()
+    }
+
+    @JvmSynthetic
     internal fun findCommonContainer(): CommonContainer? {
         return containers.filterIsInstance<CommonContainer>().firstOrNull()
     }

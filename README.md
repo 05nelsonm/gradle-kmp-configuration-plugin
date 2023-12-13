@@ -221,6 +221,14 @@ kmpConfiguration {
         tvosAll()
         watchosAll()
 
+        options {
+            // Will create additional source sets for `iOS`, `tvOS`, and
+            // `watchOS` non-simulator targets to inherit from
+            //
+            // e.g. iosNonSimulator{Main/Test}
+            nonSimulatorSourceSets = true
+        }
+
         androidNativeAll()
         linuxAll()
 

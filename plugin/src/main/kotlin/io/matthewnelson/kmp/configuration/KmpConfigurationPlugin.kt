@@ -19,6 +19,7 @@ import io.matthewnelson.kmp.configuration.extension.KmpConfigurationExtension
 import io.matthewnelson.kmp.configuration.extension.container.CommonContainer
 import io.matthewnelson.kmp.configuration.extension.container.Container
 import io.matthewnelson.kmp.configuration.extension.container.KotlinExtensionActionContainer
+import io.matthewnelson.kmp.configuration.extension.container.OptionsContainer
 import io.matthewnelson.kmp.configuration.extension.container.target.*
 import io.matthewnelson.kmp.configuration.extension.container.target.KmpTargetProperty.Companion.findKmpTargetsProperties
 import org.gradle.api.Action
@@ -69,6 +70,10 @@ public open class KmpConfigurationPlugin : Plugin<Project> {
         extensions.configure(KotlinMultiplatformExtension::class.java) { kmp ->
             kmp.sourceSets.setupIntermediateSourceSets(targets)
 
+            containers.filterIsInstance<OptionsContainer>()
+                .firstOrNull()
+                ?.setup(kmp)
+
             for (target in targets) {
                 if (target is TargetAndroidContainer<*>) {
                     if (target is TargetAndroidContainer.App) {
@@ -81,13 +86,13 @@ public open class KmpConfigurationPlugin : Plugin<Project> {
                 target.setup(kmp)
             }
 
-            containers.filterIsInstance<CommonContainer>().forEach { commonContainer ->
-                commonContainer.setup(kmp)
-            }
+            containers.filterIsInstance<CommonContainer>()
+                .firstOrNull()
+                ?.setup(kmp)
 
-            containers.filterIsInstance<KotlinExtensionActionContainer>().forEach { kotlinContainer ->
-                kotlinContainer.setup(kmp)
-            }
+            containers.filterIsInstance<KotlinExtensionActionContainer>()
+                .firstOrNull()
+                ?.setup(kmp)
         }
     }
 
