@@ -18,7 +18,6 @@ package io.matthewnelson.kmp.configuration.extension.container.target
 import io.matthewnelson.kmp.configuration.KmpConfigurationDsl
 import io.matthewnelson.kmp.configuration.extension.container.CommonContainer
 import io.matthewnelson.kmp.configuration.extension.container.ContainerHolder
-import io.matthewnelson.kmp.configuration.extension.container.KotlinExtensionActionContainer
 import io.matthewnelson.kmp.configuration.extension.container.OptionsContainer
 import org.gradle.api.Action
 import org.jetbrains.kotlin.gradle.dsl.KotlinMultiplatformExtension
@@ -42,22 +41,19 @@ public class KmpConfigurationContainerDsl private constructor(
 {
 
     public fun options(action: Action<OptionsContainer>) {
-        val container = holder.findOptionsContainer() ?: OptionsContainer()
+        val container = holder.getOrCreateOptionsContainer()
         action.execute(container)
-        holder.add(container)
     }
 
     public fun common(action: Action<CommonContainer>) {
-        val container = holder.findCommonContainer() ?: CommonContainer()
+        val container = holder.getOrCreateCommonContainer()
         action.execute(container)
-        holder.add(container)
     }
 
     @KmpConfigurationDsl
     public fun kotlin(action: Action<KotlinMultiplatformExtension>) {
-        val container = holder.findKotlinContainer() ?: KotlinExtensionActionContainer()
+        val container = holder.getOrCreateKotlinContainer()
         container.kotlin(action)
-        holder.add(container)
     }
 
     internal companion object {
