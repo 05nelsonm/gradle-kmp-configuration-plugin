@@ -29,6 +29,11 @@ public final class io/matthewnelson/kmp/configuration/extension/container/Contai
 	public synthetic fun <init> (Lkotlin/KotlinVersion;Ljava/util/Set;ZLjava/util/Set;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
 }
 
+public final class io/matthewnelson/kmp/configuration/extension/container/OptionsContainer : io/matthewnelson/kmp/configuration/extension/container/Container {
+	public field nonSimulatorSourceSets Z
+	public static final synthetic fun findNonSimulator$plugin (Lorg/gradle/api/NamedDomainObjectContainer;Ljava/lang/String;Z)Lorg/jetbrains/kotlin/gradle/plugin/KotlinSourceSet;
+}
+
 public final class io/matthewnelson/kmp/configuration/extension/container/target/KmpConfigurationContainerDsl : io/matthewnelson/kmp/configuration/extension/container/target/TargetAndroidContainer$Configure, io/matthewnelson/kmp/configuration/extension/container/target/TargetAndroidNativeContainer$Configure, io/matthewnelson/kmp/configuration/extension/container/target/TargetIosContainer$Configure, io/matthewnelson/kmp/configuration/extension/container/target/TargetJsContainer$Configure, io/matthewnelson/kmp/configuration/extension/container/target/TargetJvmContainer$Configure, io/matthewnelson/kmp/configuration/extension/container/target/TargetLinuxContainer$Configure, io/matthewnelson/kmp/configuration/extension/container/target/TargetMacosContainer$Configure, io/matthewnelson/kmp/configuration/extension/container/target/TargetMingwContainer$Configure, io/matthewnelson/kmp/configuration/extension/container/target/TargetTvosContainer$Configure, io/matthewnelson/kmp/configuration/extension/container/target/TargetWasmContainer$Configure, io/matthewnelson/kmp/configuration/extension/container/target/TargetWasmNativeContainer$Configure, io/matthewnelson/kmp/configuration/extension/container/target/TargetWatchosContainer$Configure {
 	public synthetic fun <init> (Lio/matthewnelson/kmp/configuration/extension/container/ContainerHolder;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public fun androidApp (Ljava/lang/String;Lorg/gradle/api/Action;)V
@@ -100,6 +105,7 @@ public final class io/matthewnelson/kmp/configuration/extension/container/target
 	public fun mingwX86 ()V
 	public fun mingwX86 (Ljava/lang/String;Lorg/gradle/api/Action;)V
 	public fun mingwX86 (Lorg/gradle/api/Action;)V
+	public final fun options (Lorg/gradle/api/Action;)V
 	public fun tvosAll ()V
 	public fun tvosArm64 ()V
 	public fun tvosArm64 (Ljava/lang/String;Lorg/gradle/api/Action;)V
