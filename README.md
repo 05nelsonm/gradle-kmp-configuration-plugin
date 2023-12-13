@@ -333,6 +333,8 @@ kmpConfiguration {
 <details open>
     <summary>Kotlin</summary>
 
+<!-- TAG_VERSION -->
+
 ```kotlin
 plugins {
     // If you are using androidApp (as depicted in the above example)
@@ -342,7 +344,7 @@ plugins {
     id("com.android.library") version("x.x.x") apply(false)
 
     id("org.jetbrains.kotlin.multiplatform") version("x.x.x") apply(false)
-    id("io.matthewnelson.kmp.configuration") version("0.1.5")
+    id("io.matthewnelson.kmp.configuration") version("0.1.6")
 }
 ```
 
@@ -350,6 +352,8 @@ plugins {
 
 <details>
     <summary>Groovy</summary>
+
+<!-- TAG_VERSION -->
 
 ```groovy
 plugins {
@@ -360,7 +364,7 @@ plugins {
     id 'com.android.library' version 'x.x.x' apply false
 
     id 'org.jetbrains.kotlin.multiplatform' version 'x.x.x' apply false
-    id 'io.matthewnelson.kmp.configuration' version '0.1.5'
+    id 'io.matthewnelson.kmp.configuration' version '0.1.6'
 }
 ```
 
@@ -369,6 +373,8 @@ plugins {
 **Using the `apply plugin` (the old way)**
 <details open>
     <summary>Kotlin</summary>
+
+<!-- TAG_VERSION -->
 
 top-level build file:
 ```kotlin
@@ -380,7 +386,7 @@ buildscript {
     dependencies {
         // kotlin gradle
         // android gradle (if you have an android target)
-        classpath("io.matthewnelson:gradle-kmp-configuration-plugin:0.1.5")
+        classpath("io.matthewnelson:gradle-kmp-configuration-plugin:0.1.6")
     }
 }
 ```
@@ -403,6 +409,8 @@ kmpConfiguration {
 <details>
     <summary>Groovy</summary>
 
+<!-- TAG_VERSION -->
+
 top-level build file:
 ```groovy
 buildscript {
@@ -410,7 +418,7 @@ buildscript {
         mavenCentral()
     }
     dependencies {
-        classpath 'io.matthewnelson:gradle-kmp-configuration-plugin:0.1.5'
+        classpath 'io.matthewnelson:gradle-kmp-configuration-plugin:0.1.6'
     }
 }
 ```

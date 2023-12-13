@@ -1,5 +1,14 @@
 # CHANGELOG
 
+## Version 0.1.6 (2023-12-13)
+ - Update dependencies:
+     - AGP -> `8.1.4`
+     - KGP -> `1.9.20`
+     - Gradle Wrapper -> `8.4`
+ - Adds a new `Options` container with an initial purpose of enabling an 
+   option for configuring additional source sets for `iOS`, `tvOS`, and 
+   `watchOS` non-simulator targets to inherit from. [[#35]][pr-35]
+
 ## Version 0.1.5 (2023-11-20)
  - Update dependencies:
      - AGP -> `8.1.4`
@@ -70,3 +79,4 @@
 
 [pr-19]: https://github.com/05nelsonm/gradle-kmp-configuration-plugin/pull/19
 [pr-24]: https://github.com/05nelsonm/gradle-kmp-configuration-plugin/pull/24
+[pr-35]: https://github.com/05nelsonm/gradle-kmp-configuration-plugin/pull/35
