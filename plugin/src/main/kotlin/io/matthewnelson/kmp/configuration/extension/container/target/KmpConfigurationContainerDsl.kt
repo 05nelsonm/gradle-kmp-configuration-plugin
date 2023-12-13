@@ -19,6 +19,7 @@ import io.matthewnelson.kmp.configuration.KmpConfigurationDsl
 import io.matthewnelson.kmp.configuration.extension.container.CommonContainer
 import io.matthewnelson.kmp.configuration.extension.container.ContainerHolder
 import io.matthewnelson.kmp.configuration.extension.container.KotlinExtensionActionContainer
+import io.matthewnelson.kmp.configuration.extension.container.OptionsContainer
 import org.gradle.api.Action
 import org.jetbrains.kotlin.gradle.dsl.KotlinMultiplatformExtension
 
@@ -39,6 +40,12 @@ public class KmpConfigurationContainerDsl private constructor(
     @Suppress("DEPRECATION_ERROR")
     TargetWasmNativeContainer.Configure
 {
+
+    public fun options(action: Action<OptionsContainer>) {
+        val container = holder.findOptionsContainer() ?: OptionsContainer()
+        action.execute(container)
+        holder.add(container)
+    }
 
     public fun common(action: Action<CommonContainer>) {
         val container = holder.findCommonContainer() ?: CommonContainer()

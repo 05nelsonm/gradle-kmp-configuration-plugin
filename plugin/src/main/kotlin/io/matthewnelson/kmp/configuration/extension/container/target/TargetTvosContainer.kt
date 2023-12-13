@@ -17,6 +17,7 @@ package io.matthewnelson.kmp.configuration.extension.container.target
 
 import io.matthewnelson.kmp.configuration.KmpConfigurationDsl
 import io.matthewnelson.kmp.configuration.extension.container.ContainerHolder
+import io.matthewnelson.kmp.configuration.extension.container.OptionsContainer.Companion.findNonSimulator
 import org.gradle.api.Action
 import org.jetbrains.kotlin.gradle.dsl.KotlinMultiplatformExtension
 import org.jetbrains.kotlin.gradle.plugin.mpp.KotlinNativeTarget
@@ -90,23 +91,23 @@ public sealed class TargetTvosContainer<T: KotlinNativeTarget> private construct
 
     @JvmSynthetic
     internal override fun setup(kotlin: KotlinMultiplatformExtension) {
+        @Suppress("RedundantSamConstructor")
         with(kotlin) {
-            @Suppress("RedundantSamConstructor")
-            val target = when (this@TargetTvosContainer) {
+            val (target, isSimulator) = when (this@TargetTvosContainer) {
                 is Arm64 -> {
                     tvosArm64(targetName, Action { t ->
                         lazyTarget.forEach { action -> action.execute(t) }
-                    })
+                    }) to false
                 }
                 is SimulatorArm64 -> {
                     tvosSimulatorArm64(targetName, Action { t ->
                         lazyTarget.forEach { action -> action.execute(t) }
-                    })
+                    }) to true
                 }
                 is X64 -> {
                     tvosX64(targetName, Action { t ->
                         lazyTarget.forEach { action -> action.execute(t) }
-                    })
+                    }) to false
                 }
             }
 
@@ -114,11 +115,23 @@ public sealed class TargetTvosContainer<T: KotlinNativeTarget> private construct
 
             with(sourceSets) {
                 getByName("${targetName}Main") { ss ->
-                    ss.dependsOn(getByName("${TVOS}Main"))
+                    val main = if (!isSimulator) {
+                        findNonSimulator(TVOS, isMain = true)
+                    } else {
+                        null
+                    } ?: getByName("${TVOS}Main")
+
+                    ss.dependsOn(main)
                     lazySourceSetMain.forEach { action -> action.execute(ss) }
                 }
                 getByName("${targetName}Test") { ss ->
-                    ss.dependsOn(getByName("${TVOS}Test"))
+                    val test = if (!isSimulator) {
+                        findNonSimulator(TVOS, isMain = false)
+                    } else {
+                        null
+                    } ?: getByName("${TVOS}Test")
+
+                    ss.dependsOn(test)
                     lazySourceSetTest.forEach { action -> action.execute(ss) }
                 }
             }

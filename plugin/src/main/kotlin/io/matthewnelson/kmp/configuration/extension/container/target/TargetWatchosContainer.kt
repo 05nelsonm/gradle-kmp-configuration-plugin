@@ -19,6 +19,7 @@ package io.matthewnelson.kmp.configuration.extension.container.target
 
 import io.matthewnelson.kmp.configuration.KmpConfigurationDsl
 import io.matthewnelson.kmp.configuration.extension.container.ContainerHolder
+import io.matthewnelson.kmp.configuration.extension.container.OptionsContainer.Companion.findNonSimulator
 import org.gradle.api.Action
 import org.gradle.api.GradleException
 import org.jetbrains.kotlin.gradle.dsl.KotlinMultiplatformExtension
@@ -160,38 +161,38 @@ public sealed class TargetWatchosContainer<T: KotlinNativeTarget> private constr
 
     @JvmSynthetic
     internal override fun setup(kotlin: KotlinMultiplatformExtension) {
+        @Suppress("RedundantSamConstructor")
         with(kotlin) {
-            @Suppress("RedundantSamConstructor")
-            val target = when (this@TargetWatchosContainer) {
+            val (target, isSimulator) = when (this@TargetWatchosContainer) {
                 is Arm32 -> {
                     watchosArm32(targetName, Action { t ->
                         lazyTarget.forEach { action -> action.execute(t) }
-                    })
+                    }) to false
                 }
                 is Arm64 -> {
                     watchosArm64(targetName, Action { t ->
                         lazyTarget.forEach { action -> action.execute(t) }
-                    })
+                    }) to false
                 }
                 is DeviceArm64 -> {
                     watchosDeviceArm64(targetName, Action { t ->
                         lazyTarget.forEach { action -> action.execute(t) }
-                    })
+                    }) to false
                 }
                 is SimulatorArm64 -> {
                     watchosSimulatorArm64(targetName, Action { t ->
                         lazyTarget.forEach { action -> action.execute(t) }
-                    })
+                    }) to true
                 }
                 is X64 -> {
                     watchosX64(targetName, Action { t ->
                         lazyTarget.forEach { action -> action.execute(t) }
-                    })
+                    }) to false
                 }
                 is X86 -> {
                     watchosX86(targetName, Action { t ->
                         lazyTarget.forEach { action -> action.execute(t) }
-                    })
+                    }) to false
                 }
             }
 
@@ -199,11 +200,23 @@ public sealed class TargetWatchosContainer<T: KotlinNativeTarget> private constr
 
             with(sourceSets) {
                 getByName("${targetName}Main") { ss ->
-                    ss.dependsOn(getByName("${WATCHOS}Main"))
+                    val main = if (!isSimulator) {
+                        findNonSimulator(WATCHOS, isMain = true)
+                    } else {
+                        null
+                    } ?: getByName("${WATCHOS}Main")
+
+                    ss.dependsOn(main)
                     lazySourceSetMain.forEach { action -> action.execute(ss) }
                 }
                 getByName("${targetName}Test") { ss ->
-                    ss.dependsOn(getByName("${WATCHOS}Test"))
+                    val test = if (!isSimulator) {
+                        findNonSimulator(WATCHOS, isMain = false)
+                    } else {
+                        null
+                    } ?: getByName("${WATCHOS}Test")
+
+                    ss.dependsOn(test)
                     lazySourceSetTest.forEach { action -> action.execute(ss) }
                 }
             }

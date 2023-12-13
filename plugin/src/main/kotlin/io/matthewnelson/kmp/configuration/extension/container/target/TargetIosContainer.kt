@@ -19,6 +19,7 @@ package io.matthewnelson.kmp.configuration.extension.container.target
 
 import io.matthewnelson.kmp.configuration.KmpConfigurationDsl
 import io.matthewnelson.kmp.configuration.extension.container.ContainerHolder
+import io.matthewnelson.kmp.configuration.extension.container.OptionsContainer.Companion.findNonSimulator
 import org.gradle.api.Action
 import org.jetbrains.kotlin.gradle.dsl.KotlinMultiplatformExtension
 import org.jetbrains.kotlin.gradle.plugin.mpp.KotlinNativeTarget
@@ -116,28 +117,28 @@ public sealed class TargetIosContainer<T: KotlinNativeTarget> private constructo
 
     @JvmSynthetic
     internal final override fun setup(kotlin: KotlinMultiplatformExtension) {
+        @Suppress("RedundantSamConstructor")
         with(kotlin) {
-            @Suppress("RedundantSamConstructor")
-            val target = when (this@TargetIosContainer) {
+            val (target, isSimulator) = when (this@TargetIosContainer) {
                 is Arm32 -> {
                     iosArm32(targetName, Action { t ->
                         lazyTarget.forEach { action -> action.execute(t) }
-                    })
+                    }) to false
                 }
                 is Arm64 -> {
                     iosArm64(targetName, Action { t ->
                         lazyTarget.forEach { action -> action.execute(t) }
-                    })
+                    }) to false
                 }
                 is SimulatorArm64 -> {
                     iosSimulatorArm64(targetName, Action { t ->
                         lazyTarget.forEach { action -> action.execute(t) }
-                    })
+                    }) to true
                 }
                 is X64 -> {
                     iosX64(targetName, Action { t ->
                         lazyTarget.forEach { action -> action.execute(t) }
-                    })
+                    }) to false
                 }
             }
 
@@ -145,11 +146,23 @@ public sealed class TargetIosContainer<T: KotlinNativeTarget> private constructo
 
             with(sourceSets) {
                 getByName("${targetName}Main") { ss ->
-                    ss.dependsOn(getByName("${IOS}Main"))
+                    val main = if (!isSimulator) {
+                        findNonSimulator(IOS, isMain = true)
+                    } else {
+                        null
+                    } ?: getByName("${IOS}Main")
+
+                    ss.dependsOn(main)
                     lazySourceSetMain.forEach { action -> action.execute(ss) }
                 }
                 getByName("${targetName}Test") { ss ->
-                    ss.dependsOn(getByName("${IOS}Test"))
+                    val test = if (!isSimulator) {
+                        findNonSimulator(IOS, isMain = false)
+                    } else {
+                        null
+                    } ?: getByName("${IOS}Test")
+
+                    ss.dependsOn(test)
                     lazySourceSetTest.forEach { action -> action.execute(ss) }
                 }
             }
