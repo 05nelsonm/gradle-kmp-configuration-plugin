@@ -36,29 +36,59 @@ public class OptionsContainer internal constructor(): Container() {
      *     darwin
      *       |--- ios
      *       |     |--- iosNonSimulator
-     *       |     |        |--- iosArm64
-     *       |     |        '--- iosX64
+     *       |     |     '--- iosArm64
+     *       |     |--- iosX64
      *       |     |--- iosSimulatorArm64
      * */
     @JvmField
-    public var nonSimulatorSourceSets: Boolean = false
+    public var useNonSimulatorSourceSets: Boolean = false
+
+    /**
+     * Setting to `true` will create an additional intermediary source
+     * set for `iOS`, `tvOS`, and `watchOS` targets that simulator
+     * targets will derive a root from.
+     *
+     * e.g. (`iOS`)
+     *
+     *     darwin
+     *       |--- ios
+     *       |     |--- iosArm64
+     *       |     |--- iosSimulator
+     *       |     |     |--- iosX64
+     *       |     |     '--- iosSimulatorArm64
+     * */
+    @JvmField
+    public var useSimulatorSourceSets: Boolean = false
 
     override fun setup(kotlin: KotlinMultiplatformExtension) {
         with(kotlin.sourceSets) {
             setupNonSimulator(TargetIosContainer.IOS)
             setupNonSimulator(TargetTvosContainer.TVOS)
             setupNonSimulator(TargetWatchosContainer.WATCHOS)
+            setupSimulator(TargetIosContainer.IOS)
+            setupSimulator(TargetTvosContainer.TVOS)
+            setupSimulator(TargetWatchosContainer.WATCHOS)
         }
     }
 
     private fun NamedDomainObjectContainer<KotlinSourceSet>.setupNonSimulator(name: String) {
-        if (!nonSimulatorSourceSets) return
+        if (!useNonSimulatorSourceSets) return
         val main = findByName("${name}Main")
         val test = findByName("${name}Test")
 
         if (main == null || test == null) return
         maybeCreate("${name}NonSimulatorMain").dependsOn(main)
         maybeCreate("${name}NonSimulatorTest").dependsOn(test)
+    }
+
+    private fun NamedDomainObjectContainer<KotlinSourceSet>.setupSimulator(name: String) {
+        if (!useSimulatorSourceSets) return
+        val main = findByName("${name}Main")
+        val test = findByName("${name}Test")
+
+        if (main == null || test == null) return
+        maybeCreate("${name}SimulatorMain").dependsOn(main)
+        maybeCreate("${name}SimulatorTest").dependsOn(test)
     }
 
     override val sortOrder: Byte = Byte.MIN_VALUE
@@ -74,5 +104,23 @@ public class OptionsContainer internal constructor(): Container() {
             val suffix = if (isMain) "Main" else "Test"
             return findByName("${name}NonSimulator$suffix")
         }
+
+        @JvmStatic
+        @JvmSynthetic
+        internal fun NamedDomainObjectContainer<KotlinSourceSet>.findSimulator(
+            name: String,
+            isMain: Boolean
+        ): KotlinSourceSet? {
+            val suffix = if (isMain) "Main" else "Test"
+            return findByName("${name}Simulator$suffix")
+        }
     }
+
+    @Deprecated(
+        "use 'useNonSimulatorSourceSets'",
+        ReplaceWith("useNonSimulatorSourceSets")
+    )
+    public var nonSimulatorSourceSets: Boolean
+        set(value) { useNonSimulatorSourceSets = value }
+        get() = useNonSimulatorSourceSets
 }

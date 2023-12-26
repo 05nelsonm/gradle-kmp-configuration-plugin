@@ -20,6 +20,7 @@ package io.matthewnelson.kmp.configuration.extension.container.target
 import io.matthewnelson.kmp.configuration.KmpConfigurationDsl
 import io.matthewnelson.kmp.configuration.extension.container.ContainerHolder
 import io.matthewnelson.kmp.configuration.extension.container.OptionsContainer.Companion.findNonSimulator
+import io.matthewnelson.kmp.configuration.extension.container.OptionsContainer.Companion.findSimulator
 import org.gradle.api.Action
 import org.gradle.api.GradleException
 import org.jetbrains.kotlin.gradle.dsl.KotlinMultiplatformExtension
@@ -187,7 +188,7 @@ public sealed class TargetWatchosContainer<T: KotlinNativeTarget> private constr
                 is X64 -> {
                     watchosX64(targetName, Action { t ->
                         lazyTarget.forEach { action -> action.execute(t) }
-                    }) to false
+                    }) to true
                 }
                 is X86 -> {
                     watchosX86(targetName, Action { t ->
@@ -203,7 +204,7 @@ public sealed class TargetWatchosContainer<T: KotlinNativeTarget> private constr
                     val main = if (!isSimulator) {
                         findNonSimulator(WATCHOS, isMain = true)
                     } else {
-                        null
+                        findSimulator(WATCHOS, isMain = true)
                     } ?: getByName("${WATCHOS}Main")
 
                     ss.dependsOn(main)
@@ -213,7 +214,7 @@ public sealed class TargetWatchosContainer<T: KotlinNativeTarget> private constr
                     val test = if (!isSimulator) {
                         findNonSimulator(WATCHOS, isMain = false)
                     } else {
-                        null
+                        findSimulator(WATCHOS, isMain = false)
                     } ?: getByName("${WATCHOS}Test")
 
                     ss.dependsOn(test)

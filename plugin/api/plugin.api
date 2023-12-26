@@ -30,8 +30,12 @@ public final class io/matthewnelson/kmp/configuration/extension/container/Contai
 }
 
 public final class io/matthewnelson/kmp/configuration/extension/container/OptionsContainer : io/matthewnelson/kmp/configuration/extension/container/Container {
-	public field nonSimulatorSourceSets Z
+	public field useNonSimulatorSourceSets Z
+	public field useSimulatorSourceSets Z
 	public static final synthetic fun findNonSimulator$plugin (Lorg/gradle/api/NamedDomainObjectContainer;Ljava/lang/String;Z)Lorg/jetbrains/kotlin/gradle/plugin/KotlinSourceSet;
+	public static final synthetic fun findSimulator$plugin (Lorg/gradle/api/NamedDomainObjectContainer;Ljava/lang/String;Z)Lorg/jetbrains/kotlin/gradle/plugin/KotlinSourceSet;
+	public final fun getNonSimulatorSourceSets ()Z
+	public final fun setNonSimulatorSourceSets (Z)V
 }
 
 public final class io/matthewnelson/kmp/configuration/extension/container/target/KmpConfigurationContainerDsl : io/matthewnelson/kmp/configuration/extension/container/target/TargetAndroidContainer$Configure, io/matthewnelson/kmp/configuration/extension/container/target/TargetAndroidNativeContainer$Configure, io/matthewnelson/kmp/configuration/extension/container/target/TargetIosContainer$Configure, io/matthewnelson/kmp/configuration/extension/container/target/TargetJsContainer$Configure, io/matthewnelson/kmp/configuration/extension/container/target/TargetJvmContainer$Configure, io/matthewnelson/kmp/configuration/extension/container/target/TargetLinuxContainer$Configure, io/matthewnelson/kmp/configuration/extension/container/target/TargetMacosContainer$Configure, io/matthewnelson/kmp/configuration/extension/container/target/TargetMingwContainer$Configure, io/matthewnelson/kmp/configuration/extension/container/target/TargetTvosContainer$Configure, io/matthewnelson/kmp/configuration/extension/container/target/TargetWasmContainer$Configure, io/matthewnelson/kmp/configuration/extension/container/target/TargetWasmNativeContainer$Configure, io/matthewnelson/kmp/configuration/extension/container/target/TargetWatchosContainer$Configure {

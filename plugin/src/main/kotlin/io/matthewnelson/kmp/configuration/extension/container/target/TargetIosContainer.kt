@@ -20,6 +20,7 @@ package io.matthewnelson.kmp.configuration.extension.container.target
 import io.matthewnelson.kmp.configuration.KmpConfigurationDsl
 import io.matthewnelson.kmp.configuration.extension.container.ContainerHolder
 import io.matthewnelson.kmp.configuration.extension.container.OptionsContainer.Companion.findNonSimulator
+import io.matthewnelson.kmp.configuration.extension.container.OptionsContainer.Companion.findSimulator
 import org.gradle.api.Action
 import org.jetbrains.kotlin.gradle.dsl.KotlinMultiplatformExtension
 import org.jetbrains.kotlin.gradle.plugin.mpp.KotlinNativeTarget
@@ -138,7 +139,7 @@ public sealed class TargetIosContainer<T: KotlinNativeTarget> private constructo
                 is X64 -> {
                     iosX64(targetName, Action { t ->
                         lazyTarget.forEach { action -> action.execute(t) }
-                    }) to false
+                    }) to true
                 }
             }
 
@@ -149,7 +150,7 @@ public sealed class TargetIosContainer<T: KotlinNativeTarget> private constructo
                     val main = if (!isSimulator) {
                         findNonSimulator(IOS, isMain = true)
                     } else {
-                        null
+                        findSimulator(IOS, isMain = true)
                     } ?: getByName("${IOS}Main")
 
                     ss.dependsOn(main)
@@ -159,7 +160,7 @@ public sealed class TargetIosContainer<T: KotlinNativeTarget> private constructo
                     val test = if (!isSimulator) {
                         findNonSimulator(IOS, isMain = false)
                     } else {
-                        null
+                        findSimulator(IOS, isMain = false)
                     } ?: getByName("${IOS}Test")
 
                     ss.dependsOn(test)

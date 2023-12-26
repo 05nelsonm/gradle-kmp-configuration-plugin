@@ -223,10 +223,16 @@ kmpConfiguration {
 
         options {
             // Will create additional source sets for `iOS`, `tvOS`, and
-            // `watchOS` non-simulator targets to inherit from
+            // `watchOS` simulator targets to inherit from
+            //
+            // e.g. iosSimulator{Main/Test}
+            useSimulatorSourceSets = true
+            
+            // Will create additional source sets for `iOS`, `tvOS`, and
+            // `watchOS` NON-simulator targets to inherit from
             //
             // e.g. iosNonSimulator{Main/Test}
-            nonSimulatorSourceSets = true
+            useNonSimulatorSourceSets = true
         }
 
         androidNativeAll()
