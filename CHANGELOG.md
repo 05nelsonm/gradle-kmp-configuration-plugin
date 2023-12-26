@@ -1,5 +1,12 @@
 # CHANGELOG
 
+## Version 0.1.7 (2023-12-26)
+ - Fixes the option `nonSimulatorSourceSets` which had `iOS`, `tvOS`, `watchOS`
+   `X64` targets inheriting from it (`X64` targets are simulators) [[#40]][pr-40]
+ - Deprecates `nonSimulatorSourceSets` in favor of `useNonSimulatorSourceSets`
+ - Adds `useSimulatorSourceSets` option which does the same thing as 
+   `useNonSimulatorSourceSets`, but puts simulators on `{ios/tvos/watchos}Simulator{Main/Test}`
+
 ## Version 0.1.6 (2023-12-13)
  - Update dependencies:
      - AGP -> `8.2.0`
@@ -80,3 +87,4 @@
 [pr-19]: https://github.com/05nelsonm/gradle-kmp-configuration-plugin/pull/19
 [pr-24]: https://github.com/05nelsonm/gradle-kmp-configuration-plugin/pull/24
 [pr-35]: https://github.com/05nelsonm/gradle-kmp-configuration-plugin/pull/35
+[pr-40]: https://github.com/05nelsonm/gradle-kmp-configuration-plugin/pull/40
