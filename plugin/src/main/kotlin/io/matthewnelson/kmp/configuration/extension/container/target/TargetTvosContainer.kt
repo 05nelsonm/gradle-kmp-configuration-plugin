@@ -18,6 +18,7 @@ package io.matthewnelson.kmp.configuration.extension.container.target
 import io.matthewnelson.kmp.configuration.KmpConfigurationDsl
 import io.matthewnelson.kmp.configuration.extension.container.ContainerHolder
 import io.matthewnelson.kmp.configuration.extension.container.OptionsContainer.Companion.findNonSimulator
+import io.matthewnelson.kmp.configuration.extension.container.OptionsContainer.Companion.findSimulator
 import org.gradle.api.Action
 import org.jetbrains.kotlin.gradle.dsl.KotlinMultiplatformExtension
 import org.jetbrains.kotlin.gradle.plugin.mpp.KotlinNativeTarget
@@ -107,7 +108,7 @@ public sealed class TargetTvosContainer<T: KotlinNativeTarget> private construct
                 is X64 -> {
                     tvosX64(targetName, Action { t ->
                         lazyTarget.forEach { action -> action.execute(t) }
-                    }) to false
+                    }) to true
                 }
             }
 
@@ -118,7 +119,7 @@ public sealed class TargetTvosContainer<T: KotlinNativeTarget> private construct
                     val main = if (!isSimulator) {
                         findNonSimulator(TVOS, isMain = true)
                     } else {
-                        null
+                        findSimulator(TVOS, isMain = true)
                     } ?: getByName("${TVOS}Main")
 
                     ss.dependsOn(main)
@@ -128,7 +129,7 @@ public sealed class TargetTvosContainer<T: KotlinNativeTarget> private construct
                     val test = if (!isSimulator) {
                         findNonSimulator(TVOS, isMain = false)
                     } else {
-                        null
+                        findSimulator(TVOS, isMain = false)
                     } ?: getByName("${TVOS}Test")
 
                     ss.dependsOn(test)
