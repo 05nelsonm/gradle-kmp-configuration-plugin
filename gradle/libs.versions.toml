@@ -1,9 +1,9 @@
 [versions]
-android = "8.2.0"
-binaryCompat = "0.13.2"
-gradleVersions = "0.50.0"
-kotlin = "1.9.21"
-publish = "0.25.3"
+android = "8.2.2"
+binaryCompat = "0.14.0"
+gradleVersions = "0.51.0"
+kotlin = "1.9.22"
+publish = "0.27.0"
 
 [libraries]
 gradle-android = { module = "com.android.tools.build:gradle", version.ref = "android" }
