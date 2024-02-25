@@ -23,7 +23,7 @@ import org.jetbrains.kotlin.gradle.plugin.mpp.KotlinNativeTarget
 
 public sealed class TargetAndroidNativeContainer<T: KotlinNativeTarget> private constructor(
     targetName: String
-): KmpTarget.NonJvm.Native.Android<T>(targetName) {
+): KmpTarget.NonJvm.Native.Unix.Android<T>(targetName) {
 
     public sealed interface Configure {
         public val holder: ContainerHolder

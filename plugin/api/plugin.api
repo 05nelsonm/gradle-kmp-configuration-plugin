@@ -175,15 +175,15 @@ public abstract class io/matthewnelson/kmp/configuration/extension/container/tar
 	public synthetic fun <init> (Ljava/lang/String;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
 }
 
-public abstract class io/matthewnelson/kmp/configuration/extension/container/target/KmpTarget$NonJvm$Native$Android : io/matthewnelson/kmp/configuration/extension/container/target/KmpTarget$NonJvm$Native {
-	public synthetic fun <init> (Ljava/lang/String;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
-}
-
 public abstract class io/matthewnelson/kmp/configuration/extension/container/target/KmpTarget$NonJvm$Native$Mingw : io/matthewnelson/kmp/configuration/extension/container/target/KmpTarget$NonJvm$Native {
 	public synthetic fun <init> (Ljava/lang/String;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
 }
 
 public abstract class io/matthewnelson/kmp/configuration/extension/container/target/KmpTarget$NonJvm$Native$Unix : io/matthewnelson/kmp/configuration/extension/container/target/KmpTarget$NonJvm$Native {
+	public synthetic fun <init> (Ljava/lang/String;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
+}
+
+public abstract class io/matthewnelson/kmp/configuration/extension/container/target/KmpTarget$NonJvm$Native$Unix$Android : io/matthewnelson/kmp/configuration/extension/container/target/KmpTarget$NonJvm$Native$Unix {
 	public synthetic fun <init> (Ljava/lang/String;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
 }
 
@@ -246,7 +246,7 @@ public final class io/matthewnelson/kmp/configuration/extension/container/target
 public final class io/matthewnelson/kmp/configuration/extension/container/target/TargetAndroidContainer$Library : io/matthewnelson/kmp/configuration/extension/container/target/TargetAndroidContainer {
 }
 
-public abstract class io/matthewnelson/kmp/configuration/extension/container/target/TargetAndroidNativeContainer : io/matthewnelson/kmp/configuration/extension/container/target/KmpTarget$NonJvm$Native$Android {
+public abstract class io/matthewnelson/kmp/configuration/extension/container/target/TargetAndroidNativeContainer : io/matthewnelson/kmp/configuration/extension/container/target/KmpTarget$NonJvm$Native$Unix$Android {
 	public synthetic fun <init> (Ljava/lang/String;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
 }
 

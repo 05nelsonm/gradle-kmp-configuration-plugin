@@ -128,12 +128,6 @@ public open class KmpConfigurationPlugin : Plugin<Project> {
                     dependsOn(nonJvmTest)
                 }
 
-                val androidNativeTargets = nativeTargets.filterIsInstance<KmpTarget.NonJvm.Native.Android<*>>()
-                if (androidNativeTargets.isNotEmpty()) {
-                    maybeCreate("${TargetAndroidNativeContainer.ANDROID_NATIVE}Main").dependsOn(nativeMain)
-                    maybeCreate("${TargetAndroidNativeContainer.ANDROID_NATIVE}Test").dependsOn(nativeTest)
-                }
-
                 val unixTargets = nativeTargets.filterIsInstance<KmpTarget.NonJvm.Native.Unix<*>>()
                 if (unixTargets.isNotEmpty()) {
                     val unixMain = maybeCreate("${KmpTarget.NonJvm.Native.Unix.UNIX}Main").apply {
@@ -141,6 +135,12 @@ public open class KmpConfigurationPlugin : Plugin<Project> {
                     }
                     val unixTest = maybeCreate("${KmpTarget.NonJvm.Native.Unix.UNIX}Test").apply {
                         dependsOn(nativeTest)
+                    }
+
+                    val androidNativeTargets = unixTargets.filterIsInstance<KmpTarget.NonJvm.Native.Unix.Android<*>>()
+                    if (androidNativeTargets.isNotEmpty()) {
+                        maybeCreate("${TargetAndroidNativeContainer.ANDROID_NATIVE}Main").dependsOn(unixMain)
+                        maybeCreate("${TargetAndroidNativeContainer.ANDROID_NATIVE}Test").dependsOn(unixTest)
                     }
 
                     val darwinTargets = unixTargets.filterIsInstance<KmpTarget.NonJvm.Native.Unix.Darwin<*>>()
