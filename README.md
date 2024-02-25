@@ -28,12 +28,12 @@ Will automatically configure project with a hierarchical source set structure
          |-- wasmJs
          |-- wasmWasi
          '-- native
-               |-- androidNative
-               |     |-- androidNativeArm32
-               |     |-- androidNativeArm64
-               |     |-- androidNativeX64
-               |     '-- androidNativeX86
                |-- unix
+               |     |-- androidNative
+               |     |     |-- androidNativeArm32
+               |     |     |-- androidNativeArm64
+               |     |     |-- androidNativeX64
+               |     |     '-- androidNativeX86
                |     |-- darwin
                |     |     |-- ios
                |     |     |     |-- iosArm32
@@ -312,13 +312,13 @@ kmpConfiguration {
                 if (linuxMain != null || androidNativeMain != null) {
                     val linuxAndroidMain = maybeCreate("linuxAndroidMain").apply {
                         // `linux` and `androidNative` intermediate source sets
-                        // inherit from native, so it will always be available
+                        // inherit from unix, so it will always be available
                         // if either of them are configured. So, we can use
                         // `getByName` safely.
-                        dependsOn(getByName("nativeMain"))
+                        dependsOn(getByName("unixMain"))
                     }
                     val linuxAndroidTest = maybeCreate("linuxAndroidTest").apply {
-                        dependsOn(getByName("nativeTest"))
+                        dependsOn(getByName("unixTest"))
                     }
 
                     linuxMain?.apply { dependsOn(linuxAndroidMain) }

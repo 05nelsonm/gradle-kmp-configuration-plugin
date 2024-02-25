@@ -47,11 +47,11 @@ public sealed class KmpTarget<T: KotlinTarget> private constructor(
 
             internal companion object { internal const val NATIVE = "native" }
 
-            public sealed class Android<T: KotlinNativeTarget>(targetName: String): Native<T>(targetName)
-
             public sealed class Unix<T: KotlinNativeTarget>(targetName: String): Native<T>(targetName) {
 
                 internal companion object { internal const val UNIX = "unix" }
+
+                public sealed class Android<T: KotlinNativeTarget>(targetName: String): Unix<T>(targetName)
 
                 public sealed class Darwin<T: KotlinNativeTarget>(targetName: String): Unix<T>(targetName) {
 
