@@ -1,5 +1,14 @@
 # CHANGELOG
 
+## Version 0.2.0 (2024-02-25)
+ - Update dependencies:
+     - AGP -> `8.2.2`
+     - KGP -> `1.9.22`
+     - Gradle Wrapper -> `8.6`
+ - `androidNative` intermediary source set now inherits from `unix` instead of 
+   `native` [[#43]][pr-43]
+     - **NOTE:** This may be a breaking change for consumers.
+
 ## Version 0.1.7 (2023-12-26)
  - Fixes the option `nonSimulatorSourceSets` which had `iOS`, `tvOS`, `watchOS`
    `X64` targets inheriting from it (`X64` targets are simulators) [[#40]][pr-40]
@@ -88,3 +97,4 @@
 [pr-24]: https://github.com/05nelsonm/gradle-kmp-configuration-plugin/pull/24
 [pr-35]: https://github.com/05nelsonm/gradle-kmp-configuration-plugin/pull/35
 [pr-40]: https://github.com/05nelsonm/gradle-kmp-configuration-plugin/pull/40
+[pr-43]: https://github.com/05nelsonm/gradle-kmp-configuration-plugin/pull/43
