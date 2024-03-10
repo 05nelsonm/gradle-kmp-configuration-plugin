@@ -2,7 +2,7 @@
 android = "8.2.2"
 binaryCompat = "0.14.0"
 gradleVersions = "0.51.0"
-kotlin = "1.9.22"
+kotlin = "1.9.23"
 publish = "0.27.0"
 
 [libraries]
