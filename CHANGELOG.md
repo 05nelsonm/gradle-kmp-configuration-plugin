@@ -1,5 +1,11 @@
 # CHANGELOG
 
+## Version 0.2.1 (2024-03-10)
+ - Update dependencies:
+     - KGP -> `1.9.23`
+ - Adds experimental support to `jvm` for configuring
+   multi-release Jars to include `module-info.java` [[#45]][pr-45]
+
 ## Version 0.2.0 (2024-02-25)
  - Update dependencies:
      - AGP -> `8.2.2`
@@ -98,3 +104,4 @@
 [pr-35]: https://github.com/05nelsonm/gradle-kmp-configuration-plugin/pull/35
 [pr-40]: https://github.com/05nelsonm/gradle-kmp-configuration-plugin/pull/40
 [pr-43]: https://github.com/05nelsonm/gradle-kmp-configuration-plugin/pull/43
+[pr-45]: https://github.com/05nelsonm/gradle-kmp-configuration-plugin/pull/45
