@@ -1,3 +1,6 @@
+public abstract interface annotation class io/matthewnelson/kmp/configuration/ExperimentalKmpConfigurationApi : java/lang/annotation/Annotation {
+}
+
 public class io/matthewnelson/kmp/configuration/KmpConfigurationPlugin : org/gradle/api/Plugin {
 	public fun <init> ()V
 	public synthetic fun apply (Ljava/lang/Object;)V
@@ -363,6 +366,7 @@ public final class io/matthewnelson/kmp/configuration/extension/container/target
 }
 
 public final class io/matthewnelson/kmp/configuration/extension/container/target/TargetJvmContainer : io/matthewnelson/kmp/configuration/extension/container/target/KmpTarget$Jvm {
+	public final fun java9MultiReleaseModuleInfo (Ljava/lang/String;)V
 }
 
 public abstract interface class io/matthewnelson/kmp/configuration/extension/container/target/TargetJvmContainer$Configure {

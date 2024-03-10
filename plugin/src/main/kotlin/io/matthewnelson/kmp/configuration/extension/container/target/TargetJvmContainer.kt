@@ -15,12 +15,20 @@
  **/
 package io.matthewnelson.kmp.configuration.extension.container.target
 
+import io.matthewnelson.kmp.configuration.ExperimentalKmpConfigurationApi
 import io.matthewnelson.kmp.configuration.KmpConfigurationDsl
 import io.matthewnelson.kmp.configuration.extension.container.ContainerHolder
 import org.gradle.api.Action
+import org.gradle.api.GradleException
+import org.gradle.api.JavaVersion
 import org.gradle.api.plugins.JavaPluginExtension
+import org.gradle.api.tasks.compile.JavaCompile
+import org.gradle.jvm.tasks.Jar
+import org.gradle.jvm.toolchain.JavaLanguageVersion
+import org.gradle.jvm.toolchain.JavaToolchainService
 import org.jetbrains.kotlin.gradle.dsl.KotlinMultiplatformExtension
 import org.jetbrains.kotlin.gradle.targets.jvm.KotlinJvmTarget
+import org.jetbrains.kotlin.gradle.tasks.KotlinJvmCompile
 
 @KmpConfigurationDsl
 public class TargetJvmContainer internal constructor(
@@ -41,6 +49,27 @@ public class TargetJvmContainer internal constructor(
             action.execute(container)
             holder.add(container)
         }
+    }
+
+    private var moduleName: String? = null
+
+    /**
+     * Configures things to utilize multi-release Jars in order
+     * to support adding of Java9 `module-info.java`
+     *
+     * Adds the task "compileJavaModuleInfo" to the project
+     *
+     * Requires the following file be present:
+     *
+     * `src/<target-name>Main/java9/module-info.java`
+     *
+     * @param [moduleName] the name of the java9 module, or `null` to
+     *   disable (e.g. `io.matthewnelson.my.pkg.name`)
+     * */
+    @KmpConfigurationDsl
+    @ExperimentalKmpConfigurationApi
+    public fun java9MultiReleaseModuleInfo(moduleName: String?) {
+        this.moduleName = moduleName
     }
 
     @JvmSynthetic
@@ -83,6 +112,63 @@ public class TargetJvmContainer internal constructor(
                     ss.dependsOn(getByName("${JVM_ANDROID}Test"))
                     lazySourceSetTest.forEach { action -> action.execute(ss) }
                 }
+            }
+
+            configureJava9ModuleInfoMultiRelease(target)
+        }
+    }
+
+    private fun configureJava9ModuleInfoMultiRelease(target: KotlinJvmTarget) {
+        val moduleName = moduleName ?: return
+
+        val java9Dir = target.project
+            .projectDir
+            .resolve("src")
+            .resolve(targetName + "Main")
+            .resolve("java9")
+
+        if (!java9Dir.resolve("module-info.java").exists()) {
+            throw GradleException("module-info.java not found in $java9Dir")
+        }
+
+        val javaToolchain = target.project.extensions.getByType(JavaToolchainService::class.java)
+        val compileJavaModuleInfo = target.project.tasks.register("compileJavaModuleInfo", JavaCompile::class.java) { jCompile ->
+            val compileKotlinTask = target.compilations.getByName("main").compileTaskProvider.get() as KotlinJvmCompile
+            val targetDir = compileKotlinTask.destinationDirectory.dir("../java9")
+
+            jCompile.javaCompiler.set(javaToolchain.compilerFor { config ->
+                config.languageVersion.set(JavaLanguageVersion.of(11))
+            })
+
+            jCompile.dependsOn(compileKotlinTask)
+            jCompile.source(java9Dir)
+
+            if (compileKotlinTask.kotlinJavaToolchain.javaVersion.get().isJava9Compatible) {
+                compileKotlinTask.source(java9Dir)
+            }
+
+            jCompile.outputs.dir(targetDir)
+            jCompile.destinationDirectory.set(targetDir)
+            jCompile.sourceCompatibility = JavaVersion.VERSION_1_9.toString()
+            jCompile.targetCompatibility = JavaVersion.VERSION_1_9.toString()
+            jCompile.options.release.set(9)
+            jCompile.options.compilerArgs.add("-Xlint:-requires-transitive-automatic")
+            jCompile.options.compilerArgs.addAll(listOf(
+                "--patch-module",
+                "$moduleName=${compileKotlinTask.destinationDirectory.get()}"
+            ))
+            jCompile.classpath = compileKotlinTask.libraries
+            jCompile.modularity.inferModulePath.set(true)
+        }
+
+        target.project.tasks.withType(Jar::class.java) { jar ->
+            if (jar.name != "${targetName}Jar") return@withType
+
+            jar.manifest { manifest ->
+                manifest.attributes["Multi-Release"] = true
+            }
+            jar.from(compileJavaModuleInfo.map { it.destinationDirectory }) { spec ->
+                spec.into("META-INF/versions/9/")
             }
         }
     }
