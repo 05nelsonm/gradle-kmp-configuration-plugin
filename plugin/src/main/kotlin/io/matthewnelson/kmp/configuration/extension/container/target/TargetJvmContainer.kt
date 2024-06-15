@@ -51,8 +51,6 @@ public class TargetJvmContainer internal constructor(
         }
     }
 
-    private var moduleName: String? = null
-
     /**
      * Configures things to utilize multi-release Jars in order
      * to support adding of Java9 `module-info.java`
@@ -63,13 +61,19 @@ public class TargetJvmContainer internal constructor(
      *
      * `src/<target-name>Main/java9/module-info.java`
      *
-     * @param [moduleName] the name of the java9 module, or `null` to
-     *   disable (e.g. `io.matthewnelson.my.pkg.name`)
+     * e.g.
+     *
+     *     java9ModuleInfoName = "io.matthewnelson.my.pkg.name"
      * */
+    @JvmField
+    @ExperimentalKmpConfigurationApi
+    public var java9ModuleInfoName: String? = null
+
     @KmpConfigurationDsl
     @ExperimentalKmpConfigurationApi
+    @Deprecated("Use variable setter java9ModuleName", ReplaceWith("this.java9ModuleInfoName = moduleName"))
     public fun java9MultiReleaseModuleInfo(moduleName: String?) {
-        this.moduleName = moduleName
+        this.java9ModuleInfoName = moduleName
     }
 
     @JvmSynthetic
@@ -119,7 +123,8 @@ public class TargetJvmContainer internal constructor(
     }
 
     private fun configureJava9ModuleInfoMultiRelease(target: KotlinJvmTarget) {
-        val moduleName = moduleName ?: return
+        @OptIn(ExperimentalKmpConfigurationApi::class)
+        val moduleName = java9ModuleInfoName ?: return
 
         val java9Dir = target.project
             .projectDir
