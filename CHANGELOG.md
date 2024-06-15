@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## Version 0.3.0 (2024-06-15)
+ - Update dependencies [[#53]][pr-53]:
+     - KGP -> `2.0.0`
+
 ## Version 0.2.2 (2024-06-15)
  - Update dependencies [[#49]][pr-49]:
      - AGP -> `8.5.0`
@@ -115,3 +119,4 @@
 [pr-45]: https://github.com/05nelsonm/gradle-kmp-configuration-plugin/pull/45
 [pr-49]: https://github.com/05nelsonm/gradle-kmp-configuration-plugin/pull/49
 [pr-50]: https://github.com/05nelsonm/gradle-kmp-configuration-plugin/pull/50
+[pr-53]: https://github.com/05nelsonm/gradle-kmp-configuration-plugin/pull/53
