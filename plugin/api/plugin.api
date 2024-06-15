@@ -366,6 +366,7 @@ public final class io/matthewnelson/kmp/configuration/extension/container/target
 }
 
 public final class io/matthewnelson/kmp/configuration/extension/container/target/TargetJvmContainer : io/matthewnelson/kmp/configuration/extension/container/target/KmpTarget$Jvm {
+	public field java9ModuleInfoName Ljava/lang/String;
 	public final fun java9MultiReleaseModuleInfo (Ljava/lang/String;)V
 }
 
