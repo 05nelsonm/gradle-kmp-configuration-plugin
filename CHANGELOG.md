@@ -1,5 +1,13 @@
 # CHANGELOG
 
+## Version 0.2.2 (2024-06-15)
+ - Update dependencies [[#49]][pr-49]:
+     - AGP -> `8.5.0`
+     - KGP -> `1.9.24`
+     - Gradle Wrapper -> `8.8`
+ - Replace `TargetJvmContainer.java9MultiReleaseModuleInfo` function with
+   variable `java9ModuleInfoName` & deprecate [[#50]][pr-50]
+
 ## Version 0.2.1 (2024-03-10)
  - Update dependencies:
      - KGP -> `1.9.23`
@@ -105,3 +113,5 @@
 [pr-40]: https://github.com/05nelsonm/gradle-kmp-configuration-plugin/pull/40
 [pr-43]: https://github.com/05nelsonm/gradle-kmp-configuration-plugin/pull/43
 [pr-45]: https://github.com/05nelsonm/gradle-kmp-configuration-plugin/pull/45
+[pr-49]: https://github.com/05nelsonm/gradle-kmp-configuration-plugin/pull/49
+[pr-50]: https://github.com/05nelsonm/gradle-kmp-configuration-plugin/pull/50
