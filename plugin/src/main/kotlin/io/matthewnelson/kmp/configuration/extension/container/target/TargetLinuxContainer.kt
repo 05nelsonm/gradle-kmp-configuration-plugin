@@ -172,8 +172,6 @@ public sealed class TargetLinuxContainer<T: KotlinNativeTarget> private construc
                 }
             }
 
-            applyPlugins(target.project)
-
             with(sourceSets) {
                 getByName("${targetName}Main") { ss ->
                     ss.dependsOn(getByName("${LINUX}Main"))

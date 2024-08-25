@@ -73,8 +73,6 @@ public sealed class TargetWasmNativeContainer<T: KotlinNativeTarget> private con
                 }
             }
 
-            applyPlugins(target.project)
-
             with(sourceSets) {
                 getByName("${targetName}Main") { ss ->
                     ss.dependsOn(getByName("${WASM_NATIVE}Main"))

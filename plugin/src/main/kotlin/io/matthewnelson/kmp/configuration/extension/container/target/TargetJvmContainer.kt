@@ -105,8 +105,6 @@ public class TargetJvmContainer internal constructor(
                 }
             })
 
-            applyPlugins(target.project)
-
             with(sourceSets) {
                 getByName("${targetName}Main") { ss ->
                     ss.dependsOn(getByName("${JVM_ANDROID}Main"))

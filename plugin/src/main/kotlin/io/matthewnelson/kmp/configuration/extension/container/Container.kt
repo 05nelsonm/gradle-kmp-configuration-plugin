@@ -17,7 +17,6 @@ package io.matthewnelson.kmp.configuration.extension.container
 
 import io.matthewnelson.kmp.configuration.KmpConfigurationDsl
 import org.gradle.api.Action
-import org.gradle.api.Project
 import org.jetbrains.kotlin.gradle.dsl.KotlinMultiplatformExtension
 import org.jetbrains.kotlin.gradle.plugin.KotlinSourceSet
 
@@ -33,7 +32,7 @@ public sealed class Container {
 
         private val pluginIds: MutableSet<String> = mutableSetOf()
         @KmpConfigurationDsl
-        public fun pluginIds(vararg ids: String) { pluginIds += ids.toSet() }
+        public fun pluginIds(vararg ids: String) { ids.forEach { pluginIds.add(it) } }
 
         protected val lazySourceSetMain: MutableList<Action<KotlinSourceSet>> = mutableListOf()
         @KmpConfigurationDsl
@@ -43,10 +42,7 @@ public sealed class Container {
         @KmpConfigurationDsl
         public fun sourceSetTest(action: Action<KotlinSourceSet>) { lazySourceSetTest.add(action) }
 
-        protected fun applyPlugins(project: Project) {
-            for (id in pluginIds) {
-                project.plugins.apply(id)
-            }
-        }
+        @JvmSynthetic
+        internal fun addAllPluginIdsTo(set: MutableSet<String>) { set.addAll(pluginIds) }
     }
 }

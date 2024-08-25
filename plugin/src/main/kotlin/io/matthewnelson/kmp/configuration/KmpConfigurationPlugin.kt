@@ -74,17 +74,17 @@ public open class KmpConfigurationPlugin : Plugin<Project> {
                 .firstOrNull()
                 ?.setup(kmp)
 
-            for (target in targets) {
-                if (target is TargetAndroidContainer<*>) {
-                    if (target is TargetAndroidContainer.App) {
-                        plugins.apply("com.android.application")
-                    } else {
-                        plugins.apply("com.android.library")
-                    }
+            mutableSetOf<String>().let { pluginIds ->
+                containers.forEach { container ->
+                    if (container !is Container.ConfigurableTarget) return@forEach
+                    container.addAllPluginIdsTo(pluginIds)
                 }
 
-                target.setup(kmp)
+                val cPlugins = project.plugins
+                pluginIds.forEach { id -> cPlugins.apply(id) }
             }
+
+            for (target in targets) { target.setup(kmp) }
 
             containers.filterIsInstance<CommonContainer>()
                 .firstOrNull()

@@ -95,8 +95,6 @@ public sealed class TargetMingwContainer<T: KotlinNativeTarget> private construc
                 }
             }
 
-            applyPlugins(target.project)
-
             with(sourceSets) {
                 getByName("${targetName}Main") { ss ->
                     ss.dependsOn(getByName("${MINGW}Main"))

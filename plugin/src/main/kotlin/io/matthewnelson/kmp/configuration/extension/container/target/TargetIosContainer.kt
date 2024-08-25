@@ -143,8 +143,6 @@ public sealed class TargetIosContainer<T: KotlinNativeTarget> private constructo
                 }
             }
 
-            applyPlugins(target.project)
-
             with(sourceSets) {
                 getByName("${targetName}Main") { ss ->
                     val main = if (!isSimulator) {

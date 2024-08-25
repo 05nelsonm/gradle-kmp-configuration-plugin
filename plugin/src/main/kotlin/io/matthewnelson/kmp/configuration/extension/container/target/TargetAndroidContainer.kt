@@ -69,6 +69,8 @@ public sealed class TargetAndroidContainer<T: TestedExtension> private construct
         kotlinPluginVersion: KotlinVersion,
     ): TargetAndroidContainer<BaseAppModuleExtension>(targetName, kotlinPluginVersion) {
 
+        init { pluginIds("com.android.application") }
+
         protected override fun setupAndroid(project: Project) {
             project.extensions.configure(BaseAppModuleExtension::class.java) { extension ->
                 // Set before executing action so that they may be
@@ -92,6 +94,8 @@ public sealed class TargetAndroidContainer<T: TestedExtension> private construct
         targetName: String,
         kotlinPluginVersion: KotlinVersion,
     ): TargetAndroidContainer<LibraryExtension>(targetName, kotlinPluginVersion) {
+
+        init { pluginIds("com.android.library") }
 
         protected override fun setupAndroid(project: Project) {
             project.extensions.configure(LibraryExtension::class.java) { extension ->
@@ -132,8 +136,6 @@ public sealed class TargetAndroidContainer<T: TestedExtension> private construct
                     android(targetName, action)
                 }
             }
-
-            applyPlugins(target.project)
 
             with(sourceSets) {
                 getByName("${targetName}Main") { ss ->
