@@ -126,8 +126,6 @@ public sealed class TargetWasmContainer<T: KotlinWasmTargetDsl> private construc
                 }
             }
 
-            applyPlugins(target.project)
-
             with(sourceSets) {
                 getByName("${targetName}Main") { ss ->
                     ss.dependsOn(getByName("${NON_JVM}Main"))

@@ -197,8 +197,6 @@ public sealed class TargetWatchosContainer<T: KotlinNativeTarget> private constr
                 }
             }
 
-            applyPlugins(target.project)
-
             with(sourceSets) {
                 getByName("${targetName}Main") { ss ->
                     val main = if (!isSimulator) {

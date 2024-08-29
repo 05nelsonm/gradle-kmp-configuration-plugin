@@ -86,8 +86,6 @@ public sealed class TargetMacosContainer<T: KotlinNativeTarget> private construc
                 }
             }
 
-            applyPlugins(target.project)
-
             with(sourceSets) {
                 getByName("${targetName}Main") { ss ->
                     ss.dependsOn(getByName("${MACOS}Main"))

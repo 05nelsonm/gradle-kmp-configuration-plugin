@@ -131,8 +131,6 @@ public sealed class TargetAndroidNativeContainer<T: KotlinNativeTarget> private 
                 }
             }
 
-            applyPlugins(target.project)
-
             with(sourceSets) {
                 getByName("${targetName}Main") { ss ->
                     ss.dependsOn(getByName("${ANDROID_NATIVE}Main"))

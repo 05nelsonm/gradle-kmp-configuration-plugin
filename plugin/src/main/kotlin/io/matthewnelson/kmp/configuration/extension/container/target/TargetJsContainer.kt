@@ -73,8 +73,6 @@ public class TargetJsContainer internal constructor(
                 lazyTarget.forEach { action -> action.execute(t) }
             })
 
-            applyPlugins(target.project)
-
             with(sourceSets) {
                 getByName("${targetName}Main") { ss ->
                     ss.dependsOn(getByName("${NON_JVM}Main"))

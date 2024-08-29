@@ -20,7 +20,6 @@ public abstract class io/matthewnelson/kmp/configuration/extension/container/Con
 }
 
 public abstract class io/matthewnelson/kmp/configuration/extension/container/Container$ConfigurableTarget : io/matthewnelson/kmp/configuration/extension/container/Container {
-	protected final fun applyPlugins (Lorg/gradle/api/Project;)V
 	protected final fun getLazySourceSetMain ()Ljava/util/List;
 	protected final fun getLazySourceSetTest ()Ljava/util/List;
 	public final fun pluginIds ([Ljava/lang/String;)V

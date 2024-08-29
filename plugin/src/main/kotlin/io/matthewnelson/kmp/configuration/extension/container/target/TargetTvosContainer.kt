@@ -112,8 +112,6 @@ public sealed class TargetTvosContainer<T: KotlinNativeTarget> private construct
                 }
             }
 
-            applyPlugins(target.project)
-
             with(sourceSets) {
                 getByName("${targetName}Main") { ss ->
                     val main = if (!isSimulator) {
