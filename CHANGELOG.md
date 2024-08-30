@@ -1,10 +1,14 @@
 # CHANGELOG
 
+## Version 0.3.2 (2024-08-29)
+ - Fixes `moduleName` for Jvm/Android to replace character `:` with `_`
+   in order to prevent Windows from blowing up.
+
 ## Version 0.3.1 (2024-08-29)
  - Fixes `pluginIds` functionality to collect all configured id's and
    apply them before configuring anything.
  - Adds `OptionContainer.useUniqueModuleNames` to autoconfigure metadata
-   and jvm/android compilerOption `moduleName` with a truly unique value.
+   and Jvm/Android compilerOption `moduleName` with a truly unique value.
 
 ## Version 0.3.0 (2024-06-15)
  - Update dependencies [[#53]][pr-53]:
