@@ -126,7 +126,7 @@ public class OptionsContainer internal constructor(): Container() {
         })
 
         targets.forEach { target ->
-            val moduleName = "${prefix}_${target.targetName}"
+            val moduleName = "${prefix.replace(':', '_')}_${target.targetName}"
 
             when (target) {
                 is KotlinAndroidTarget -> {
