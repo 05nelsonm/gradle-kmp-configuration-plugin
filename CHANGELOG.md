@@ -1,5 +1,11 @@
 # CHANGELOG
 
+## Version 0.3.1 (2024-08-29)
+ - Fixes `pluginIds` functionality to collect all configured id's and
+   apply them before configuring anything.
+ - Adds `OptionContainer.useUniqueModuleNames` to autoconfigure metadata
+   and jvm/android compilerOption `moduleName` with a truly unique value.
+
 ## Version 0.3.0 (2024-06-15)
  - Update dependencies [[#53]][pr-53]:
      - KGP -> `2.0.0`
