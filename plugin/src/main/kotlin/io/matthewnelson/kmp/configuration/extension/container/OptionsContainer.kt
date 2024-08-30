@@ -19,12 +19,25 @@ import io.matthewnelson.kmp.configuration.KmpConfigurationDsl
 import io.matthewnelson.kmp.configuration.extension.container.target.TargetIosContainer
 import io.matthewnelson.kmp.configuration.extension.container.target.TargetTvosContainer
 import io.matthewnelson.kmp.configuration.extension.container.target.TargetWatchosContainer
+import org.gradle.api.Action
 import org.gradle.api.NamedDomainObjectContainer
 import org.jetbrains.kotlin.gradle.dsl.KotlinMultiplatformExtension
 import org.jetbrains.kotlin.gradle.plugin.KotlinSourceSet
+import org.jetbrains.kotlin.gradle.plugin.mpp.KotlinAndroidTarget
+import org.jetbrains.kotlin.gradle.targets.jvm.KotlinJvmTarget
+import org.jetbrains.kotlin.gradle.tasks.BaseKotlinCompile
 
 @KmpConfigurationDsl
 public class OptionsContainer internal constructor(): Container() {
+
+    /**
+     * Setting to `true` will ensure that all targets utilize truly unique
+     * `moduleName` parameters for metadata and Jvm/Android compilerOptions.
+     *
+     * See [KT-69701](https://youtrack.jetbrains.com/issue/KT-69701/)
+     * */
+    @JvmField
+    public var useUniqueModuleNames: Boolean = false
 
     /**
      * Setting to `true` will create an additional intermediary source
@@ -71,6 +84,11 @@ public class OptionsContainer internal constructor(): Container() {
         }
     }
 
+    @JvmSynthetic
+    internal fun setupLast(kotlin: KotlinMultiplatformExtension) {
+        kotlin.setupUniqueModuleNames()
+    }
+
     private fun NamedDomainObjectContainer<KotlinSourceSet>.setupNonSimulator(name: String) {
         if (!useNonSimulatorSourceSets) return
         val main = findByName("${name}Main")
@@ -89,6 +107,44 @@ public class OptionsContainer internal constructor(): Container() {
         if (main == null || test == null) return
         maybeCreate("${name}SimulatorMain").dependsOn(main)
         maybeCreate("${name}SimulatorTest").dependsOn(test)
+    }
+
+    @Suppress("RedundantSamConstructor")
+    private fun KotlinMultiplatformExtension.setupUniqueModuleNames() {
+        if (!useUniqueModuleNames) return
+        val prefix = targets.first().project.let { p -> "${p.group}:${p.name}" }
+
+        metadata(Action { target ->
+            target.compilations.all(Action { compilation ->
+                val compilationName = compilation.name
+                compilation.compileTaskProvider.configure(Action { task ->
+                    if (task is BaseKotlinCompile) {
+                        task.moduleName.set("${prefix}_${compilationName}")
+                    }
+                })
+            })
+        })
+
+        targets.forEach { target ->
+            val moduleName = "${prefix}_${target.targetName}"
+
+            when (target) {
+                is KotlinAndroidTarget -> {
+                    target.compilations.all(Action { compilation ->
+                        compilation.compileTaskProvider.configure(Action { task ->
+                            task.compilerOptions.moduleName.set(moduleName)
+                        })
+                    })
+                }
+                is KotlinJvmTarget -> {
+                    target.compilations.all(Action { compilation ->
+                        compilation.compileTaskProvider.configure(Action { task ->
+                            task.compilerOptions.moduleName.set(moduleName)
+                        })
+                    })
+                }
+            }
+        }
     }
 
     override val sortOrder: Byte = Byte.MIN_VALUE

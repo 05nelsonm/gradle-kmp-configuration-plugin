@@ -34,6 +34,7 @@ public final class io/matthewnelson/kmp/configuration/extension/container/Contai
 public final class io/matthewnelson/kmp/configuration/extension/container/OptionsContainer : io/matthewnelson/kmp/configuration/extension/container/Container {
 	public field useNonSimulatorSourceSets Z
 	public field useSimulatorSourceSets Z
+	public field useUniqueModuleNames Z
 	public static final synthetic fun findNonSimulator$plugin (Lorg/gradle/api/NamedDomainObjectContainer;Ljava/lang/String;Z)Lorg/jetbrains/kotlin/gradle/plugin/KotlinSourceSet;
 	public static final synthetic fun findSimulator$plugin (Lorg/gradle/api/NamedDomainObjectContainer;Ljava/lang/String;Z)Lorg/jetbrains/kotlin/gradle/plugin/KotlinSourceSet;
 	public final fun getNonSimulatorSourceSets ()Z
