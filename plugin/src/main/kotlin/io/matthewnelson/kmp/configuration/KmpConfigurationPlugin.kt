@@ -70,9 +70,8 @@ public open class KmpConfigurationPlugin : Plugin<Project> {
         extensions.configure(KotlinMultiplatformExtension::class.java) { kmp ->
             kmp.sourceSets.setupIntermediateSourceSets(targets)
 
-            containers.filterIsInstance<OptionsContainer>()
-                .firstOrNull()
-                ?.setup(kmp)
+            val options = containers.filterIsInstance<OptionsContainer>().firstOrNull()
+            options?.setup(kmp)
 
             mutableSetOf<String>().let { pluginIds ->
                 containers.forEach { container ->
@@ -93,6 +92,8 @@ public open class KmpConfigurationPlugin : Plugin<Project> {
             containers.filterIsInstance<KotlinExtensionActionContainer>()
                 .firstOrNull()
                 ?.setup(kmp)
+
+            options?.setupLast(kmp)
         }
     }
 
