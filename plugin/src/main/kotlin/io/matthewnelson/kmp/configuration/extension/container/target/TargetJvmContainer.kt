@@ -15,7 +15,6 @@
  **/
 package io.matthewnelson.kmp.configuration.extension.container.target
 
-import io.matthewnelson.kmp.configuration.ExperimentalKmpConfigurationApi
 import io.matthewnelson.kmp.configuration.KmpConfigurationDsl
 import io.matthewnelson.kmp.configuration.extension.container.ContainerHolder
 import org.gradle.api.Action
@@ -66,15 +65,7 @@ public class TargetJvmContainer internal constructor(
      *     java9ModuleInfoName = "io.matthewnelson.my.pkg.name"
      * */
     @JvmField
-    @ExperimentalKmpConfigurationApi
     public var java9ModuleInfoName: String? = null
-
-    @KmpConfigurationDsl
-    @ExperimentalKmpConfigurationApi
-    @Deprecated("Use variable setter java9ModuleName", ReplaceWith("this.java9ModuleInfoName = moduleName"))
-    public fun java9MultiReleaseModuleInfo(moduleName: String?) {
-        this.java9ModuleInfoName = moduleName
-    }
 
     @JvmSynthetic
     internal override fun setup(kotlin: KotlinMultiplatformExtension) {
@@ -121,7 +112,6 @@ public class TargetJvmContainer internal constructor(
     }
 
     private fun configureJava9ModuleInfoMultiRelease(target: KotlinJvmTarget) {
-        @OptIn(ExperimentalKmpConfigurationApi::class)
         val moduleName = java9ModuleInfoName ?: return
 
         val java9Dir = target.project
@@ -178,4 +168,10 @@ public class TargetJvmContainer internal constructor(
 
     @JvmSynthetic
     internal override val sortOrder: Byte = 2
+
+    @KmpConfigurationDsl
+    @Deprecated("Use variable setter java9ModuleName", ReplaceWith("this.java9ModuleInfoName = moduleName"))
+    public fun java9MultiReleaseModuleInfo(moduleName: String?) {
+        this.java9ModuleInfoName = moduleName
+    }
 }
