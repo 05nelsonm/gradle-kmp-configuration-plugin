@@ -1,19 +1,17 @@
 [versions]
-android = "8.5.0"
-binaryCompat = "0.14.0"
-gradleVersions = "0.51.0"
-kotlin = "2.0.0"
-publish = "0.28.0"
+gradle-android = "8.5.0"
+gradle-binary-compat = "0.17.0"
+gradle-kotlin = "2.1.0"
+gradle-publish-maven = "0.28.0"
 
 [libraries]
-gradle-android = { module = "com.android.tools.build:gradle", version.ref = "android" }
-gradle-kotlin = { module = "org.jetbrains.kotlin:kotlin-gradle-plugin", version.ref = "kotlin" }
-gradle-maven-publish = { module = "com.vanniktech:gradle-maven-publish-plugin", version.ref = "publish" }
+gradle-android = { module = "com.android.tools.build:gradle", version.ref = "gradle-android" }
+gradle-kotlin = { module = "org.jetbrains.kotlin:kotlin-gradle-plugin", version.ref = "gradle-kotlin" }
+gradle-publish-maven = { module = "com.vanniktech:gradle-maven-publish-plugin", version.ref = "gradle-publish-maven" }
 
-kotlin-stdlib = { module = "org.jetbrains.kotlin:kotlin-stdlib", version.ref = "kotlin" }
-kotlin-stdlib-jdk8 = { module = "org.jetbrains.kotlin:kotlin-stdlib-jdk8", version.ref = "kotlin" }
-kotlin-reflect = { module = "org.jetbrains.kotlin:kotlin-reflect", version.ref = "kotlin" }
+kotlin-stdlib = { module = "org.jetbrains.kotlin:kotlin-stdlib", version.ref = "gradle-kotlin" }
+kotlin-stdlib-jdk8 = { module = "org.jetbrains.kotlin:kotlin-stdlib-jdk8", version.ref = "gradle-kotlin" }
+kotlin-reflect = { module = "org.jetbrains.kotlin:kotlin-reflect", version.ref = "gradle-kotlin" }
 
 [plugins]
-gradleVersions = { id = "com.github.ben-manes.versions", version.ref = "gradleVersions" }
-binaryCompat = { id = "org.jetbrains.kotlinx.binary-compatibility-validator", version.ref = "binaryCompat" }
+binary-compat = { id = "org.jetbrains.kotlinx.binary-compatibility-validator", version.ref = "gradle-binary-compat" }
