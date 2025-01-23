@@ -1,8 +1,8 @@
 [versions]
-gradle-android = "8.5.0"
+gradle-android = "8.7.3"
 gradle-binary-compat = "0.17.0"
 gradle-kotlin = "2.1.0"
-gradle-publish-maven = "0.28.0"
+gradle-publish-maven = "0.30.0"
 
 [libraries]
 gradle-android = { module = "com.android.tools.build:gradle", version.ref = "gradle-android" }
