@@ -29,9 +29,7 @@ gradlePlugin {
     }
 }
 
-kotlin {
-    explicitApi()
-}
+kotlin { explicitApi() }
 
 dependencies {
     compileOnly(libs.gradle.kotlin)

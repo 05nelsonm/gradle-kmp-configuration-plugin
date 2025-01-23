@@ -132,7 +132,7 @@ public sealed class TargetAndroidContainer<T: TestedExtension> private construct
                 if (kotlinPluginVersion.isAtLeast(1, 9)) {
                     androidTarget(targetName, action)
                 } else {
-                    @Suppress("DEPRECATION")
+                    @Suppress("DEPRECATION_ERROR")
                     android(targetName, action)
                 }
             }
