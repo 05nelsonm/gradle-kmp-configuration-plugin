@@ -1,5 +1,12 @@
 # CHANGELOG
 
+## Version 0.4.0 (2025-01-24)
+ - Updates dependencies [[#61]][61], [[#64]][64]:
+     - AGP -> `8.7.3`
+     - KGP -> `2.1.0`
+     - Gradle Wrapper -> `8.12`
+ - Removes `EperimentalKmpConfigurationApi` from `TargetJvmContainer.java9ModuleInfoName` [[#62]][62]
+
 ## Version 0.3.2 (2024-08-29)
  - Fixes `moduleName` for Jvm/Android to replace character `:` with `_`
    in order to prevent Windows from blowing up.
@@ -11,22 +18,22 @@
    and Jvm/Android compilerOption `moduleName` with a truly unique value.
 
 ## Version 0.3.0 (2024-06-15)
- - Update dependencies [[#53]][pr-53]:
+ - Update dependencies [[#53]][53]:
      - KGP -> `2.0.0`
 
 ## Version 0.2.2 (2024-06-15)
- - Update dependencies [[#49]][pr-49]:
+ - Update dependencies [[#49]][49]:
      - AGP -> `8.5.0`
      - KGP -> `1.9.24`
      - Gradle Wrapper -> `8.8`
  - Replace `TargetJvmContainer.java9MultiReleaseModuleInfo` function with
-   variable `java9ModuleInfoName` & deprecate [[#50]][pr-50]
+   variable `java9ModuleInfoName` & deprecate [[#50]][50]
 
 ## Version 0.2.1 (2024-03-10)
  - Update dependencies:
      - KGP -> `1.9.23`
  - Adds experimental support to `jvm` for configuring
-   multi-release Jars to include `module-info.java` [[#45]][pr-45]
+   multi-release Jars to include `module-info.java` [[#45]][45]
 
 ## Version 0.2.0 (2024-02-25)
  - Update dependencies:
@@ -34,12 +41,12 @@
      - KGP -> `1.9.22`
      - Gradle Wrapper -> `8.6`
  - `androidNative` intermediary source set now inherits from `unix` instead of 
-   `native` [[#43]][pr-43]
+   `native` [[#43]][43]
      - **NOTE:** This may be a breaking change for consumers.
 
 ## Version 0.1.7 (2023-12-26)
  - Fixes the option `nonSimulatorSourceSets` which had `iOS`, `tvOS`, `watchOS`
-   `X64` targets inheriting from it (`X64` targets are simulators) [[#40]][pr-40]
+   `X64` targets inheriting from it (`X64` targets are simulators) [[#40]][40]
  - Deprecates `nonSimulatorSourceSets` in favor of `useNonSimulatorSourceSets`
  - Adds `useSimulatorSourceSets` option which does the same thing as 
    `useNonSimulatorSourceSets`, but puts simulators on `{ios/tvos/watchos}Simulator{Main/Test}`
@@ -51,7 +58,7 @@
      - Gradle Wrapper -> `8.5`
  - Adds a new `Options` container with an initial purpose of enabling an 
    option for configuring additional source sets for `iOS`, `tvOS`, and 
-   `watchOS` non-simulator targets to inherit from. [[#35]][pr-35]
+   `watchOS` non-simulator targets to inherit from. [[#35]][35]
 
 ## Version 0.1.5 (2023-11-20)
  - Update dependencies:
@@ -86,7 +93,7 @@
  - Updates dependencies:
      - AGP -> `8.1.0`
  - `common` block now applies `pluginIds` before configuring 
-   `kotlin.sourceSets` [[#24]][pr-24]
+   `kotlin.sourceSets` [[#24]][24]
 
 ## Version 0.1.2 (2023-08-01)
  - Updates dependencies:
@@ -105,7 +112,7 @@
      - Gradle Wrapper -> `8.1.1`
 
 ## Version 0.1.0-beta02 (2023-03-06)
- - Adds support for composite builds [[#19]][pr-19]
+ - Adds support for composite builds [[#19]][19]
 
 ## Version 0.1.0-beta01 (2023-03-02)
  - Fixes internal API compatibility issues with Kotlin `1.8.20-Beta`
@@ -121,12 +128,15 @@
 ## Version 0.1.0-alpha01 (2023-02-09)
  - Initial Release
 
-[pr-19]: https://github.com/05nelsonm/gradle-kmp-configuration-plugin/pull/19
-[pr-24]: https://github.com/05nelsonm/gradle-kmp-configuration-plugin/pull/24
-[pr-35]: https://github.com/05nelsonm/gradle-kmp-configuration-plugin/pull/35
-[pr-40]: https://github.com/05nelsonm/gradle-kmp-configuration-plugin/pull/40
-[pr-43]: https://github.com/05nelsonm/gradle-kmp-configuration-plugin/pull/43
-[pr-45]: https://github.com/05nelsonm/gradle-kmp-configuration-plugin/pull/45
-[pr-49]: https://github.com/05nelsonm/gradle-kmp-configuration-plugin/pull/49
-[pr-50]: https://github.com/05nelsonm/gradle-kmp-configuration-plugin/pull/50
-[pr-53]: https://github.com/05nelsonm/gradle-kmp-configuration-plugin/pull/53
+[19]: https://github.com/05nelsonm/gradle-kmp-configuration-plugin/pull/19
+[24]: https://github.com/05nelsonm/gradle-kmp-configuration-plugin/pull/24
+[35]: https://github.com/05nelsonm/gradle-kmp-configuration-plugin/pull/35
+[40]: https://github.com/05nelsonm/gradle-kmp-configuration-plugin/pull/40
+[43]: https://github.com/05nelsonm/gradle-kmp-configuration-plugin/pull/43
+[45]: https://github.com/05nelsonm/gradle-kmp-configuration-plugin/pull/45
+[49]: https://github.com/05nelsonm/gradle-kmp-configuration-plugin/pull/49
+[50]: https://github.com/05nelsonm/gradle-kmp-configuration-plugin/pull/50
+[53]: https://github.com/05nelsonm/gradle-kmp-configuration-plugin/pull/53
+[61]: https://github.com/05nelsonm/gradle-kmp-configuration-plugin/pull/61
+[62]: https://github.com/05nelsonm/gradle-kmp-configuration-plugin/pull/62
+[64]: https://github.com/05nelsonm/gradle-kmp-configuration-plugin/pull/64
