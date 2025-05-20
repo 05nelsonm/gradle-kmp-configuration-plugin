@@ -20,7 +20,7 @@ import io.matthewnelson.kmp.configuration.extension.container.ContainerHolder
 import org.gradle.api.Action
 import org.gradle.api.GradleException
 import org.gradle.api.JavaVersion
-import org.gradle.api.plugins.JavaPluginExtension
+import org.gradle.api.tasks.compile.AbstractCompile
 import org.gradle.api.tasks.compile.JavaCompile
 import org.gradle.jvm.tasks.Jar
 import org.gradle.jvm.toolchain.JavaLanguageVersion
@@ -79,20 +79,24 @@ public class TargetJvmContainer internal constructor(
 
                 lazyTarget.forEach { action -> action.execute(t) }
 
-                @Suppress("DEPRECATION")
-                if (!t.withJavaEnabled) return@Action
-
                 val sCompatibility = compileSourceCompatibility
                 val tCompatibility = compileTargetCompatibility
 
                 if (sCompatibility == null && tCompatibility == null) return@Action
 
-                t.project.extensions.configure(JavaPluginExtension::class.java) { extension ->
+                t.project.tasks.withType(AbstractCompile::class.java) { task ->
+                    if (!task.name.startsWith("compile$targetName", ignoreCase = true)) return@withType
+                    when {
+                        task.name.endsWith("MainJava") -> {}
+                        task.name.endsWith("TestJava") -> {}
+                        else -> return@withType
+                    }
+
                     if (sCompatibility != null) {
-                        extension.sourceCompatibility = sCompatibility
+                        task.sourceCompatibility = sCompatibility.toString()
                     }
                     if (tCompatibility != null) {
-                        extension.targetCompatibility = tCompatibility
+                        task.targetCompatibility = tCompatibility.toString()
                     }
                 }
             })
