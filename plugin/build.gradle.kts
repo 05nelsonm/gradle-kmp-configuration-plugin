@@ -29,15 +29,7 @@ gradlePlugin {
     }
 }
 
-kotlin { explicitApi() }
-
 dependencies {
     compileOnly(libs.gradle.kotlin)
     compileOnly(libs.gradle.android)
-}
-
-if (!findProperty("VERSION_NAME")!!.toString().endsWith("SNAPSHOT")) {
-    signing {
-        useGpgCmd()
-    }
 }

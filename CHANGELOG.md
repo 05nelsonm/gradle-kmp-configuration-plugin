@@ -1,5 +1,11 @@
 # CHANGELOG
 
+## Version 0.4.1 (2025-05-19)
+ - Updates dependencies [[#65]][65]
+     - AGP -> `8.9.3`
+     - KGP -> `2.1.21`
+     - Gradle Wrapper -> `8.12.1`
+
 ## Version 0.4.0 (2025-01-24)
  - Updates dependencies [[#61]][61], [[#64]][64]:
      - AGP -> `8.7.3`
@@ -140,3 +146,4 @@
 [61]: https://github.com/05nelsonm/gradle-kmp-configuration-plugin/pull/61
 [62]: https://github.com/05nelsonm/gradle-kmp-configuration-plugin/pull/62
 [64]: https://github.com/05nelsonm/gradle-kmp-configuration-plugin/pull/64
+[65]: https://github.com/05nelsonm/gradle-kmp-configuration-plugin/pull/65
