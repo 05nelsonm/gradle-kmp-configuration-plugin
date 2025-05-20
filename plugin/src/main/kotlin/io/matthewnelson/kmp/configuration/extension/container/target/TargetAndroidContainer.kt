@@ -122,8 +122,8 @@ public sealed class TargetAndroidContainer<T: TestedExtension> private construct
         with(kotlin) {
             val target = Action<KotlinAndroidTarget> { t ->
                 kotlinJvmTarget?.let { version ->
-                    t.compilations.all {
-                        it.kotlinOptions.jvmTarget = version.toString()
+                    t.compilations.all { compilation ->
+                        compilation.kotlinOptions.jvmTarget = version.toString()
                     }
                 }
 

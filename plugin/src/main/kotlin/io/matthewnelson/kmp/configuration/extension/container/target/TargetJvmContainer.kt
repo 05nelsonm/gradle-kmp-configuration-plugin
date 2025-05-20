@@ -72,13 +72,14 @@ public class TargetJvmContainer internal constructor(
         with(kotlin) {
             val target = jvm(targetName, Action { t ->
                 kotlinJvmTarget?.let { version ->
-                    t.compilations.all {
-                        it.kotlinOptions.jvmTarget = version.toString()
+                    t.compilations.all { compilation ->
+                        compilation.kotlinOptions.jvmTarget = version.toString()
                     }
                 }
 
                 lazyTarget.forEach { action -> action.execute(t) }
 
+                @Suppress("DEPRECATION")
                 if (!t.withJavaEnabled) return@Action
 
                 val sCompatibility = compileSourceCompatibility
