@@ -1,5 +1,17 @@
 # CHANGELOG
 
+## Version 0.5.0 (2025-08-22)
+ - Updates dependencies [[#66]][66]
+     - AGP -> `8.10.0`
+     - KGP -> `2.2.10`
+         - The minimum supported KGP version is now `1.9.20`.
+     - Gradle Wrapper -> `8.14.3`
+ - `Project` is now available via `KmpConfigurationExtension.project` [[#68]][68]
+ - Fixes potential deadlock if `KmpConfigurationExtension.configure` is called multiple times [[#70]][70]
+ - `kotlinJvmTarget`, `compileSourceCompatibility`, and `compileTargetCompatibility` for Jvm/Android 
+   containers now use a default value of `JavaVersion.VERSION_1_8` instead of `null`. API consumers
+   can disable by setting these values to `null`. [[#72]][72]
+
 ## Version 0.4.1 (2025-05-19)
  - Updates dependencies [[#65]][65]
      - AGP -> `8.9.3`
@@ -147,3 +159,7 @@
 [62]: https://github.com/05nelsonm/gradle-kmp-configuration-plugin/pull/62
 [64]: https://github.com/05nelsonm/gradle-kmp-configuration-plugin/pull/64
 [65]: https://github.com/05nelsonm/gradle-kmp-configuration-plugin/pull/65
+[66]: https://github.com/05nelsonm/gradle-kmp-configuration-plugin/pull/66
+[68]: https://github.com/05nelsonm/gradle-kmp-configuration-plugin/pull/68
+[70]: https://github.com/05nelsonm/gradle-kmp-configuration-plugin/pull/70
+[72]: https://github.com/05nelsonm/gradle-kmp-configuration-plugin/pull/72
