@@ -134,18 +134,32 @@ kmpConfiguration {
                 // ...
             }
 
-            // Will automatically set
-            // KotlinJvmCompilation.kotlinOptions.jvmTarget
-            kotlinJvmTarget = JavaVersion.VERSION_1_8
-            
-            // If you aren't using android and have elected for `withJava()` 
-            // in the `target` block above setting this will automatically
-            // configure for you:
+            // Will automatically set the target's
+            // KotlinJvmCompile.compilerOptions.jvmTarget
             //
-            // JavaPluginExtension.sourceCompatibility
-            // JavaPluginExtension.targetCompatibility
-            compileSourceCompatibility = JavaVersion.VERSION_1_8
-            compileTargetCompatibility = JavaVersion.VERSION_1_8
+            // DEFAULT: JavaVersion.VERSION_1_8
+            // Set to null to disable
+            kotlinJvmTarget = JavaVersion.VERSION_11
+
+            // For JVM, will automatically set the target's
+            // task AbstractCompile.sourceCompatibility.
+            // 
+            // On Android (application or library), will automatically set
+            // the extension.compileOptions.sourceCompatibility.
+            //
+            // DEFAULT: JavaVersion.VERSION_1_8
+            // Set to null to disable
+            compileSourceCompatibility = JavaVersion.VERSION_11
+
+            // For JVM, will automatically set the target's
+            // task AbstractCompile.targetCompatibility.
+            // 
+            // On Android (application or library), will automatically set
+            // the extension.compileOptions.targetCompatibility.
+            //
+            // DEFAULT: JavaVersion.VERSION_1_8
+            // Set to null to disable
+            compileTargetCompatibility = JavaVersion.VERSION_11
         }
 
         // Android.
