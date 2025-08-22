@@ -13,11 +13,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  **/
+@file:Suppress("RedundantVisibilityModifier")
+
 package io.matthewnelson.kmp.configuration.extension.container.target
 
 import io.matthewnelson.kmp.configuration.KmpConfigurationDsl
 import io.matthewnelson.kmp.configuration.extension.container.ContainerHolder
 import org.gradle.api.Action
+import org.gradle.api.Project
 import org.jetbrains.kotlin.gradle.dsl.KotlinMultiplatformExtension
 import org.jetbrains.kotlin.gradle.plugin.KotlinJsCompilerType
 import org.jetbrains.kotlin.gradle.targets.js.dsl.KotlinJsTargetDsl
@@ -62,10 +65,10 @@ public class TargetJsContainer internal constructor(
     }
 
     @JvmSynthetic
-    internal override fun setup(kotlin: KotlinMultiplatformExtension) {
+    internal override fun setup(project: Project, kotlin: KotlinMultiplatformExtension) {
         with(kotlin) {
             @Suppress("RedundantSamConstructor")
-            val target = compilerType?.let { type ->
+            compilerType?.let { type ->
                 js(targetName, type, Action { t ->
                     lazyTarget.forEach { action -> action.execute(t) }
                 })

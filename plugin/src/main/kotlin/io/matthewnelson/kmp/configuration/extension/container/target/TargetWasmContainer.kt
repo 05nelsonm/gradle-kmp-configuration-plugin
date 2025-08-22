@@ -13,14 +13,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  **/
-@file:Suppress("DeprecatedCallableAddReplaceWith", "DEPRECATION")
+@file:Suppress("DeprecatedCallableAddReplaceWith", "DEPRECATION_ERROR", "RedundantVisibilityModifier")
 
 package io.matthewnelson.kmp.configuration.extension.container.target
 
 import io.matthewnelson.kmp.configuration.KmpConfigurationDsl
 import io.matthewnelson.kmp.configuration.extension.container.ContainerHolder
 import org.gradle.api.Action
-import org.gradle.api.GradleException
+import org.gradle.api.Project
 import org.jetbrains.kotlin.gradle.ExperimentalWasmDsl
 import org.jetbrains.kotlin.gradle.dsl.KotlinMultiplatformExtension
 import org.jetbrains.kotlin.gradle.targets.js.dsl.KotlinWasmJsTargetDsl
@@ -42,10 +42,6 @@ public sealed class TargetWasmContainer<T: KotlinWasmTargetDsl> private construc
 
         @ExperimentalWasmDsl
         public fun wasmJs(targetName: String, action: Action<WasmJs>) {
-            if (!holder.kotlinPluginVersion.isAtLeast(1, 9, 20)) {
-                throw GradleException("wasmJs requires Kotlin 1.9.20 or greater")
-            }
-
             val container = holder.find(targetName) ?: WasmJs(targetName)
             action.execute(container)
             holder.add(container)
@@ -58,10 +54,6 @@ public sealed class TargetWasmContainer<T: KotlinWasmTargetDsl> private construc
 
         @ExperimentalWasmDsl
         public fun wasmWasi(targetName: String, action: Action<WasmWasi>) {
-            if (!holder.kotlinPluginVersion.isAtLeast(1, 9, 20)) {
-                throw GradleException("wasmWasi requires Kotlin 1.9.20 or greater")
-            }
-
             val container = holder.find(targetName) ?: WasmWasi(targetName)
             action.execute(container)
             holder.add(container)
@@ -69,18 +61,14 @@ public sealed class TargetWasmContainer<T: KotlinWasmTargetDsl> private construc
 
 
         @ExperimentalWasmDsl
-        @Deprecated("use wasmJs instead")
+        @Deprecated("use wasmJs instead", level = DeprecationLevel.ERROR)
         public fun wasm(action: Action<Wasm>) {
             wasm("wasm", action)
         }
 
         @ExperimentalWasmDsl
-        @Deprecated("use wasmJs instead")
+        @Deprecated("use wasmJs instead", level = DeprecationLevel.ERROR)
         public fun wasm(targetName: String, action: Action<Wasm>) {
-            if (!holder.kotlinPluginVersion.isAtLeast(1, 7, 20)) {
-                throw GradleException("wasm requires Kotlin 1.7.20 or greater")
-            }
-
             val container = holder.find(targetName) ?: Wasm(targetName)
             action.execute(container)
             holder.add(container)
@@ -88,27 +76,27 @@ public sealed class TargetWasmContainer<T: KotlinWasmTargetDsl> private construc
     }
 
     @KmpConfigurationDsl
-    @Deprecated("use wasmJs instead")
+    @Deprecated("use wasmJs instead", level = DeprecationLevel.ERROR)
     public class Wasm internal constructor(
-        targetName: String
+        targetName: String,
     ): TargetWasmContainer<KotlinWasmTargetDsl>(targetName)
 
     @KmpConfigurationDsl
     public class WasmJs internal constructor(
-        targetName: String
+        targetName: String,
     ): TargetWasmContainer<KotlinWasmJsTargetDsl>(targetName)
 
     @KmpConfigurationDsl
     public class WasmWasi internal constructor(
-        targetName: String
+        targetName: String,
     ): TargetWasmContainer<KotlinWasmWasiTargetDsl>(targetName)
 
     @JvmSynthetic
     @OptIn(ExperimentalWasmDsl::class)
-    internal override fun setup(kotlin: KotlinMultiplatformExtension) {
+    internal override fun setup(project: Project, kotlin: KotlinMultiplatformExtension) {
         with(kotlin) {
             @Suppress("RedundantSamConstructor")
-            val target = when (this@TargetWasmContainer) {
+            when (this@TargetWasmContainer) {
                 is Wasm -> {
                     wasm(targetName, Action { t ->
                         lazyTarget.forEach { action -> action.execute(t) }
@@ -139,6 +127,6 @@ public sealed class TargetWasmContainer<T: KotlinWasmTargetDsl> private construc
         }
     }
 
-    @JvmSynthetic
+    @get:JvmSynthetic
     internal override val sortOrder: Byte = 12
 }

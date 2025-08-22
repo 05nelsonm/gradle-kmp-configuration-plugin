@@ -13,16 +13,19 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  **/
+@file:Suppress("RedundantVisibilityModifier")
+
 package io.matthewnelson.kmp.configuration.extension.container.target
 
 import io.matthewnelson.kmp.configuration.KmpConfigurationDsl
 import io.matthewnelson.kmp.configuration.extension.container.ContainerHolder
 import org.gradle.api.Action
+import org.gradle.api.Project
 import org.jetbrains.kotlin.gradle.dsl.KotlinMultiplatformExtension
 import org.jetbrains.kotlin.gradle.plugin.mpp.KotlinNativeTarget
 
 public sealed class TargetAndroidNativeContainer<T: KotlinNativeTarget> private constructor(
-    targetName: String
+    targetName: String,
 ): KmpTarget.NonJvm.Native.Unix.Android<T>(targetName) {
 
     public sealed interface Configure {
@@ -86,29 +89,29 @@ public sealed class TargetAndroidNativeContainer<T: KotlinNativeTarget> private 
 
     @KmpConfigurationDsl
     public class Arm32 internal constructor(
-        targetName: String
+        targetName: String,
     ): TargetAndroidNativeContainer<KotlinNativeTarget>(targetName)
 
     @KmpConfigurationDsl
     public class Arm64 internal constructor(
-        targetName: String
+        targetName: String,
     ): TargetAndroidNativeContainer<KotlinNativeTarget>(targetName)
 
     @KmpConfigurationDsl
     public class X64 internal constructor(
-        targetName: String
+        targetName: String,
     ): TargetAndroidNativeContainer<KotlinNativeTarget>(targetName)
 
     @KmpConfigurationDsl
     public class X86 internal constructor(
-        targetName: String
+        targetName: String,
     ): TargetAndroidNativeContainer<KotlinNativeTarget>(targetName)
 
     @JvmSynthetic
-    internal final override fun setup(kotlin: KotlinMultiplatformExtension) {
+    internal final override fun setup(project: Project, kotlin: KotlinMultiplatformExtension) {
         with(kotlin) {
             @Suppress("RedundantSamConstructor")
-            val target = when (this@TargetAndroidNativeContainer) {
+            when (this@TargetAndroidNativeContainer) {
                 is Arm32 -> {
                     androidNativeArm32(targetName, Action { t ->
                         lazyTarget.forEach { action -> action.execute(t) }
@@ -144,7 +147,7 @@ public sealed class TargetAndroidNativeContainer<T: KotlinNativeTarget> private 
         }
     }
 
-    @JvmSynthetic
+    @get:JvmSynthetic
     internal final override val sortOrder: Byte = 21
 
     internal companion object {

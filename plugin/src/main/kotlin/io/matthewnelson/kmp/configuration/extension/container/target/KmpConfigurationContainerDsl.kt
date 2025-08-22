@@ -35,9 +35,7 @@ public class KmpConfigurationContainerDsl private constructor(
     TargetMingwContainer.Configure,
     TargetTvosContainer.Configure,
     TargetWatchosContainer.Configure,
-    TargetWasmContainer.Configure,
-    @Suppress("DEPRECATION_ERROR")
-    TargetWasmNativeContainer.Configure
+    TargetWasmContainer.Configure
 {
 
     public fun options(action: Action<OptionsContainer>) {

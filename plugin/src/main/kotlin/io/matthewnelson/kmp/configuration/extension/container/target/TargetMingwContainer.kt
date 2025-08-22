@@ -13,19 +13,19 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  **/
-@file:Suppress("DeprecatedCallableAddReplaceWith", "DEPRECATION_ERROR")
+@file:Suppress("DeprecatedCallableAddReplaceWith", "RedundantVisibilityModifier")
 
 package io.matthewnelson.kmp.configuration.extension.container.target
 
 import io.matthewnelson.kmp.configuration.KmpConfigurationDsl
 import io.matthewnelson.kmp.configuration.extension.container.ContainerHolder
 import org.gradle.api.Action
+import org.gradle.api.Project
 import org.jetbrains.kotlin.gradle.dsl.KotlinMultiplatformExtension
 import org.jetbrains.kotlin.gradle.plugin.mpp.KotlinNativeTarget
-import org.jetbrains.kotlin.konan.target.DEPRECATED_TARGET_MESSAGE
 
 public sealed class TargetMingwContainer<T: KotlinNativeTarget> private constructor(
-    targetName: String
+    targetName: String,
 ): KmpTarget.NonJvm.Native.Mingw<T>(targetName) {
 
     public sealed interface Configure {
@@ -33,9 +33,6 @@ public sealed class TargetMingwContainer<T: KotlinNativeTarget> private construc
 
         public fun mingwAll() {
             mingwX64()
-            if (!holder.kotlinPluginVersion.isAtLeast(1, 9, 20)) {
-                mingwX86()
-            }
         }
 
         public fun mingwX64() { mingwX64 {} }
@@ -49,47 +46,20 @@ public sealed class TargetMingwContainer<T: KotlinNativeTarget> private construc
             action.execute(container)
             holder.add(container)
         }
-
-        @Deprecated(DEPRECATED_TARGET_MESSAGE, level = DeprecationLevel.ERROR)
-        public fun mingwX86() { mingwX86 {} }
-
-        @Deprecated(DEPRECATED_TARGET_MESSAGE, level = DeprecationLevel.ERROR)
-        public fun mingwX86(action: Action<X86>) {
-            mingwX86("mingwX86", action)
-        }
-
-        @Deprecated(DEPRECATED_TARGET_MESSAGE, level = DeprecationLevel.ERROR)
-        public fun mingwX86(targetName: String, action: Action<X86>) {
-            val container = holder.find(targetName) ?: X86(targetName)
-            action.execute(container)
-            holder.add(container)
-        }
     }
 
     @KmpConfigurationDsl
     public class X64 internal constructor(
-        targetName: String
+        targetName: String,
     ): TargetMingwContainer<KotlinNativeTarget>(targetName)
-
-    @KmpConfigurationDsl
-    @Deprecated(DEPRECATED_TARGET_MESSAGE, level = DeprecationLevel.ERROR)
-    public class X86 internal constructor(
-        targetName: String
-    ): TargetMingwContainer<KotlinNativeTarget>(targetName)
-
 
     @JvmSynthetic
-    internal override fun setup(kotlin: KotlinMultiplatformExtension) {
+    internal override fun setup(project: Project, kotlin: KotlinMultiplatformExtension) {
         with(kotlin) {
             @Suppress("RedundantSamConstructor")
-            val target = when (this@TargetMingwContainer) {
+            when (this@TargetMingwContainer) {
                 is X64 -> {
                     mingwX64(targetName, Action { t ->
-                        lazyTarget.forEach { action -> action.execute(t) }
-                    })
-                }
-                is X86 -> {
-                    mingwX86(targetName, Action { t ->
                         lazyTarget.forEach { action -> action.execute(t) }
                     })
                 }
@@ -108,7 +78,7 @@ public sealed class TargetMingwContainer<T: KotlinNativeTarget> private construc
         }
     }
 
-    @JvmSynthetic
+    @get:JvmSynthetic
     internal final override val sortOrder: Byte = 51
 
     internal companion object {

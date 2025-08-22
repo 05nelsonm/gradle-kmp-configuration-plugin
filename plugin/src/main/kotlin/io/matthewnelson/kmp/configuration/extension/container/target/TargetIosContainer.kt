@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  **/
-@file:Suppress("DeprecatedCallableAddReplaceWith", "DEPRECATION_ERROR")
+@file:Suppress("DeprecatedCallableAddReplaceWith", "RedundantVisibilityModifier")
 
 package io.matthewnelson.kmp.configuration.extension.container.target
 
@@ -22,40 +22,22 @@ import io.matthewnelson.kmp.configuration.extension.container.ContainerHolder
 import io.matthewnelson.kmp.configuration.extension.container.OptionsContainer.Companion.findNonSimulator
 import io.matthewnelson.kmp.configuration.extension.container.OptionsContainer.Companion.findSimulator
 import org.gradle.api.Action
+import org.gradle.api.Project
 import org.jetbrains.kotlin.gradle.dsl.KotlinMultiplatformExtension
 import org.jetbrains.kotlin.gradle.plugin.mpp.KotlinNativeTarget
 import org.jetbrains.kotlin.gradle.plugin.mpp.KotlinNativeTargetWithSimulatorTests
-import org.jetbrains.kotlin.konan.target.DEPRECATED_TARGET_MESSAGE
 
 public sealed class TargetIosContainer<T: KotlinNativeTarget> private constructor(
-    targetName: String
+    targetName: String,
 ): KmpTarget.NonJvm.Native.Unix.Darwin.Ios<T>(targetName) {
 
     public sealed interface Configure {
         public val holder: ContainerHolder
 
         public fun iosAll() {
-            if (!holder.kotlinPluginVersion.isAtLeast(1, 9, 20)) {
-                iosArm32()
-            }
             iosArm64()
             iosX64()
             iosSimulatorArm64()
-        }
-
-        @Deprecated(DEPRECATED_TARGET_MESSAGE, level = DeprecationLevel.ERROR)
-        public fun iosArm32() { iosArm32 {} }
-
-        @Deprecated(DEPRECATED_TARGET_MESSAGE, level = DeprecationLevel.ERROR)
-        public fun iosArm32(action: Action<Arm32>) {
-            iosArm32("iosArm32", action)
-        }
-
-        @Deprecated(DEPRECATED_TARGET_MESSAGE, level = DeprecationLevel.ERROR)
-        public fun iosArm32(targetName: String, action: Action<Arm32>) {
-            val container = holder.find(targetName) ?: Arm32(targetName)
-            action.execute(container)
-            holder.add(container)
         }
 
         public fun iosArm64() { iosArm64 {} }
@@ -96,50 +78,42 @@ public sealed class TargetIosContainer<T: KotlinNativeTarget> private constructo
     }
 
     @KmpConfigurationDsl
-    @Deprecated(DEPRECATED_TARGET_MESSAGE, level = DeprecationLevel.ERROR)
-    public class Arm32 internal constructor(
-        targetName: String
-    ): TargetIosContainer<KotlinNativeTarget>(targetName)
-
-    @KmpConfigurationDsl
     public class Arm64 internal constructor(
-        targetName: String
+        targetName: String,
     ): TargetIosContainer<KotlinNativeTarget>(targetName)
 
     @KmpConfigurationDsl
     public class X64 internal constructor(
-        targetName: String
+        targetName: String,
     ): TargetIosContainer<KotlinNativeTarget>(targetName)
 
     @KmpConfigurationDsl
     public class SimulatorArm64 internal constructor(
-        targetName: String
+        targetName: String,
     ): TargetIosContainer<KotlinNativeTargetWithSimulatorTests>(targetName)
 
     @JvmSynthetic
-    internal final override fun setup(kotlin: KotlinMultiplatformExtension) {
+    internal final override fun setup(project: Project, kotlin: KotlinMultiplatformExtension) {
         @Suppress("RedundantSamConstructor")
         with(kotlin) {
-            val (target, isSimulator) = when (this@TargetIosContainer) {
-                is Arm32 -> {
-                    iosArm32(targetName, Action { t ->
-                        lazyTarget.forEach { action -> action.execute(t) }
-                    }) to false
-                }
+            val isSimulator = when (this@TargetIosContainer) {
                 is Arm64 -> {
                     iosArm64(targetName, Action { t ->
                         lazyTarget.forEach { action -> action.execute(t) }
-                    }) to false
+                    })
+                    false
                 }
                 is SimulatorArm64 -> {
                     iosSimulatorArm64(targetName, Action { t ->
                         lazyTarget.forEach { action -> action.execute(t) }
-                    }) to true
+                    })
+                    true
                 }
                 is X64 -> {
                     iosX64(targetName, Action { t ->
                         lazyTarget.forEach { action -> action.execute(t) }
-                    }) to true
+                    })
+                    true
                 }
             }
 
@@ -168,7 +142,7 @@ public sealed class TargetIosContainer<T: KotlinNativeTarget> private constructo
         }
     }
 
-    @JvmSynthetic
+    @get:JvmSynthetic
     internal final override val sortOrder: Byte = 31
 
     internal companion object {

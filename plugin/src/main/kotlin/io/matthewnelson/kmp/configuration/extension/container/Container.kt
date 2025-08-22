@@ -17,16 +17,11 @@ package io.matthewnelson.kmp.configuration.extension.container
 
 import io.matthewnelson.kmp.configuration.KmpConfigurationDsl
 import org.gradle.api.Action
+import org.gradle.api.Project
 import org.jetbrains.kotlin.gradle.dsl.KotlinMultiplatformExtension
 import org.jetbrains.kotlin.gradle.plugin.KotlinSourceSet
 
 public sealed class Container {
-
-    @get:JvmSynthetic
-    internal abstract val sortOrder: Byte
-
-    @JvmSynthetic
-    internal abstract fun setup(kotlin: KotlinMultiplatformExtension)
 
     public abstract class ConfigurableTarget internal constructor(): Container() {
 
@@ -45,4 +40,10 @@ public sealed class Container {
         @JvmSynthetic
         internal fun addAllPluginIdsTo(set: MutableSet<String>) { set.addAll(pluginIds) }
     }
+
+    @get:JvmSynthetic
+    internal abstract val sortOrder: Byte
+
+    @JvmSynthetic
+    internal abstract fun setup(project: Project, kotlin: KotlinMultiplatformExtension)
 }

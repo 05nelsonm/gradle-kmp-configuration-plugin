@@ -13,9 +13,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  **/
+@file:Suppress("RedundantVisibilityModifier")
+
 package io.matthewnelson.kmp.configuration.extension.container
 
 import io.matthewnelson.kmp.configuration.KmpConfigurationDsl
+import org.gradle.api.Project
 import org.jetbrains.kotlin.gradle.dsl.KotlinMultiplatformExtension
 import org.jetbrains.kotlin.gradle.plugin.KotlinSourceSet
 
@@ -23,7 +26,7 @@ import org.jetbrains.kotlin.gradle.plugin.KotlinSourceSet
 public class CommonContainer internal constructor(): Container.ConfigurableTarget() {
 
     @JvmSynthetic
-    internal override fun setup(kotlin: KotlinMultiplatformExtension) {
+    internal override fun setup(project: Project, kotlin: KotlinMultiplatformExtension) {
         with(kotlin.sourceSets) {
             val commonMain = getByName(KotlinSourceSet.COMMON_MAIN_SOURCE_SET_NAME)
             lazySourceSetMain.forEach { action -> action.execute(commonMain) }
@@ -33,8 +36,8 @@ public class CommonContainer internal constructor(): Container.ConfigurableTarge
         }
     }
 
-    @JvmSynthetic
+    @get:JvmSynthetic
     internal override val sortOrder: Byte = (Byte.MAX_VALUE - 1).toByte()
-    override fun hashCode(): Int = 17 * 31 + this::class.java.name.hashCode()
-    override fun equals(other: Any?): Boolean = other is CommonContainer
+    public override fun hashCode(): Int = 17 * 31 + this::class.java.name.hashCode()
+    public override fun equals(other: Any?): Boolean = other is CommonContainer
 }

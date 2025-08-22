@@ -13,9 +13,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  **/
+@file:Suppress("RedundantVisibilityModifier")
+
 package io.matthewnelson.kmp.configuration.extension.container
 
 import org.gradle.api.Action
+import org.gradle.api.Project
 import org.jetbrains.kotlin.gradle.dsl.KotlinMultiplatformExtension
 
 internal class KotlinExtensionActionContainer internal constructor(): Container() {
@@ -26,12 +29,12 @@ internal class KotlinExtensionActionContainer internal constructor(): Container(
     internal fun kotlin(action: Action<KotlinMultiplatformExtension>) { lazyKotlin.add(action) }
 
     @JvmSynthetic
-    internal override fun setup(kotlin: KotlinMultiplatformExtension) {
+    internal override fun setup(project: Project, kotlin: KotlinMultiplatformExtension) {
         lazyKotlin.forEach { action -> action.execute(kotlin) }
     }
 
-    @JvmSynthetic
+    @get:JvmSynthetic
     internal override val sortOrder: Byte = Byte.MAX_VALUE
-    override fun hashCode(): Int = 17 * 31 + this::class.java.name.hashCode()
-    override fun equals(other: Any?): Boolean = other is KotlinExtensionActionContainer
+    public override fun hashCode(): Int = 17 * 31 + this::class.java.name.hashCode()
+    public override fun equals(other: Any?): Boolean = other is KotlinExtensionActionContainer
 }

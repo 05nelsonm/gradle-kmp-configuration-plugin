@@ -36,6 +36,10 @@ public open class KmpConfigurationPlugin : Plugin<Project> {
         val kotlinPluginVersion = target.kotlinPluginVersionOrNull()
             ?: throw GradleException("Failed to determine Kotlin Plugin Version")
 
+        if (!kotlinPluginVersion.isAtLeast(1, 9, 20)) {
+            throw GradleException("Kotlin version 1.9.20 or greater is required")
+        }
+
         target.extensions.create(
             KmpConfigurationExtension.NAME,
             KmpConfigurationExtension::class.java,
@@ -71,7 +75,7 @@ public open class KmpConfigurationPlugin : Plugin<Project> {
             kmp.sourceSets.setupIntermediateSourceSets(targets)
 
             val options = containers.filterIsInstance<OptionsContainer>().firstOrNull()
-            options?.setup(kmp)
+            options?.setup(this, kmp)
 
             mutableSetOf<String>().let { pluginIds ->
                 containers.forEach { container ->
@@ -83,15 +87,15 @@ public open class KmpConfigurationPlugin : Plugin<Project> {
                 pluginIds.forEach { id -> cPlugins.apply(id) }
             }
 
-            for (target in targets) { target.setup(kmp) }
+            for (target in targets) { target.setup(this, kmp) }
 
             containers.filterIsInstance<CommonContainer>()
                 .firstOrNull()
-                ?.setup(kmp)
+                ?.setup(this, kmp)
 
             containers.filterIsInstance<KotlinExtensionActionContainer>()
                 .firstOrNull()
-                ?.setup(kmp)
+                ?.setup(this, kmp)
 
             options?.setupLast(kmp)
         }
@@ -189,14 +193,6 @@ public open class KmpConfigurationPlugin : Plugin<Project> {
                 if (mingwTargets.isNotEmpty()) {
                     maybeCreate("${TargetMingwContainer.MINGW}Main").dependsOn(nativeMain)
                     maybeCreate("${TargetMingwContainer.MINGW}Test").dependsOn(nativeTest)
-                }
-
-                @Suppress("DEPRECATION")
-                val wasmNativeTargets = nativeTargets.filterIsInstance<KmpTarget.NonJvm.Native.Wasm<*>>()
-                @Suppress("DEPRECATION_ERROR")
-                if (wasmNativeTargets.isNotEmpty()) {
-                    maybeCreate("${TargetWasmNativeContainer.WASM_NATIVE}Main").dependsOn(nativeMain)
-                    maybeCreate("${TargetWasmNativeContainer.WASM_NATIVE}Test").dependsOn(nativeTest)
                 }
             }
         }

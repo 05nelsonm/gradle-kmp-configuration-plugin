@@ -13,6 +13,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  **/
+@file:Suppress("RedundantVisibilityModifier")
+
 package io.matthewnelson.kmp.configuration.extension.container.target
 
 import io.matthewnelson.kmp.configuration.KmpConfigurationDsl
@@ -20,18 +22,20 @@ import io.matthewnelson.kmp.configuration.extension.container.ContainerHolder
 import org.gradle.api.Action
 import org.gradle.api.GradleException
 import org.gradle.api.JavaVersion
+import org.gradle.api.Project
 import org.gradle.api.tasks.compile.AbstractCompile
 import org.gradle.api.tasks.compile.JavaCompile
 import org.gradle.jvm.tasks.Jar
 import org.gradle.jvm.toolchain.JavaLanguageVersion
 import org.gradle.jvm.toolchain.JavaToolchainService
+import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 import org.jetbrains.kotlin.gradle.dsl.KotlinMultiplatformExtension
 import org.jetbrains.kotlin.gradle.targets.jvm.KotlinJvmTarget
 import org.jetbrains.kotlin.gradle.tasks.KotlinJvmCompile
 
 @KmpConfigurationDsl
 public class TargetJvmContainer internal constructor(
-    targetName: String
+    targetName: String,
 ): KmpTarget.Jvm<KotlinJvmTarget>(targetName) {
 
     public sealed interface Configure {
@@ -68,12 +72,14 @@ public class TargetJvmContainer internal constructor(
     public var java9ModuleInfoName: String? = null
 
     @JvmSynthetic
-    internal override fun setup(kotlin: KotlinMultiplatformExtension) {
+    internal override fun setup(project: Project, kotlin: KotlinMultiplatformExtension) {
         with(kotlin) {
             val target = jvm(targetName, Action { t ->
                 kotlinJvmTarget?.let { version ->
+                    val jvmTarget = JvmTarget.fromTarget(version.toString())
                     t.compilations.all { compilation ->
-                        compilation.kotlinOptions.jvmTarget = version.toString()
+                        val task = compilation.compileTaskProvider.get() as KotlinJvmCompile
+                        task.compilerOptions.jvmTarget.set(jvmTarget)
                     }
                 }
 
@@ -84,7 +90,7 @@ public class TargetJvmContainer internal constructor(
 
                 if (sCompatibility == null && tCompatibility == null) return@Action
 
-                t.project.tasks.withType(AbstractCompile::class.java) { task ->
+                project.tasks.withType(AbstractCompile::class.java) { task ->
                     if (!task.name.startsWith("compile$targetName", ignoreCase = true)) return@withType
                     when {
                         task.name.endsWith("MainJava") -> {}
@@ -112,14 +118,14 @@ public class TargetJvmContainer internal constructor(
                 }
             }
 
-            configureJava9ModuleInfoMultiRelease(target)
+            configureJava9ModuleInfoMultiRelease(project, target)
         }
     }
 
-    private fun configureJava9ModuleInfoMultiRelease(target: KotlinJvmTarget) {
+    private fun configureJava9ModuleInfoMultiRelease(project: Project, target: KotlinJvmTarget) {
         val moduleName = java9ModuleInfoName ?: return
 
-        val java9Dir = target.project
+        val java9Dir = project
             .projectDir
             .resolve("src")
             .resolve(targetName + "Main")
@@ -129,8 +135,8 @@ public class TargetJvmContainer internal constructor(
             throw GradleException("module-info.java not found in $java9Dir")
         }
 
-        val javaToolchain = target.project.extensions.getByType(JavaToolchainService::class.java)
-        val compileJavaModuleInfo = target.project.tasks.register("compileJavaModuleInfo", JavaCompile::class.java) { jCompile ->
+        val javaToolchain = project.extensions.getByType(JavaToolchainService::class.java)
+        val compileJavaModuleInfo = project.tasks.register("compileJavaModuleInfo", JavaCompile::class.java) { jCompile ->
             val compileKotlinTask = target.compilations.getByName("main").compileTaskProvider.get() as KotlinJvmCompile
             val targetDir = compileKotlinTask.destinationDirectory.dir("../java9")
 
@@ -159,7 +165,7 @@ public class TargetJvmContainer internal constructor(
             jCompile.modularity.inferModulePath.set(true)
         }
 
-        target.project.tasks.withType(Jar::class.java) { jar ->
+        project.tasks.withType(Jar::class.java) { jar ->
             if (jar.name != "${targetName}Jar") return@withType
 
             jar.manifest { manifest ->
@@ -171,11 +177,15 @@ public class TargetJvmContainer internal constructor(
         }
     }
 
-    @JvmSynthetic
+    @get:JvmSynthetic
     internal override val sortOrder: Byte = 2
 
     @KmpConfigurationDsl
-    @Deprecated("Use variable setter java9ModuleName", ReplaceWith("this.java9ModuleInfoName = moduleName"))
+    @Deprecated(
+        "Use variable setter java9ModuleName",
+        ReplaceWith("this.java9ModuleInfoName = moduleName"),
+        level = DeprecationLevel.ERROR,
+    )
     public fun java9MultiReleaseModuleInfo(moduleName: String?) {
         this.java9ModuleInfoName = moduleName
     }
