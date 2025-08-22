@@ -43,6 +43,7 @@ public open class KmpConfigurationPlugin : Plugin<Project> {
         target.extensions.create(
             KmpConfigurationExtension.NAME,
             KmpConfigurationExtension::class.java,
+            target,
             kotlinPluginVersion,
             KmpTargetProperty.isKmpTargetsAllSet,
             target.findKmpTargetsProperties(),

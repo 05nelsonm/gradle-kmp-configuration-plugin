@@ -22,10 +22,13 @@ import io.matthewnelson.kmp.configuration.extension.container.target.KmpConfigur
 import io.matthewnelson.kmp.configuration.extension.container.target.KmpTargetProperty
 import org.gradle.api.Action
 import org.gradle.api.GradleException
+import org.gradle.api.Project
 import javax.inject.Inject
 
 @KmpConfigurationDsl
 public abstract class KmpConfigurationExtension @Inject internal constructor(
+    @JvmField
+    public val project: Project,
     private val kotlinPluginVersion: KotlinVersion,
     private val isKmpTargetsAllSet: Boolean,
     private val kmpTargetsProperty: Set<KmpTargetProperty>?,

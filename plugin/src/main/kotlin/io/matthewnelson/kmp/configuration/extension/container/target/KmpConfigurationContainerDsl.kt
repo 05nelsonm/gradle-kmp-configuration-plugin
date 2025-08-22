@@ -24,7 +24,7 @@ import org.jetbrains.kotlin.gradle.dsl.KotlinMultiplatformExtension
 
 @KmpConfigurationDsl
 public class KmpConfigurationContainerDsl private constructor(
-    override val holder: ContainerHolder
+    public override val holder: ContainerHolder,
 ) : TargetAndroidContainer.Configure,
     TargetAndroidNativeContainer.Configure,
     TargetIosContainer.Configure,
