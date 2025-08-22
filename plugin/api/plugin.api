@@ -8,6 +8,7 @@ public class io/matthewnelson/kmp/configuration/KmpConfigurationPlugin : org/gra
 }
 
 public abstract class io/matthewnelson/kmp/configuration/extension/KmpConfigurationExtension {
+	public final field project Lorg/gradle/api/Project;
 	public final fun configure (Lorg/gradle/api/Action;)V
 }
 

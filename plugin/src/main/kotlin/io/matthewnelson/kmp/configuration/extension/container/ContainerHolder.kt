@@ -78,13 +78,11 @@ public class ContainerHolder private constructor(
             containers: MutableSet<Container>,
             isKmpTargetsAllSet: Boolean,
             kmpTargetsProperty: Set<KmpTargetProperty>?,
-        ): ContainerHolder {
-            return ContainerHolder(
-                kotlinPluginVersion,
-                containers,
-                isKmpTargetsAllSet,
-                kmpTargetsProperty
-            )
-        }
+        ): ContainerHolder = ContainerHolder(
+            kotlinPluginVersion,
+            containers,
+            isKmpTargetsAllSet,
+            kmpTargetsProperty
+        )
     }
 }
