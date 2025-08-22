@@ -13,30 +13,26 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  **/
-@file:Suppress("DeprecatedCallableAddReplaceWith", "DEPRECATION_ERROR")
+@file:Suppress("DeprecatedCallableAddReplaceWith", "DEPRECATION_ERROR", "RedundantVisibilityModifier")
 
 package io.matthewnelson.kmp.configuration.extension.container.target
 
 import io.matthewnelson.kmp.configuration.KmpConfigurationDsl
 import io.matthewnelson.kmp.configuration.extension.container.ContainerHolder
 import org.gradle.api.Action
+import org.gradle.api.Project
 import org.jetbrains.kotlin.gradle.dsl.KotlinMultiplatformExtension
 import org.jetbrains.kotlin.gradle.plugin.mpp.KotlinNativeTarget
 import org.jetbrains.kotlin.konan.target.DEPRECATED_TARGET_MESSAGE
 
 public sealed class TargetLinuxContainer<T: KotlinNativeTarget> private constructor(
-    targetName: String
+    targetName: String,
 ): KmpTarget.NonJvm.Native.Unix.Linux<T>(targetName) {
 
     public sealed interface Configure {
         public val holder: ContainerHolder
 
         public fun linuxAll() {
-            if (!holder.kotlinPluginVersion.isAtLeast(1, 9, 20)) {
-                linuxArm32Hfp()
-                linuxMips32()
-                linuxMipsel32()
-            }
             linuxArm64()
             linuxX64()
         }
@@ -68,36 +64,6 @@ public sealed class TargetLinuxContainer<T: KotlinNativeTarget> private construc
             holder.add(container)
         }
 
-        @Deprecated(DEPRECATED_TARGET_MESSAGE, level = DeprecationLevel.ERROR)
-        public fun linuxMips32() { linuxMips32 {} }
-
-        @Deprecated(DEPRECATED_TARGET_MESSAGE, level = DeprecationLevel.ERROR)
-        public fun linuxMips32(action: Action<Mips32>) {
-            linuxMips32("linuxMips32", action)
-        }
-
-        @Deprecated(DEPRECATED_TARGET_MESSAGE, level = DeprecationLevel.ERROR)
-        public fun linuxMips32(targetName: String, action: Action<Mips32>) {
-            val container = holder.find(targetName) ?: Mips32(targetName)
-            action.execute(container)
-            holder.add(container)
-        }
-
-        @Deprecated(DEPRECATED_TARGET_MESSAGE, level = DeprecationLevel.ERROR)
-        public fun linuxMipsel32() { linuxMipsel32 {} }
-
-        @Deprecated(DEPRECATED_TARGET_MESSAGE, level = DeprecationLevel.ERROR)
-        public fun linuxMipsel32(action: Action<Mipsel32>) {
-            linuxMipsel32("linuxMipsel32", action)
-        }
-
-        @Deprecated(DEPRECATED_TARGET_MESSAGE, level = DeprecationLevel.ERROR)
-        public fun linuxMipsel32(targetName: String, action: Action<Mipsel32>) {
-            val container = holder.find(targetName) ?: Mipsel32(targetName)
-            action.execute(container)
-            holder.add(container)
-        }
-
         public fun linuxX64() { linuxX64 {} }
 
         public fun linuxX64(action: Action<X64>) {
@@ -114,36 +80,24 @@ public sealed class TargetLinuxContainer<T: KotlinNativeTarget> private construc
     @KmpConfigurationDsl
     @Deprecated(DEPRECATED_TARGET_MESSAGE, level = DeprecationLevel.ERROR)
     public class Arm32Hfp internal constructor(
-        targetName: String
+        targetName: String,
     ): TargetLinuxContainer<KotlinNativeTarget>(targetName)
 
     @KmpConfigurationDsl
     public class Arm64 internal constructor(
-        targetName: String
-    ): TargetLinuxContainer<KotlinNativeTarget>(targetName)
-
-    @KmpConfigurationDsl
-    @Deprecated(DEPRECATED_TARGET_MESSAGE, level = DeprecationLevel.ERROR)
-    public class Mips32 internal constructor(
-        targetName: String
-    ): TargetLinuxContainer<KotlinNativeTarget>(targetName)
-
-    @KmpConfigurationDsl
-    @Deprecated(DEPRECATED_TARGET_MESSAGE, level = DeprecationLevel.ERROR)
-    public class Mipsel32 internal constructor(
-        targetName: String
+        targetName: String,
     ): TargetLinuxContainer<KotlinNativeTarget>(targetName)
 
     @KmpConfigurationDsl
     public class X64 internal constructor(
-        targetName: String
+        targetName: String,
     ): TargetLinuxContainer<KotlinNativeTarget>(targetName)
 
     @JvmSynthetic
-    internal final override fun setup(kotlin: KotlinMultiplatformExtension) {
+    internal final override fun setup(project: Project, kotlin: KotlinMultiplatformExtension) {
         with(kotlin) {
             @Suppress("RedundantSamConstructor")
-            val target = when (this@TargetLinuxContainer) {
+            when (this@TargetLinuxContainer) {
                 is Arm32Hfp -> {
                     @Suppress("DEPRECATION")
                     linuxArm32Hfp(targetName, Action { t ->
@@ -152,16 +106,6 @@ public sealed class TargetLinuxContainer<T: KotlinNativeTarget> private construc
                 }
                 is Arm64 -> {
                     linuxArm64(targetName, Action { t ->
-                        lazyTarget.forEach { action -> action.execute(t) }
-                    })
-                }
-                is Mips32 -> {
-                    linuxMips32(targetName, Action { t ->
-                        lazyTarget.forEach { action -> action.execute(t) }
-                    })
-                }
-                is Mipsel32 -> {
-                    linuxMipsel32(targetName, Action { t ->
                         lazyTarget.forEach { action -> action.execute(t) }
                     })
                 }
@@ -185,7 +129,7 @@ public sealed class TargetLinuxContainer<T: KotlinNativeTarget> private construc
         }
     }
 
-    @JvmSynthetic
+    @get:JvmSynthetic
     internal final override val sortOrder: Byte = 41
 
     internal companion object {

@@ -13,6 +13,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  **/
+@file:Suppress("RedundantVisibilityModifier")
+
 package io.matthewnelson.kmp.configuration.extension.container.target
 
 import io.matthewnelson.kmp.configuration.KmpConfigurationDsl
@@ -20,12 +22,13 @@ import io.matthewnelson.kmp.configuration.extension.container.ContainerHolder
 import io.matthewnelson.kmp.configuration.extension.container.OptionsContainer.Companion.findNonSimulator
 import io.matthewnelson.kmp.configuration.extension.container.OptionsContainer.Companion.findSimulator
 import org.gradle.api.Action
+import org.gradle.api.Project
 import org.jetbrains.kotlin.gradle.dsl.KotlinMultiplatformExtension
 import org.jetbrains.kotlin.gradle.plugin.mpp.KotlinNativeTarget
 import org.jetbrains.kotlin.gradle.plugin.mpp.KotlinNativeTargetWithSimulatorTests
 
 public sealed class TargetTvosContainer<T: KotlinNativeTarget> private constructor(
-    targetName: String
+    targetName: String,
 ): KmpTarget.NonJvm.Native.Unix.Darwin.Tvos<T>(targetName) {
 
     public sealed interface Configure {
@@ -76,39 +79,41 @@ public sealed class TargetTvosContainer<T: KotlinNativeTarget> private construct
 
     @KmpConfigurationDsl
     public class Arm64 internal constructor(
-        targetName: String
+        targetName: String,
     ): TargetTvosContainer<KotlinNativeTarget>(targetName)
 
     @KmpConfigurationDsl
     public class X64 internal constructor(
-        targetName: String
+        targetName: String,
     ): TargetTvosContainer<KotlinNativeTarget>(targetName)
 
     @KmpConfigurationDsl
     public class SimulatorArm64 internal constructor(
-        targetName: String
+        targetName: String,
     ): TargetTvosContainer<KotlinNativeTargetWithSimulatorTests>(targetName)
 
-
     @JvmSynthetic
-    internal override fun setup(kotlin: KotlinMultiplatformExtension) {
+    internal override fun setup(project: Project, kotlin: KotlinMultiplatformExtension) {
         @Suppress("RedundantSamConstructor")
         with(kotlin) {
-            val (target, isSimulator) = when (this@TargetTvosContainer) {
+            val isSimulator = when (this@TargetTvosContainer) {
                 is Arm64 -> {
                     tvosArm64(targetName, Action { t ->
                         lazyTarget.forEach { action -> action.execute(t) }
-                    }) to false
+                    })
+                    false
                 }
                 is SimulatorArm64 -> {
                     tvosSimulatorArm64(targetName, Action { t ->
                         lazyTarget.forEach { action -> action.execute(t) }
-                    }) to true
+                    })
+                    true
                 }
                 is X64 -> {
                     tvosX64(targetName, Action { t ->
                         lazyTarget.forEach { action -> action.execute(t) }
-                    }) to true
+                    })
+                    true
                 }
             }
 
@@ -137,7 +142,7 @@ public sealed class TargetTvosContainer<T: KotlinNativeTarget> private construct
         }
     }
 
-    @JvmSynthetic
+    @get:JvmSynthetic
     internal final override val sortOrder: Byte = 33
 
     internal companion object {

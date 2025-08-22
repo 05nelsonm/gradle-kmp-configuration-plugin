@@ -28,7 +28,6 @@ Will automatically configure project with a hierarchical source set structure
                |     |     '-- androidNativeX86
                |     |-- darwin
                |     |     |-- ios
-               |     |     |     |-- iosArm32
                |     |     |     |-- iosArm64
                |     |     |     |-- iosX64
                |     |     |     '-- iosSimulatorArm64
@@ -44,19 +43,13 @@ Will automatically configure project with a hierarchical source set structure
                |     |           |-- watchosArm64
                |     |           |-- watchosDeviceArm64
                |     |           |-- watchosX64
-               |     |           |-- watchosX86
                |     |           '-- watchosSimulatorArm64
                |     '-- linux
                |           |-- linuxArm32Hfp
                |           |-- linuxArm64
-               |           |-- linuxMips32
-               |           |-- linuxMipsel32
                |           '-- linuxX64
-               |-- mingw
-               |     |-- mingwX64
-               |     '-- mingwX86
-               '-- wasmNative
-                     '-- wasm32
+               '-- mingw
+                     '-- mingwX64
 ```
 
 ## Target Properties
@@ -97,11 +90,7 @@ WATCHOS_ARM32,WATCHOS_ARM64,WATCHOS_DEVICE_ARM64,WATCHOS_SIMULATOR_ARM64,WATCHOS
 WASM_JS,WASM_WASI,WASM
 
 // DEPRECATED as of 0.1.5 (based on Kotlin 1.9.20)
-LINUX_ARM32HFP,LINUX_MIPS32,LINUX_MIPSEL32
-MINGW_X86
-IOS_ARM32
-WATCHOS_X86
-WASM_32
+LINUX_ARM32HFP
 ```
 
 Example usage (comma separated list)

@@ -13,6 +13,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  **/
+@file:Suppress("RedundantVisibilityModifier")
+
 package io.matthewnelson.kmp.configuration.extension.container
 
 import io.matthewnelson.kmp.configuration.KmpConfigurationDsl
@@ -21,6 +23,7 @@ import io.matthewnelson.kmp.configuration.extension.container.target.TargetTvosC
 import io.matthewnelson.kmp.configuration.extension.container.target.TargetWatchosContainer
 import org.gradle.api.Action
 import org.gradle.api.NamedDomainObjectContainer
+import org.gradle.api.Project
 import org.jetbrains.kotlin.gradle.dsl.KotlinMultiplatformExtension
 import org.jetbrains.kotlin.gradle.plugin.KotlinSourceSet
 import org.jetbrains.kotlin.gradle.plugin.mpp.KotlinAndroidTarget
@@ -73,7 +76,8 @@ public class OptionsContainer internal constructor(): Container() {
     @JvmField
     public var useSimulatorSourceSets: Boolean = false
 
-    override fun setup(kotlin: KotlinMultiplatformExtension) {
+    @JvmSynthetic
+    internal override fun setup(project: Project, kotlin: KotlinMultiplatformExtension) {
         with(kotlin.sourceSets) {
             setupNonSimulator(TargetIosContainer.IOS)
             setupNonSimulator(TargetTvosContainer.TVOS)
@@ -147,25 +151,24 @@ public class OptionsContainer internal constructor(): Container() {
         }
     }
 
-    override val sortOrder: Byte = Byte.MIN_VALUE
+    @get:JvmSynthetic
+    internal override val sortOrder: Byte = Byte.MIN_VALUE
 
     internal companion object {
 
-        @JvmStatic
         @JvmSynthetic
         internal fun NamedDomainObjectContainer<KotlinSourceSet>.findNonSimulator(
             name: String,
-            isMain: Boolean
+            isMain: Boolean,
         ): KotlinSourceSet? {
             val suffix = if (isMain) "Main" else "Test"
             return findByName("${name}NonSimulator$suffix")
         }
 
-        @JvmStatic
         @JvmSynthetic
         internal fun NamedDomainObjectContainer<KotlinSourceSet>.findSimulator(
             name: String,
-            isMain: Boolean
+            isMain: Boolean,
         ): KotlinSourceSet? {
             val suffix = if (isMain) "Main" else "Test"
             return findByName("${name}Simulator$suffix")
@@ -174,7 +177,8 @@ public class OptionsContainer internal constructor(): Container() {
 
     @Deprecated(
         "use 'useNonSimulatorSourceSets'",
-        ReplaceWith("useNonSimulatorSourceSets")
+        ReplaceWith("useNonSimulatorSourceSets"),
+        level = DeprecationLevel.ERROR,
     )
     public var nonSimulatorSourceSets: Boolean
         set(value) { useNonSimulatorSourceSets = value }

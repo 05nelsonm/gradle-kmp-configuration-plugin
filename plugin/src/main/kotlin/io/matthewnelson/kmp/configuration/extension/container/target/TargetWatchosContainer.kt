@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  **/
-@file:Suppress("DeprecatedCallableAddReplaceWith", "DEPRECATION_ERROR")
+@file:Suppress("DeprecatedCallableAddReplaceWith", "RedundantVisibilityModifier")
 
 package io.matthewnelson.kmp.configuration.extension.container.target
 
@@ -22,14 +22,13 @@ import io.matthewnelson.kmp.configuration.extension.container.ContainerHolder
 import io.matthewnelson.kmp.configuration.extension.container.OptionsContainer.Companion.findNonSimulator
 import io.matthewnelson.kmp.configuration.extension.container.OptionsContainer.Companion.findSimulator
 import org.gradle.api.Action
-import org.gradle.api.GradleException
+import org.gradle.api.Project
 import org.jetbrains.kotlin.gradle.dsl.KotlinMultiplatformExtension
 import org.jetbrains.kotlin.gradle.plugin.mpp.KotlinNativeTarget
 import org.jetbrains.kotlin.gradle.plugin.mpp.KotlinNativeTargetWithSimulatorTests
-import org.jetbrains.kotlin.konan.target.DEPRECATED_TARGET_MESSAGE
 
 public sealed class TargetWatchosContainer<T: KotlinNativeTarget> private constructor(
-    targetName: String
+    targetName: String,
 ): KmpTarget.NonJvm.Native.Unix.Darwin.Watchos<T>(targetName) {
 
     public sealed interface Configure {
@@ -38,13 +37,8 @@ public sealed class TargetWatchosContainer<T: KotlinNativeTarget> private constr
         public fun watchosAll() {
             watchosArm32()
             watchosArm64()
-            if (holder.kotlinPluginVersion.isAtLeast(1, 8)) {
-                watchosDeviceArm64()
-            }
+            watchosDeviceArm64()
             watchosX64()
-            if (!holder.kotlinPluginVersion.isAtLeast(1, 9, 20)) {
-                watchosX86()
-            }
             watchosSimulatorArm64()
         }
 
@@ -79,10 +73,6 @@ public sealed class TargetWatchosContainer<T: KotlinNativeTarget> private constr
         }
 
         public fun watchosDeviceArm64(targetName: String, action: Action<DeviceArm64>) {
-            if (!holder.kotlinPluginVersion.isAtLeast(1, 8)) {
-                throw GradleException("watchosDeviceArm64 requires Kotlin 1.8.0 or greater")
-            }
-
             val container = holder.find(targetName) ?: DeviceArm64(targetName)
             action.execute(container)
             holder.add(container)
@@ -96,21 +86,6 @@ public sealed class TargetWatchosContainer<T: KotlinNativeTarget> private constr
 
         public fun watchosX64(targetName: String, action: Action<X64>) {
             val container = holder.find(targetName) ?: X64(targetName)
-            action.execute(container)
-            holder.add(container)
-        }
-
-        @Deprecated(DEPRECATED_TARGET_MESSAGE, level = DeprecationLevel.ERROR)
-        public fun watchosX86() { watchosX86 {} }
-
-        @Deprecated(DEPRECATED_TARGET_MESSAGE, level = DeprecationLevel.ERROR)
-        public fun watchosX86(action: Action<X86>) {
-            watchosX86("watchosX86", action)
-        }
-
-        @Deprecated(DEPRECATED_TARGET_MESSAGE, level = DeprecationLevel.ERROR)
-        public fun watchosX86(targetName: String, action: Action<X86>) {
-            val container = holder.find(targetName) ?: X86(targetName)
             action.execute(container)
             holder.add(container)
         }
@@ -130,70 +105,63 @@ public sealed class TargetWatchosContainer<T: KotlinNativeTarget> private constr
 
     @KmpConfigurationDsl
     public class Arm32 internal constructor(
-        targetName: String
+        targetName: String,
     ): TargetWatchosContainer<KotlinNativeTarget>(targetName)
 
     @KmpConfigurationDsl
     public class Arm64 internal constructor(
-        targetName: String
+        targetName: String,
     ): TargetWatchosContainer<KotlinNativeTarget>(targetName)
 
     @KmpConfigurationDsl
     public class DeviceArm64 internal constructor(
-        targetName: String
+        targetName: String,
     ): TargetWatchosContainer<KotlinNativeTarget>(targetName)
 
     @KmpConfigurationDsl
     public class X64 internal constructor(
-        targetName: String
-    ): TargetWatchosContainer<KotlinNativeTarget>(targetName)
-
-    @KmpConfigurationDsl
-    @Deprecated(DEPRECATED_TARGET_MESSAGE, level = DeprecationLevel.ERROR)
-    public class X86 internal constructor(
-        targetName: String
+        targetName: String,
     ): TargetWatchosContainer<KotlinNativeTarget>(targetName)
 
     @KmpConfigurationDsl
     public class SimulatorArm64 internal constructor(
-        targetName: String
+        targetName: String,
     ): TargetWatchosContainer<KotlinNativeTargetWithSimulatorTests>(targetName)
 
-
     @JvmSynthetic
-    internal override fun setup(kotlin: KotlinMultiplatformExtension) {
+    internal override fun setup(project: Project, kotlin: KotlinMultiplatformExtension) {
         @Suppress("RedundantSamConstructor")
         with(kotlin) {
-            val (target, isSimulator) = when (this@TargetWatchosContainer) {
+            val isSimulator = when (this@TargetWatchosContainer) {
                 is Arm32 -> {
                     watchosArm32(targetName, Action { t ->
                         lazyTarget.forEach { action -> action.execute(t) }
-                    }) to false
+                    })
+                    false
                 }
                 is Arm64 -> {
                     watchosArm64(targetName, Action { t ->
                         lazyTarget.forEach { action -> action.execute(t) }
-                    }) to false
+                    })
+                    false
                 }
                 is DeviceArm64 -> {
                     watchosDeviceArm64(targetName, Action { t ->
                         lazyTarget.forEach { action -> action.execute(t) }
-                    }) to false
+                    })
+                    false
                 }
                 is SimulatorArm64 -> {
                     watchosSimulatorArm64(targetName, Action { t ->
                         lazyTarget.forEach { action -> action.execute(t) }
-                    }) to true
+                    })
+                    true
                 }
                 is X64 -> {
                     watchosX64(targetName, Action { t ->
                         lazyTarget.forEach { action -> action.execute(t) }
-                    }) to true
-                }
-                is X86 -> {
-                    watchosX86(targetName, Action { t ->
-                        lazyTarget.forEach { action -> action.execute(t) }
-                    }) to false
+                    })
+                    true
                 }
             }
 
@@ -222,7 +190,7 @@ public sealed class TargetWatchosContainer<T: KotlinNativeTarget> private constr
         }
     }
 
-    @JvmSynthetic
+    @get:JvmSynthetic
     internal final override val sortOrder: Byte = 34
 
     internal companion object {

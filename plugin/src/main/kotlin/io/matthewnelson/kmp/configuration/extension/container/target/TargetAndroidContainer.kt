@@ -13,6 +13,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  **/
+@file:Suppress("RedundantVisibilityModifier")
+
 package io.matthewnelson.kmp.configuration.extension.container.target
 
 import com.android.build.gradle.LibraryExtension
@@ -22,13 +24,14 @@ import io.matthewnelson.kmp.configuration.KmpConfigurationDsl
 import io.matthewnelson.kmp.configuration.extension.container.ContainerHolder
 import org.gradle.api.Action
 import org.gradle.api.Project
+import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 import org.jetbrains.kotlin.gradle.dsl.KotlinMultiplatformExtension
 import org.jetbrains.kotlin.gradle.plugin.KotlinSourceSet
 import org.jetbrains.kotlin.gradle.plugin.mpp.KotlinAndroidTarget
+import org.jetbrains.kotlin.gradle.tasks.KotlinJvmCompile
 
 public sealed class TargetAndroidContainer<T: TestedExtension> private constructor(
     targetName: String,
-    private val kotlinPluginVersion: KotlinVersion,
 ): KmpTarget.Jvm<KotlinAndroidTarget>(targetName) {
 
     public sealed interface Configure {
@@ -39,7 +42,7 @@ public sealed class TargetAndroidContainer<T: TestedExtension> private construct
         }
 
         public fun androidApp(targetName: String, action: Action<App>) {
-            val container = holder.find(targetName) ?: App(targetName, holder.kotlinPluginVersion)
+            val container = holder.find(targetName) ?: App(targetName)
             action.execute(container)
             holder.add(container)
         }
@@ -49,7 +52,7 @@ public sealed class TargetAndroidContainer<T: TestedExtension> private construct
         }
 
         public fun androidLibrary(targetName: String, action: Action<Library>) {
-            val container = holder.find(targetName) ?: Library(targetName, holder.kotlinPluginVersion)
+            val container = holder.find(targetName) ?: Library(targetName)
             action.execute(container)
             holder.add(container)
         }
@@ -66,15 +69,13 @@ public sealed class TargetAndroidContainer<T: TestedExtension> private construct
     @KmpConfigurationDsl
     public class App internal constructor(
         targetName: String,
-        kotlinPluginVersion: KotlinVersion,
-    ): TargetAndroidContainer<BaseAppModuleExtension>(targetName, kotlinPluginVersion) {
+    ): TargetAndroidContainer<BaseAppModuleExtension>(targetName) {
 
         init { pluginIds("com.android.application") }
 
         protected override fun setupAndroid(project: Project) {
             project.extensions.configure(BaseAppModuleExtension::class.java) { extension ->
-                // Set before executing action so that they may be
-                // overridden if desired
+                // Set before executing action so that they may be overridden if desired
                 extension.compileOptions {
                     compileSourceCompatibility?.let { compatibility ->
                         sourceCompatibility = compatibility
@@ -92,15 +93,13 @@ public sealed class TargetAndroidContainer<T: TestedExtension> private construct
     @KmpConfigurationDsl
     public class Library internal constructor(
         targetName: String,
-        kotlinPluginVersion: KotlinVersion,
-    ): TargetAndroidContainer<LibraryExtension>(targetName, kotlinPluginVersion) {
+    ): TargetAndroidContainer<LibraryExtension>(targetName) {
 
         init { pluginIds("com.android.library") }
 
         protected override fun setupAndroid(project: Project) {
             project.extensions.configure(LibraryExtension::class.java) { extension ->
-                // Set before executing action so that they may be
-                // overridden if desired
+                // Set before executing action so that they may be overridden if desired
                 extension.compileOptions {
                     compileSourceCompatibility?.let { compatibility ->
                         sourceCompatibility = compatibility
@@ -118,24 +117,20 @@ public sealed class TargetAndroidContainer<T: TestedExtension> private construct
     protected abstract fun setupAndroid(project: Project)
 
     @JvmSynthetic
-    internal final override fun setup(kotlin: KotlinMultiplatformExtension) {
+    internal final override fun setup(project: Project, kotlin: KotlinMultiplatformExtension) {
         with(kotlin) {
-            val target = Action<KotlinAndroidTarget> { t ->
+            @Suppress("RedundantSamConstructor")
+            androidTarget(targetName, Action { t ->
                 kotlinJvmTarget?.let { version ->
+                    val jvmTarget = JvmTarget.fromTarget(version.toString())
                     t.compilations.all { compilation ->
-                        compilation.kotlinOptions.jvmTarget = version.toString()
+                        val task = compilation.compileTaskProvider.get() as KotlinJvmCompile
+                        task.compilerOptions.jvmTarget.set(jvmTarget)
                     }
                 }
 
                 lazyTarget.forEach { action -> action.execute(t) }
-            }.let { action ->
-                if (kotlinPluginVersion.isAtLeast(1, 9)) {
-                    androidTarget(targetName, action)
-                } else {
-                    @Suppress("DEPRECATION_ERROR")
-                    android(targetName, action)
-                }
-            }
+            })
 
             with(sourceSets) {
                 getByName("${targetName}Main") { ss ->
@@ -156,12 +151,12 @@ public sealed class TargetAndroidContainer<T: TestedExtension> private construct
                 }
             }
 
-            setupAndroid(target.project)
+            setupAndroid(project)
         }
     }
 
-    @JvmSynthetic
+    @get:JvmSynthetic
     internal final override val sortOrder: Byte = 1
-    final override fun equals(other: Any?): Boolean = other is TargetAndroidContainer<*>
-    final override fun hashCode(): Int = 17 * 31 + TargetAndroidContainer::class.java.name.hashCode()
+    public final override fun equals(other: Any?): Boolean = other is TargetAndroidContainer<*>
+    public final override fun hashCode(): Int = 17 * 31 + TargetAndroidContainer::class.java.name.hashCode()
 }

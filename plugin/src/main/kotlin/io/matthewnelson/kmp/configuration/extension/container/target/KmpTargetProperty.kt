@@ -28,12 +28,8 @@ internal enum class KmpTargetProperty {
     JS,
     LINUX_ARM32HFP,
     LINUX_ARM64,
-    LINUX_MIPS32,
-    LINUX_MIPSEL32,
     LINUX_X64,
     MINGW_X64,
-    MINGW_X86,
-    IOS_ARM32,
     IOS_ARM64,
     IOS_SIMULATOR_ARM64,
     IOS_X64,
@@ -47,11 +43,9 @@ internal enum class KmpTargetProperty {
     WATCHOS_DEVICE_ARM64,
     WATCHOS_SIMULATOR_ARM64,
     WATCHOS_X64,
-    WATCHOS_X86,
     WASM,
     WASM_JS,
-    WASM_WASI,
-    WASM_32;
+    WASM_WASI;
 
     internal companion object {
         @get:JvmSynthetic
@@ -75,7 +69,7 @@ internal enum class KmpTargetProperty {
         }
 
         @JvmSynthetic
-        @Suppress("DEPRECATION", "DEPRECATION_ERROR")
+        @Suppress("DEPRECATION_ERROR")
         internal fun KmpTarget<*>.property(): KmpTargetProperty {
             return when (this) {
                 is TargetAndroidContainer<*> -> ANDROID
@@ -87,12 +81,8 @@ internal enum class KmpTargetProperty {
                 is TargetJsContainer -> JS
                 is TargetLinuxContainer.Arm32Hfp -> LINUX_ARM32HFP
                 is TargetLinuxContainer.Arm64 -> LINUX_ARM64
-                is TargetLinuxContainer.Mips32 -> LINUX_MIPS32
-                is TargetLinuxContainer.Mipsel32 -> LINUX_MIPSEL32
                 is TargetLinuxContainer.X64 -> LINUX_X64
                 is TargetMingwContainer.X64 -> MINGW_X64
-                is TargetMingwContainer.X86 -> MINGW_X86
-                is TargetIosContainer.Arm32 -> IOS_ARM32
                 is TargetIosContainer.Arm64 -> IOS_ARM64
                 is TargetIosContainer.SimulatorArm64 -> IOS_SIMULATOR_ARM64
                 is TargetIosContainer.X64 -> IOS_X64
@@ -106,11 +96,9 @@ internal enum class KmpTargetProperty {
                 is TargetWatchosContainer.DeviceArm64 -> WATCHOS_DEVICE_ARM64
                 is TargetWatchosContainer.SimulatorArm64 -> WATCHOS_SIMULATOR_ARM64
                 is TargetWatchosContainer.X64 -> WATCHOS_X64
-                is TargetWatchosContainer.X86 -> WATCHOS_X86
                 is TargetWasmContainer.Wasm -> WASM
                 is TargetWasmContainer.WasmJs -> WASM_JS
                 is TargetWasmContainer.WasmWasi -> WASM_WASI
-                is TargetWasmNativeContainer._32 -> WASM_32
             }
         }
     }

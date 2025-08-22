@@ -1,7 +1,7 @@
 [versions]
 gradle-android = "8.9.3"
 gradle-binary-compat = "0.18.1"
-gradle-kotlin = "2.1.21"
+gradle-kotlin = "2.2.10"
 gradle-publish-maven = "0.34.0"
 
 [libraries]

@@ -13,17 +13,20 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  **/
+@file:Suppress("RedundantVisibilityModifier")
+
 package io.matthewnelson.kmp.configuration.extension.container.target
 
 import io.matthewnelson.kmp.configuration.KmpConfigurationDsl
 import io.matthewnelson.kmp.configuration.extension.container.ContainerHolder
 import org.gradle.api.Action
+import org.gradle.api.Project
 import org.jetbrains.kotlin.gradle.dsl.KotlinMultiplatformExtension
 import org.jetbrains.kotlin.gradle.plugin.mpp.KotlinNativeTarget
 import org.jetbrains.kotlin.gradle.plugin.mpp.KotlinNativeTargetWithHostTests
 
 public sealed class TargetMacosContainer<T: KotlinNativeTarget> private constructor(
-    targetName: String
+    targetName: String,
 ): KmpTarget.NonJvm.Native.Unix.Darwin.Macos<T>(targetName) {
 
     public sealed interface Configure {
@@ -61,19 +64,19 @@ public sealed class TargetMacosContainer<T: KotlinNativeTarget> private construc
 
     @KmpConfigurationDsl
     public class Arm64 internal constructor(
-        targetName: String
+        targetName: String,
     ): TargetMacosContainer<KotlinNativeTargetWithHostTests>(targetName)
 
     @KmpConfigurationDsl
     public class X64 internal constructor(
-        targetName: String
+        targetName: String,
     ): TargetMacosContainer<KotlinNativeTargetWithHostTests>(targetName)
 
     @JvmSynthetic
-    internal final override fun setup(kotlin: KotlinMultiplatformExtension) {
+    internal final override fun setup(project: Project, kotlin: KotlinMultiplatformExtension) {
         with(kotlin) {
             @Suppress("RedundantSamConstructor")
-            val target = when (this@TargetMacosContainer) {
+            when (this@TargetMacosContainer) {
                 is Arm64 -> {
                     macosArm64(targetName, Action { t ->
                         lazyTarget.forEach { action -> action.execute(t) }
@@ -99,7 +102,7 @@ public sealed class TargetMacosContainer<T: KotlinNativeTarget> private construc
         }
     }
 
-    @JvmSynthetic
+    @get:JvmSynthetic
     internal final override val sortOrder: Byte = 32
 
     internal companion object {

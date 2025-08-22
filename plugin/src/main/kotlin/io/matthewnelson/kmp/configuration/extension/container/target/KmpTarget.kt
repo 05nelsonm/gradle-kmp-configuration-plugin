@@ -13,6 +13,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  **/
+@file:Suppress("RedundantVisibilityModifier")
+
 package io.matthewnelson.kmp.configuration.extension.container.target
 
 import io.matthewnelson.kmp.configuration.KmpConfigurationDsl
@@ -67,9 +69,6 @@ public sealed class KmpTarget<T: KotlinTarget> private constructor(
             }
 
             public sealed class Mingw<T: KotlinNativeTarget>(targetName: String): Native<T>(targetName)
-
-            @Deprecated(message = "Target is deprecated and will be removed soon: see https://kotl.in/native-targets-tiers")
-            public sealed class Wasm<T: KotlinNativeTarget>(targetName: String): Native<T>(targetName)
         }
     }
 }
