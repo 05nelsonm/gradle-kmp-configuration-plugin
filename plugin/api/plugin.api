@@ -208,10 +208,10 @@ public final class io/matthewnelson/kmp/configuration/extension/container/target
 }
 
 public abstract interface class io/matthewnelson/kmp/configuration/extension/container/target/TargetAndroidContainer$Configure {
-	public fun androidApp (Ljava/lang/String;Lorg/gradle/api/Action;)V
-	public fun androidApp (Lorg/gradle/api/Action;)V
-	public fun androidLibrary (Ljava/lang/String;Lorg/gradle/api/Action;)V
-	public fun androidLibrary (Lorg/gradle/api/Action;)V
+	public abstract fun androidApp (Ljava/lang/String;Lorg/gradle/api/Action;)V
+	public abstract fun androidApp (Lorg/gradle/api/Action;)V
+	public abstract fun androidLibrary (Ljava/lang/String;Lorg/gradle/api/Action;)V
+	public abstract fun androidLibrary (Lorg/gradle/api/Action;)V
 	public abstract fun getHolder ()Lio/matthewnelson/kmp/configuration/extension/container/ContainerHolder;
 }
 
@@ -236,19 +236,19 @@ public final class io/matthewnelson/kmp/configuration/extension/container/target
 }
 
 public abstract interface class io/matthewnelson/kmp/configuration/extension/container/target/TargetAndroidNativeContainer$Configure {
-	public fun androidNativeAll ()V
-	public fun androidNativeArm32 ()V
-	public fun androidNativeArm32 (Ljava/lang/String;Lorg/gradle/api/Action;)V
-	public fun androidNativeArm32 (Lorg/gradle/api/Action;)V
-	public fun androidNativeArm64 ()V
-	public fun androidNativeArm64 (Ljava/lang/String;Lorg/gradle/api/Action;)V
-	public fun androidNativeArm64 (Lorg/gradle/api/Action;)V
-	public fun androidNativeX64 ()V
-	public fun androidNativeX64 (Ljava/lang/String;Lorg/gradle/api/Action;)V
-	public fun androidNativeX64 (Lorg/gradle/api/Action;)V
-	public fun androidNativeX86 ()V
-	public fun androidNativeX86 (Ljava/lang/String;Lorg/gradle/api/Action;)V
-	public fun androidNativeX86 (Lorg/gradle/api/Action;)V
+	public abstract fun androidNativeAll ()V
+	public abstract fun androidNativeArm32 ()V
+	public abstract fun androidNativeArm32 (Ljava/lang/String;Lorg/gradle/api/Action;)V
+	public abstract fun androidNativeArm32 (Lorg/gradle/api/Action;)V
+	public abstract fun androidNativeArm64 ()V
+	public abstract fun androidNativeArm64 (Ljava/lang/String;Lorg/gradle/api/Action;)V
+	public abstract fun androidNativeArm64 (Lorg/gradle/api/Action;)V
+	public abstract fun androidNativeX64 ()V
+	public abstract fun androidNativeX64 (Ljava/lang/String;Lorg/gradle/api/Action;)V
+	public abstract fun androidNativeX64 (Lorg/gradle/api/Action;)V
+	public abstract fun androidNativeX86 ()V
+	public abstract fun androidNativeX86 (Ljava/lang/String;Lorg/gradle/api/Action;)V
+	public abstract fun androidNativeX86 (Lorg/gradle/api/Action;)V
 	public abstract fun getHolder ()Lio/matthewnelson/kmp/configuration/extension/container/ContainerHolder;
 }
 
@@ -283,16 +283,16 @@ public final class io/matthewnelson/kmp/configuration/extension/container/target
 
 public abstract interface class io/matthewnelson/kmp/configuration/extension/container/target/TargetIosContainer$Configure {
 	public abstract fun getHolder ()Lio/matthewnelson/kmp/configuration/extension/container/ContainerHolder;
-	public fun iosAll ()V
-	public fun iosArm64 ()V
-	public fun iosArm64 (Ljava/lang/String;Lorg/gradle/api/Action;)V
-	public fun iosArm64 (Lorg/gradle/api/Action;)V
-	public fun iosSimulatorArm64 ()V
-	public fun iosSimulatorArm64 (Ljava/lang/String;Lorg/gradle/api/Action;)V
-	public fun iosSimulatorArm64 (Lorg/gradle/api/Action;)V
-	public fun iosX64 ()V
-	public fun iosX64 (Ljava/lang/String;Lorg/gradle/api/Action;)V
-	public fun iosX64 (Lorg/gradle/api/Action;)V
+	public abstract fun iosAll ()V
+	public abstract fun iosArm64 ()V
+	public abstract fun iosArm64 (Ljava/lang/String;Lorg/gradle/api/Action;)V
+	public abstract fun iosArm64 (Lorg/gradle/api/Action;)V
+	public abstract fun iosSimulatorArm64 ()V
+	public abstract fun iosSimulatorArm64 (Ljava/lang/String;Lorg/gradle/api/Action;)V
+	public abstract fun iosSimulatorArm64 (Lorg/gradle/api/Action;)V
+	public abstract fun iosX64 ()V
+	public abstract fun iosX64 (Ljava/lang/String;Lorg/gradle/api/Action;)V
+	public abstract fun iosX64 (Lorg/gradle/api/Action;)V
 }
 
 public final class io/matthewnelson/kmp/configuration/extension/container/target/TargetIosContainer$Configure$DefaultImpls {
@@ -321,9 +321,9 @@ public final class io/matthewnelson/kmp/configuration/extension/container/target
 
 public abstract interface class io/matthewnelson/kmp/configuration/extension/container/target/TargetJsContainer$Configure {
 	public abstract fun getHolder ()Lio/matthewnelson/kmp/configuration/extension/container/ContainerHolder;
-	public fun js ()V
-	public fun js (Ljava/lang/String;Lorg/gradle/api/Action;)V
-	public fun js (Lorg/gradle/api/Action;)V
+	public abstract fun js ()V
+	public abstract fun js (Ljava/lang/String;Lorg/gradle/api/Action;)V
+	public abstract fun js (Lorg/gradle/api/Action;)V
 }
 
 public final class io/matthewnelson/kmp/configuration/extension/container/target/TargetJsContainer$Configure$DefaultImpls {
@@ -339,9 +339,9 @@ public final class io/matthewnelson/kmp/configuration/extension/container/target
 
 public abstract interface class io/matthewnelson/kmp/configuration/extension/container/target/TargetJvmContainer$Configure {
 	public abstract fun getHolder ()Lio/matthewnelson/kmp/configuration/extension/container/ContainerHolder;
-	public fun jvm ()V
-	public fun jvm (Ljava/lang/String;Lorg/gradle/api/Action;)V
-	public fun jvm (Lorg/gradle/api/Action;)V
+	public abstract fun jvm ()V
+	public abstract fun jvm (Ljava/lang/String;Lorg/gradle/api/Action;)V
+	public abstract fun jvm (Lorg/gradle/api/Action;)V
 }
 
 public final class io/matthewnelson/kmp/configuration/extension/container/target/TargetJvmContainer$Configure$DefaultImpls {
@@ -362,16 +362,16 @@ public final class io/matthewnelson/kmp/configuration/extension/container/target
 
 public abstract interface class io/matthewnelson/kmp/configuration/extension/container/target/TargetLinuxContainer$Configure {
 	public abstract fun getHolder ()Lio/matthewnelson/kmp/configuration/extension/container/ContainerHolder;
-	public fun linuxAll ()V
-	public fun linuxArm32Hfp ()V
-	public fun linuxArm32Hfp (Ljava/lang/String;Lorg/gradle/api/Action;)V
-	public fun linuxArm32Hfp (Lorg/gradle/api/Action;)V
-	public fun linuxArm64 ()V
-	public fun linuxArm64 (Ljava/lang/String;Lorg/gradle/api/Action;)V
-	public fun linuxArm64 (Lorg/gradle/api/Action;)V
-	public fun linuxX64 ()V
-	public fun linuxX64 (Ljava/lang/String;Lorg/gradle/api/Action;)V
-	public fun linuxX64 (Lorg/gradle/api/Action;)V
+	public abstract fun linuxAll ()V
+	public abstract fun linuxArm32Hfp ()V
+	public abstract fun linuxArm32Hfp (Ljava/lang/String;Lorg/gradle/api/Action;)V
+	public abstract fun linuxArm32Hfp (Lorg/gradle/api/Action;)V
+	public abstract fun linuxArm64 ()V
+	public abstract fun linuxArm64 (Ljava/lang/String;Lorg/gradle/api/Action;)V
+	public abstract fun linuxArm64 (Lorg/gradle/api/Action;)V
+	public abstract fun linuxX64 ()V
+	public abstract fun linuxX64 (Ljava/lang/String;Lorg/gradle/api/Action;)V
+	public abstract fun linuxX64 (Lorg/gradle/api/Action;)V
 }
 
 public final class io/matthewnelson/kmp/configuration/extension/container/target/TargetLinuxContainer$Configure$DefaultImpls {
@@ -399,13 +399,13 @@ public final class io/matthewnelson/kmp/configuration/extension/container/target
 
 public abstract interface class io/matthewnelson/kmp/configuration/extension/container/target/TargetMacosContainer$Configure {
 	public abstract fun getHolder ()Lio/matthewnelson/kmp/configuration/extension/container/ContainerHolder;
-	public fun macosAll ()V
-	public fun macosArm64 ()V
-	public fun macosArm64 (Ljava/lang/String;Lorg/gradle/api/Action;)V
-	public fun macosArm64 (Lorg/gradle/api/Action;)V
-	public fun macosX64 ()V
-	public fun macosX64 (Ljava/lang/String;Lorg/gradle/api/Action;)V
-	public fun macosX64 (Lorg/gradle/api/Action;)V
+	public abstract fun macosAll ()V
+	public abstract fun macosArm64 ()V
+	public abstract fun macosArm64 (Ljava/lang/String;Lorg/gradle/api/Action;)V
+	public abstract fun macosArm64 (Lorg/gradle/api/Action;)V
+	public abstract fun macosX64 ()V
+	public abstract fun macosX64 (Ljava/lang/String;Lorg/gradle/api/Action;)V
+	public abstract fun macosX64 (Lorg/gradle/api/Action;)V
 }
 
 public final class io/matthewnelson/kmp/configuration/extension/container/target/TargetMacosContainer$Configure$DefaultImpls {
@@ -427,10 +427,10 @@ public abstract class io/matthewnelson/kmp/configuration/extension/container/tar
 
 public abstract interface class io/matthewnelson/kmp/configuration/extension/container/target/TargetMingwContainer$Configure {
 	public abstract fun getHolder ()Lio/matthewnelson/kmp/configuration/extension/container/ContainerHolder;
-	public fun mingwAll ()V
-	public fun mingwX64 ()V
-	public fun mingwX64 (Ljava/lang/String;Lorg/gradle/api/Action;)V
-	public fun mingwX64 (Lorg/gradle/api/Action;)V
+	public abstract fun mingwAll ()V
+	public abstract fun mingwX64 ()V
+	public abstract fun mingwX64 (Ljava/lang/String;Lorg/gradle/api/Action;)V
+	public abstract fun mingwX64 (Lorg/gradle/api/Action;)V
 }
 
 public final class io/matthewnelson/kmp/configuration/extension/container/target/TargetMingwContainer$Configure$DefaultImpls {
@@ -452,16 +452,16 @@ public final class io/matthewnelson/kmp/configuration/extension/container/target
 
 public abstract interface class io/matthewnelson/kmp/configuration/extension/container/target/TargetTvosContainer$Configure {
 	public abstract fun getHolder ()Lio/matthewnelson/kmp/configuration/extension/container/ContainerHolder;
-	public fun tvosAll ()V
-	public fun tvosArm64 ()V
-	public fun tvosArm64 (Ljava/lang/String;Lorg/gradle/api/Action;)V
-	public fun tvosArm64 (Lorg/gradle/api/Action;)V
-	public fun tvosSimulatorArm64 ()V
-	public fun tvosSimulatorArm64 (Ljava/lang/String;Lorg/gradle/api/Action;)V
-	public fun tvosSimulatorArm64 (Lorg/gradle/api/Action;)V
-	public fun tvosX64 ()V
-	public fun tvosX64 (Ljava/lang/String;Lorg/gradle/api/Action;)V
-	public fun tvosX64 (Lorg/gradle/api/Action;)V
+	public abstract fun tvosAll ()V
+	public abstract fun tvosArm64 ()V
+	public abstract fun tvosArm64 (Ljava/lang/String;Lorg/gradle/api/Action;)V
+	public abstract fun tvosArm64 (Lorg/gradle/api/Action;)V
+	public abstract fun tvosSimulatorArm64 ()V
+	public abstract fun tvosSimulatorArm64 (Ljava/lang/String;Lorg/gradle/api/Action;)V
+	public abstract fun tvosSimulatorArm64 (Lorg/gradle/api/Action;)V
+	public abstract fun tvosX64 ()V
+	public abstract fun tvosX64 (Ljava/lang/String;Lorg/gradle/api/Action;)V
+	public abstract fun tvosX64 (Lorg/gradle/api/Action;)V
 }
 
 public final class io/matthewnelson/kmp/configuration/extension/container/target/TargetTvosContainer$Configure$DefaultImpls {
@@ -489,12 +489,12 @@ public abstract class io/matthewnelson/kmp/configuration/extension/container/tar
 
 public abstract interface class io/matthewnelson/kmp/configuration/extension/container/target/TargetWasmContainer$Configure {
 	public abstract fun getHolder ()Lio/matthewnelson/kmp/configuration/extension/container/ContainerHolder;
-	public fun wasm (Ljava/lang/String;Lorg/gradle/api/Action;)V
-	public fun wasm (Lorg/gradle/api/Action;)V
-	public fun wasmJs (Ljava/lang/String;Lorg/gradle/api/Action;)V
-	public fun wasmJs (Lorg/gradle/api/Action;)V
-	public fun wasmWasi (Ljava/lang/String;Lorg/gradle/api/Action;)V
-	public fun wasmWasi (Lorg/gradle/api/Action;)V
+	public abstract fun wasm (Ljava/lang/String;Lorg/gradle/api/Action;)V
+	public abstract fun wasm (Lorg/gradle/api/Action;)V
+	public abstract fun wasmJs (Ljava/lang/String;Lorg/gradle/api/Action;)V
+	public abstract fun wasmJs (Lorg/gradle/api/Action;)V
+	public abstract fun wasmWasi (Ljava/lang/String;Lorg/gradle/api/Action;)V
+	public abstract fun wasmWasi (Lorg/gradle/api/Action;)V
 }
 
 public final class io/matthewnelson/kmp/configuration/extension/container/target/TargetWasmContainer$Configure$DefaultImpls {
@@ -527,22 +527,22 @@ public final class io/matthewnelson/kmp/configuration/extension/container/target
 
 public abstract interface class io/matthewnelson/kmp/configuration/extension/container/target/TargetWatchosContainer$Configure {
 	public abstract fun getHolder ()Lio/matthewnelson/kmp/configuration/extension/container/ContainerHolder;
-	public fun watchosAll ()V
-	public fun watchosArm32 ()V
-	public fun watchosArm32 (Ljava/lang/String;Lorg/gradle/api/Action;)V
-	public fun watchosArm32 (Lorg/gradle/api/Action;)V
-	public fun watchosArm64 ()V
-	public fun watchosArm64 (Ljava/lang/String;Lorg/gradle/api/Action;)V
-	public fun watchosArm64 (Lorg/gradle/api/Action;)V
-	public fun watchosDeviceArm64 ()V
-	public fun watchosDeviceArm64 (Ljava/lang/String;Lorg/gradle/api/Action;)V
-	public fun watchosDeviceArm64 (Lorg/gradle/api/Action;)V
-	public fun watchosSimulatorArm64 ()V
-	public fun watchosSimulatorArm64 (Ljava/lang/String;Lorg/gradle/api/Action;)V
-	public fun watchosSimulatorArm64 (Lorg/gradle/api/Action;)V
-	public fun watchosX64 ()V
-	public fun watchosX64 (Ljava/lang/String;Lorg/gradle/api/Action;)V
-	public fun watchosX64 (Lorg/gradle/api/Action;)V
+	public abstract fun watchosAll ()V
+	public abstract fun watchosArm32 ()V
+	public abstract fun watchosArm32 (Ljava/lang/String;Lorg/gradle/api/Action;)V
+	public abstract fun watchosArm32 (Lorg/gradle/api/Action;)V
+	public abstract fun watchosArm64 ()V
+	public abstract fun watchosArm64 (Ljava/lang/String;Lorg/gradle/api/Action;)V
+	public abstract fun watchosArm64 (Lorg/gradle/api/Action;)V
+	public abstract fun watchosDeviceArm64 ()V
+	public abstract fun watchosDeviceArm64 (Ljava/lang/String;Lorg/gradle/api/Action;)V
+	public abstract fun watchosDeviceArm64 (Lorg/gradle/api/Action;)V
+	public abstract fun watchosSimulatorArm64 ()V
+	public abstract fun watchosSimulatorArm64 (Ljava/lang/String;Lorg/gradle/api/Action;)V
+	public abstract fun watchosSimulatorArm64 (Lorg/gradle/api/Action;)V
+	public abstract fun watchosX64 ()V
+	public abstract fun watchosX64 (Ljava/lang/String;Lorg/gradle/api/Action;)V
+	public abstract fun watchosX64 (Lorg/gradle/api/Action;)V
 }
 
 public final class io/matthewnelson/kmp/configuration/extension/container/target/TargetWatchosContainer$Configure$DefaultImpls {
