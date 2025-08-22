@@ -36,9 +36,9 @@ public sealed class KmpTarget<T: KotlinTarget> private constructor(
 
         internal companion object { internal const val JVM_ANDROID = "jvmAndroid" }
 
-        public var kotlinJvmTarget: JavaVersion? = null
-        public var compileSourceCompatibility: JavaVersion? = null
-        public var compileTargetCompatibility: JavaVersion? = null
+        public var kotlinJvmTarget: JavaVersion? = JavaVersion.VERSION_1_8
+        public var compileSourceCompatibility: JavaVersion? = JavaVersion.VERSION_1_8
+        public var compileTargetCompatibility: JavaVersion? = JavaVersion.VERSION_1_8
     }
 
     public sealed class NonJvm<T: KotlinTarget>(targetName: String): KmpTarget<T>(targetName) {
