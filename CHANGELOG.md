@@ -1,5 +1,8 @@
 # CHANGELOG
 
+## Version 0.5.1 (2025-08-22)
+ - Fixes kotlin metadata compatibility errors [[#74]][74]
+
 ## Version 0.5.0 (2025-08-22)
  - Updates dependencies [[#66]][66]
      - AGP -> `8.10.0`
@@ -163,3 +166,4 @@
 [68]: https://github.com/05nelsonm/gradle-kmp-configuration-plugin/pull/68
 [70]: https://github.com/05nelsonm/gradle-kmp-configuration-plugin/pull/70
 [72]: https://github.com/05nelsonm/gradle-kmp-configuration-plugin/pull/72
+[74]: https://github.com/05nelsonm/gradle-kmp-configuration-plugin/pull/74
