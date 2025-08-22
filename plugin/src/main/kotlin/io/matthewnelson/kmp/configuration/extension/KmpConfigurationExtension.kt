@@ -42,17 +42,17 @@ public abstract class KmpConfigurationExtension @Inject internal constructor(
         synchronized(this) {
             if (isConfigured) throw GradleException("$NAME.configure can only be invoked once")
             isConfigured = true
-
-            val containers = mutableSetOf<Container>()
-            val holder = ContainerHolder.instance(
-                kotlinPluginVersion,
-                containers,
-                isKmpTargetsAllSet,
-                kmpTargetsProperty
-            )
-            action.execute(KmpConfigurationContainerDsl.instance(holder))
-            configureContainers.execute(containers.sortedBy { it.sortOrder }.toSet())
         }
+
+        val containers = mutableSetOf<Container>()
+        val holder = ContainerHolder.instance(
+            kotlinPluginVersion,
+            containers,
+            isKmpTargetsAllSet,
+            kmpTargetsProperty
+        )
+        action.execute(KmpConfigurationContainerDsl.instance(holder))
+        configureContainers.execute(containers.sortedBy { it.sortOrder }.toSet())
     }
 
     internal companion object {
