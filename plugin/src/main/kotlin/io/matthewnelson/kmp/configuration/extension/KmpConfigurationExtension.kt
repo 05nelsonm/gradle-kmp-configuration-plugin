@@ -25,7 +25,6 @@ import org.gradle.api.GradleException
 import org.gradle.api.Project
 import javax.inject.Inject
 
-@KmpConfigurationDsl
 public abstract class KmpConfigurationExtension @Inject internal constructor(
     @JvmField
     public val project: Project,
@@ -38,6 +37,7 @@ public abstract class KmpConfigurationExtension @Inject internal constructor(
     @Volatile
     private var isConfigured = false
 
+    @KmpConfigurationDsl
     public fun configure(action: Action<KmpConfigurationContainerDsl>) {
         synchronized(this) {
             if (isConfigured) throw GradleException("$NAME.configure can only be invoked once")
