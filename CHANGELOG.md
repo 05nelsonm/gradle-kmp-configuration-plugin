@@ -1,5 +1,8 @@
 # CHANGELOG
 
+## Version 0.5.2 (2025-08-23)
+ - Fixes implicit receiver error when referencing `project` from extension [[#76]][76]
+
 ## Version 0.5.1 (2025-08-22)
  - Fixes kotlin metadata compatibility errors [[#74]][74]
 
@@ -167,3 +170,4 @@
 [70]: https://github.com/05nelsonm/gradle-kmp-configuration-plugin/pull/70
 [72]: https://github.com/05nelsonm/gradle-kmp-configuration-plugin/pull/72
 [74]: https://github.com/05nelsonm/gradle-kmp-configuration-plugin/pull/74
+[76]: https://github.com/05nelsonm/gradle-kmp-configuration-plugin/pull/76
